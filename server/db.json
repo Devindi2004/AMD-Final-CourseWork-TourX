@@ -1,0 +1,558 @@
+{
+  "users": [
+    {
+      "id": "usr-demo-001",
+      "name": "Devindi Perera",
+      "email": "demo@tourx.app",
+      "password": "$2a$08$Jr2H4xTukv2glVrzlZzXOeygD29vN2llxcklk8c9w2CdrUr4dSSva",
+      "profileType": "Solo Traveller",
+      "homeCountry": "Sri Lanka",
+      "preferences": {
+        "interests": [
+          "Historical Landmark",
+          "Wildlife",
+          "Beach"
+        ],
+        "budgetTier": "mid"
+      },
+      "createdAt": "2026-07-04T04:09:09.235Z"
+    }
+  ],
+  "trips": [
+    {
+      "id": "trip-demo-001",
+      "userId": "usr-demo-001",
+      "title": "Cultural Triangle Explorer",
+      "destination": "Sigiriya",
+      "startDate": "2026-07-11",
+      "endDate": "2026-07-14",
+      "budgetUsd": 400,
+      "ecoScore": null,
+      "transportModes": [
+        "train",
+        "walking"
+      ],
+      "itineraryItems": [
+        {
+          "day": 1,
+          "time": "09:00",
+          "poiId": "poi-001",
+          "name": "Sigiriya Rock Fortress",
+          "activity": "Climb the rock fortress",
+          "estimatedCostUsd": 30
+        },
+        {
+          "day": 2,
+          "time": "09:00",
+          "poiId": "poi-005",
+          "name": "Dambulla Cave Temple",
+          "activity": "Explore the cave temples",
+          "estimatedCostUsd": 12
+        },
+        {
+          "day": 3,
+          "time": "09:00",
+          "poiId": "poi-006",
+          "name": "Pinnawala Elephant Orphanage",
+          "activity": "Watch the elephant river bathing",
+          "estimatedCostUsd": 15
+        }
+      ],
+      "status": "planned",
+      "createdAt": "2026-07-04T04:09:09.236Z"
+    }
+  ],
+  "hotels": [
+    {
+      "id": "htl-001",
+      "name": "Kandy Hill Retreat",
+      "city": "Kandy",
+      "location": {
+        "lat": 7.2906,
+        "lng": 80.6337
+      },
+      "priceRange": "mid",
+      "pricePerNightUsd": 55,
+      "amenities": [
+        "wifi",
+        "breakfast",
+        "lake-view"
+      ],
+      "averageRating": 4.5,
+      "tags": [
+        "culture",
+        "romantic"
+      ]
+    },
+    {
+      "id": "htl-002",
+      "name": "Sigiriya Jungle Lodge",
+      "city": "Sigiriya",
+      "location": {
+        "lat": 7.952,
+        "lng": 80.755
+      },
+      "priceRange": "premium",
+      "pricePerNightUsd": 120,
+      "amenities": [
+        "wifi",
+        "pool",
+        "breakfast",
+        "rock-view"
+      ],
+      "averageRating": 4.8,
+      "tags": [
+        "nature",
+        "romantic"
+      ]
+    },
+    {
+      "id": "htl-003",
+      "name": "Ella Backpackers Nest",
+      "city": "Ella",
+      "location": {
+        "lat": 6.8667,
+        "lng": 81.0466
+      },
+      "priceRange": "budget",
+      "pricePerNightUsd": 18,
+      "amenities": [
+        "wifi",
+        "shared-kitchen",
+        "mountain-view"
+      ],
+      "averageRating": 4.3,
+      "tags": [
+        "backpacker",
+        "social"
+      ]
+    },
+    {
+      "id": "htl-004",
+      "name": "Galle Fort Boutique Villa",
+      "city": "Galle",
+      "location": {
+        "lat": 6.0257,
+        "lng": 80.2168
+      },
+      "priceRange": "premium",
+      "pricePerNightUsd": 140,
+      "amenities": [
+        "wifi",
+        "pool",
+        "breakfast",
+        "ac"
+      ],
+      "averageRating": 4.9,
+      "tags": [
+        "heritage",
+        "romantic"
+      ]
+    },
+    {
+      "id": "htl-005",
+      "name": "Colombo City Comfort Inn",
+      "city": "Colombo",
+      "location": {
+        "lat": 6.9271,
+        "lng": 79.8612
+      },
+      "priceRange": "mid",
+      "pricePerNightUsd": 48,
+      "amenities": [
+        "wifi",
+        "gym",
+        "breakfast",
+        "ac"
+      ],
+      "averageRating": 4.2,
+      "tags": [
+        "business",
+        "family"
+      ]
+    },
+    {
+      "id": "htl-006",
+      "name": "Mirissa Beachfront Cabanas",
+      "city": "Mirissa",
+      "location": {
+        "lat": 5.9475,
+        "lng": 80.459
+      },
+      "priceRange": "mid",
+      "pricePerNightUsd": 45,
+      "amenities": [
+        "wifi",
+        "beach-access",
+        "breakfast"
+      ],
+      "averageRating": 4.6,
+      "tags": [
+        "beach",
+        "surf"
+      ]
+    },
+    {
+      "id": "htl-007",
+      "name": "Nuwara Eliya Tea Manor",
+      "city": "Nuwara Eliya",
+      "location": {
+        "lat": 6.9707,
+        "lng": 80.7829
+      },
+      "priceRange": "premium",
+      "pricePerNightUsd": 95,
+      "amenities": [
+        "wifi",
+        "fireplace",
+        "breakfast",
+        "tea-tour"
+      ],
+      "averageRating": 4.7,
+      "tags": [
+        "colonial",
+        "family"
+      ]
+    },
+    {
+      "id": "htl-008",
+      "name": "Anuradhapura Heritage Rest",
+      "city": "Anuradhapura",
+      "location": {
+        "lat": 8.315,
+        "lng": 80.4009
+      },
+      "priceRange": "budget",
+      "pricePerNightUsd": 22,
+      "amenities": [
+        "wifi",
+        "bicycle-rental"
+      ],
+      "averageRating": 4,
+      "tags": [
+        "heritage",
+        "budget"
+      ]
+    },
+    {
+      "id": "htl-009",
+      "name": "Yala Safari Camp",
+      "city": "Yala",
+      "location": {
+        "lat": 6.3697,
+        "lng": 81.5041
+      },
+      "priceRange": "premium",
+      "pricePerNightUsd": 160,
+      "amenities": [
+        "wifi",
+        "safari-tours",
+        "all-meals"
+      ],
+      "averageRating": 4.85,
+      "tags": [
+        "wildlife",
+        "luxury"
+      ]
+    },
+    {
+      "id": "htl-010",
+      "name": "Jaffna Lagoon View Lodge",
+      "city": "Jaffna",
+      "location": {
+        "lat": 9.665,
+        "lng": 80.01
+      },
+      "priceRange": "budget",
+      "pricePerNightUsd": 25,
+      "amenities": [
+        "wifi",
+        "breakfast"
+      ],
+      "averageRating": 4.1,
+      "tags": [
+        "local",
+        "quiet"
+      ]
+    }
+  ],
+  "restaurants": [
+    {
+      "id": "res-001",
+      "name": "Devon Falls Kitchen",
+      "city": "Kandy",
+      "location": {
+        "lat": 7.2915,
+        "lng": 80.635
+      },
+      "cuisine": [
+        "Sri Lankan",
+        "Rice & Curry"
+      ],
+      "priceRange": "budget",
+      "averageRating": 4.4,
+      "tags": [
+        "local",
+        "vegetarian-friendly"
+      ]
+    },
+    {
+      "id": "res-002",
+      "name": "Rock View Grill",
+      "city": "Sigiriya",
+      "location": {
+        "lat": 7.954,
+        "lng": 80.753
+      },
+      "cuisine": [
+        "Sri Lankan",
+        "BBQ"
+      ],
+      "priceRange": "mid",
+      "averageRating": 4.5,
+      "tags": [
+        "scenic",
+        "dinner"
+      ]
+    },
+    {
+      "id": "res-003",
+      "name": "Ella Valley Cafe",
+      "city": "Ella",
+      "location": {
+        "lat": 6.87,
+        "lng": 81.047
+      },
+      "cuisine": [
+        "Western",
+        "Sri Lankan",
+        "Vegan"
+      ],
+      "priceRange": "budget",
+      "averageRating": 4.6,
+      "tags": [
+        "backpacker",
+        "vegan"
+      ]
+    },
+    {
+      "id": "res-004",
+      "name": "Dutch Rampart Seafood",
+      "city": "Galle",
+      "location": {
+        "lat": 6.027,
+        "lng": 80.2175
+      },
+      "cuisine": [
+        "Seafood",
+        "Fusion"
+      ],
+      "priceRange": "premium",
+      "averageRating": 4.7,
+      "tags": [
+        "romantic",
+        "seafood"
+      ]
+    },
+    {
+      "id": "res-005",
+      "name": "Colombo Street Food Hub",
+      "city": "Colombo",
+      "location": {
+        "lat": 6.928,
+        "lng": 79.86
+      },
+      "cuisine": [
+        "Street Food",
+        "Sri Lankan"
+      ],
+      "priceRange": "budget",
+      "averageRating": 4.3,
+      "tags": [
+        "local",
+        "quick-bite"
+      ]
+    },
+    {
+      "id": "res-006",
+      "name": "Mirissa Fishermen's Table",
+      "city": "Mirissa",
+      "location": {
+        "lat": 5.948,
+        "lng": 80.4595
+      },
+      "cuisine": [
+        "Seafood",
+        "Sri Lankan"
+      ],
+      "priceRange": "mid",
+      "averageRating": 4.6,
+      "tags": [
+        "beachfront",
+        "seafood"
+      ]
+    },
+    {
+      "id": "res-007",
+      "name": "Tea Country Bakery",
+      "city": "Nuwara Eliya",
+      "location": {
+        "lat": 6.971,
+        "lng": 80.7835
+      },
+      "cuisine": [
+        "Bakery",
+        "Western"
+      ],
+      "priceRange": "mid",
+      "averageRating": 4.4,
+      "tags": [
+        "breakfast",
+        "cosy"
+      ]
+    },
+    {
+      "id": "res-008",
+      "name": "Sacred City Vegetarian",
+      "city": "Anuradhapura",
+      "location": {
+        "lat": 8.314,
+        "lng": 80.402
+      },
+      "cuisine": [
+        "Vegetarian",
+        "Sri Lankan"
+      ],
+      "priceRange": "budget",
+      "averageRating": 4.2,
+      "tags": [
+        "vegetarian-friendly",
+        "local"
+      ]
+    },
+    {
+      "id": "res-009",
+      "name": "Safari Lodge Dining",
+      "city": "Yala",
+      "location": {
+        "lat": 6.37,
+        "lng": 81.505
+      },
+      "cuisine": [
+        "Sri Lankan",
+        "International"
+      ],
+      "priceRange": "premium",
+      "averageRating": 4.6,
+      "tags": [
+        "all-inclusive",
+        "family"
+      ]
+    },
+    {
+      "id": "res-010",
+      "name": "Jaffna Crab House",
+      "city": "Jaffna",
+      "location": {
+        "lat": 9.664,
+        "lng": 80.011
+      },
+      "cuisine": [
+        "Jaffna Tamil",
+        "Seafood"
+      ],
+      "priceRange": "mid",
+      "averageRating": 4.7,
+      "tags": [
+        "spicy",
+        "local-specialty"
+      ]
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev-demo-001",
+      "userId": "usr-demo-001",
+      "targetType": "poi",
+      "targetId": "poi-004",
+      "rating": 5,
+      "comment": "Watching the train cross Nine Arches Bridge at sunrise was unforgettable.",
+      "photos": [],
+      "createdAt": "2026-07-04T04:09:09.237Z"
+    },
+    {
+      "id": "rev-demo-002",
+      "userId": "usr-demo-001",
+      "targetType": "hotel",
+      "targetId": "htl-004",
+      "rating": 5,
+      "comment": "Galle Fort Boutique Villa has the best rooftop view in the fort.",
+      "photos": [],
+      "createdAt": "2026-07-04T04:09:09.237Z"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "exp-demo-001",
+      "tripId": "trip-demo-001",
+      "userId": "usr-demo-001",
+      "category": "Accommodation",
+      "amount": 120,
+      "currency": "USD",
+      "note": "Sigiriya Jungle Lodge, 2 nights",
+      "date": "2026-07-04"
+    },
+    {
+      "id": "exp-demo-002",
+      "tripId": "trip-demo-001",
+      "userId": "usr-demo-001",
+      "category": "Food",
+      "amount": 35,
+      "currency": "USD",
+      "note": "Rock View Grill dinner",
+      "date": "2026-07-04"
+    }
+  ],
+  "travelJournals": [
+    {
+      "id": "jrn-demo-001",
+      "tripId": "trip-demo-001",
+      "userId": "usr-demo-001",
+      "title": "First glimpse of Sigiriya",
+      "entryText": "The rock fortress appeared through the morning mist right on schedule. Worth every one of the 1,200 steps.",
+      "photos": [],
+      "location": {
+        "lat": 7.957,
+        "lng": 80.7603
+      },
+      "timestamp": "2026-07-04T04:09:09.237Z"
+    }
+  ],
+  "emergencyContacts": [
+    {
+      "id": "ctc-demo-001",
+      "userId": "usr-demo-001",
+      "contactName": "Nimal Perera",
+      "contactPhone": "+94 71 234 5678",
+      "relationship": "Brother"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "ntf-demo-001",
+      "userId": "usr-demo-001",
+      "type": "crowd",
+      "message": "Sigiriya Rock Fortress crowd levels are lowest before 8am.",
+      "isRead": false,
+      "createdAt": "2026-07-04T04:09:09.237Z"
+    },
+    {
+      "id": "ntf-demo-002",
+      "userId": "usr-demo-001",
+      "type": "weather",
+      "message": "Rain expected in Kandy this afternoon — pack a light rain jacket.",
+      "isRead": false,
+      "createdAt": "2026-07-04T04:09:09.237Z"
+    }
+  ]
+}

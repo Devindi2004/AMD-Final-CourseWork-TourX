@@ -1,0 +1,12 @@
+[
+  { "id": "res-001", "name": "Devon Falls Kitchen", "city": "Kandy", "location": { "lat": 7.2915, "lng": 80.6350 }, "cuisine": ["Sri Lankan", "Rice & Curry"], "priceRange": "budget", "averageRating": 4.4, "tags": ["local", "vegetarian-friendly"] },
+  { "id": "res-002", "name": "Rock View Grill", "city": "Sigiriya", "location": { "lat": 7.9540, "lng": 80.7530 }, "cuisine": ["Sri Lankan", "BBQ"], "priceRange": "mid", "averageRating": 4.5, "tags": ["scenic", "dinner"] },
+  { "id": "res-003", "name": "Ella Valley Cafe", "city": "Ella", "location": { "lat": 6.8700, "lng": 81.0470 }, "cuisine": ["Western", "Sri Lankan", "Vegan"], "priceRange": "budget", "averageRating": 4.6, "tags": ["backpacker", "vegan"] },
+  { "id": "res-004", "name": "Dutch Rampart Seafood", "city": "Galle", "location": { "lat": 6.0270, "lng": 80.2175 }, "cuisine": ["Seafood", "Fusion"], "priceRange": "premium", "averageRating": 4.7, "tags": ["romantic", "seafood"] },
+  { "id": "res-005", "name": "Colombo Street Food Hub", "city": "Colombo", "location": { "lat": 6.9280, "lng": 79.8600 }, "cuisine": ["Street Food", "Sri Lankan"], "priceRange": "budget", "averageRating": 4.3, "tags": ["local", "quick-bite"] },
+  { "id": "res-006", "name": "Mirissa Fishermen's Table", "city": "Mirissa", "location": { "lat": 5.9480, "lng": 80.4595 }, "cuisine": ["Seafood", "Sri Lankan"], "priceRange": "mid", "averageRating": 4.6, "tags": ["beachfront", "seafood"] },
+  { "id": "res-007", "name": "Tea Country Bakery", "city": "Nuwara Eliya", "location": { "lat": 6.9710, "lng": 80.7835 }, "cuisine": ["Bakery", "Western"], "priceRange": "mid", "averageRating": 4.4, "tags": ["breakfast", "cosy"] },
+  { "id": "res-008", "name": "Sacred City Vegetarian", "city": "Anuradhapura", "location": { "lat": 8.3140, "lng": 80.4020 }, "cuisine": ["Vegetarian", "Sri Lankan"], "priceRange": "budget", "averageRating": 4.2, "tags": ["vegetarian-friendly", "local"] },
+  { "id": "res-009", "name": "Safari Lodge Dining", "city": "Yala", "location": { "lat": 6.3700, "lng": 81.5050 }, "cuisine": ["Sri Lankan", "International"], "priceRange": "premium", "averageRating": 4.6, "tags": ["all-inclusive", "family"] },
+  { "id": "res-010", "name": "Jaffna Crab House", "city": "Jaffna", "location": { "lat": 9.6640, "lng": 80.0110 }, "cuisine": ["Jaffna Tamil", "Seafood"], "priceRange": "mid", "averageRating": 4.7, "tags": ["spicy", "local-specialty"] }
+]

@@ -1,0 +1,374 @@
+const path = require('path');
+const fs = require('fs');
+const express = require('express');
+const cors = require('cors');
+const jsonServer = require('json-server');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+
+const PORT = process.env.PORT || 4000;
+const JWT_SECRET = process.env.JWT_SECRET || 'tourx-dev-secret-change-me';
+
+const app = express();
+app.use(cors());
+app.use(express.json({ limit: '5mb' }));
+
+const dbPath = path.join(__dirname, 'db.json');
+const router = jsonServer.router(dbPath);
+const db = router.db; // lowdb instance backing db.json
+
+// ---------- static AI/reference datasets ----------
+const pois = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/pois.json'), 'utf8'));
+const transportRoutes = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/transportRoutes.json'), 'utf8'));
+const chatbotResponses = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/chatbotResponses.json'), 'utf8'));
+const translations = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/translations.json'), 'utf8'));
+
+// ---------- helpers ----------
+function sign(user) {
+  return jwt.sign({ sub: user.id, email: user.email }, JWT_SECRET, { expiresIn: '30d' });
+}
+function publicUser(user) {
+  if (!user) return null;
+  const { password, ...rest } = user;
+  return rest;
+}
+function auth(req, res, next) {
+  const header = req.headers.authorization || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7) : null;
+  if (!token) return res.status(401).json({ message: 'Missing bearer token' });
+  try {
+    req.user = jwt.verify(token, JWT_SECRET);
+    next();
+  } catch (e) {
+    return res.status(401).json({ message: 'Invalid or expired token' });
+  }
+}
+
+// ---------- seed a demo account on first run ----------
+function seedDemoData() {
+  if (db.get('users').size().value() > 0) return;
+
+  const demoUser = {
+    id: 'usr-demo-001',
+    name: 'Devindi Perera',
+    email: 'demo@tourx.app',
+    password: bcrypt.hashSync('Passw0rd!', 8),
+    profileType: 'Solo Traveller',
+    homeCountry: 'Sri Lanka',
+    preferences: { interests: ['Historical Landmark', 'Wildlife', 'Beach'], budgetTier: 'mid' },
+    createdAt: new Date().toISOString(),
+  };
+  db.get('users').push(demoUser).write();
+
+  const demoTrip = {
+    id: 'trip-demo-001',
+    userId: demoUser.id,
+    title: 'Cultural Triangle Explorer',
+    destination: 'Sigiriya',
+    startDate: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
+    endDate: new Date(Date.now() + 10 * 86400000).toISOString().slice(0, 10),
+    budgetUsd: 400,
+    ecoScore: null,
+    transportModes: ['train', 'walking'],
+    itineraryItems: [
+      { day: 1, time: '09:00', poiId: 'poi-001', name: 'Sigiriya Rock Fortress', activity: 'Climb the rock fortress', estimatedCostUsd: 30 },
+      { day: 2, time: '09:00', poiId: 'poi-005', name: 'Dambulla Cave Temple', activity: 'Explore the cave temples', estimatedCostUsd: 12 },
+      { day: 3, time: '09:00', poiId: 'poi-006', name: 'Pinnawala Elephant Orphanage', activity: 'Watch the elephant river bathing', estimatedCostUsd: 15 },
+    ],
+    status: 'planned',
+    createdAt: new Date().toISOString(),
+  };
+  db.get('trips').push(demoTrip).write();
+
+  db.get('expenses')
+    .push(
+      { id: 'exp-demo-001', tripId: demoTrip.id, userId: demoUser.id, category: 'Accommodation', amount: 120, currency: 'USD', note: 'Sigiriya Jungle Lodge, 2 nights', date: new Date().toISOString().slice(0, 10) },
+      { id: 'exp-demo-002', tripId: demoTrip.id, userId: demoUser.id, category: 'Food', amount: 35, currency: 'USD', note: 'Rock View Grill dinner', date: new Date().toISOString().slice(0, 10) }
+    )
+    .write();
+
+  db.get('travelJournals')
+    .push({
+      id: 'jrn-demo-001',
+      tripId: demoTrip.id,
+      userId: demoUser.id,
+      title: 'First glimpse of Sigiriya',
+      entryText: 'The rock fortress appeared through the morning mist right on schedule. Worth every one of the 1,200 steps.',
+      photos: [],
+      location: { lat: 7.9570, lng: 80.7603 },
+      timestamp: new Date().toISOString(),
+    })
+    .write();
+
+  db.get('emergencyContacts')
+    .push({ id: 'ctc-demo-001', userId: demoUser.id, contactName: 'Nimal Perera', contactPhone: '+94 71 234 5678', relationship: 'Brother' })
+    .write();
+
+  db.get('reviews')
+    .push(
+      { id: 'rev-demo-001', userId: demoUser.id, targetType: 'poi', targetId: 'poi-004', rating: 5, comment: 'Watching the train cross Nine Arches Bridge at sunrise was unforgettable.', photos: [], createdAt: new Date().toISOString() },
+      { id: 'rev-demo-002', userId: demoUser.id, targetType: 'hotel', targetId: 'htl-004', rating: 5, comment: 'Galle Fort Boutique Villa has the best rooftop view in the fort.', photos: [], createdAt: new Date().toISOString() }
+    )
+    .write();
+
+  db.get('notifications')
+    .push(
+      { id: 'ntf-demo-001', userId: demoUser.id, type: 'crowd', message: 'Sigiriya Rock Fortress crowd levels are lowest before 8am.', isRead: false, createdAt: new Date().toISOString() },
+      { id: 'ntf-demo-002', userId: demoUser.id, type: 'weather', message: 'Rain expected in Kandy this afternoon — pack a light rain jacket.', isRead: false, createdAt: new Date().toISOString() }
+    )
+    .write();
+
+  console.log('Seeded demo account -> email: demo@tourx.app  password: Passw0rd!');
+}
+seedDemoData();
+
+// ================= AUTH =================
+app.post('/auth/register', (req, res) => {
+  const { name, email, password, homeCountry, profileType } = req.body || {};
+  if (!name || !email || !password) {
+    return res.status(400).json({ message: 'name, email and password are required' });
+  }
+  if (String(password).length < 6) {
+    return res.status(400).json({ message: 'Password must be at least 6 characters' });
+  }
+  const existing = db.get('users').find({ email: String(email).toLowerCase() }).value();
+  if (existing) return res.status(409).json({ message: 'An account with this email already exists' });
+
+  const user = {
+    id: 'usr-' + Date.now(),
+    name,
+    email: String(email).toLowerCase(),
+    password: bcrypt.hashSync(password, 8),
+    profileType: profileType || 'International Tourist',
+    homeCountry: homeCountry || '',
+    preferences: { interests: [], budgetTier: 'mid' },
+    createdAt: new Date().toISOString(),
+  };
+  db.get('users').push(user).write();
+  return res.status(201).json({ accessToken: sign(user), user: publicUser(user) });
+});
+
+app.post('/auth/login', (req, res) => {
+  const { email, password } = req.body || {};
+  const user = db.get('users').find({ email: String(email || '').toLowerCase() }).value();
+  if (!user || !bcrypt.compareSync(password || '', user.password)) {
+    return res.status(401).json({ message: 'Invalid email or password' });
+  }
+  return res.json({ accessToken: sign(user), user: publicUser(user) });
+});
+
+app.get('/auth/me', auth, (req, res) => {
+  const user = db.get('users').find({ id: req.user.sub }).value();
+  if (!user) return res.status(404).json({ message: 'User not found' });
+  res.json(publicUser(user));
+});
+
+app.patch('/auth/me', auth, (req, res) => {
+  const { password, id, email, ...updatable } = req.body || {};
+  db.get('users').find({ id: req.user.sub }).assign(updatable).write();
+  const user = db.get('users').find({ id: req.user.sub }).value();
+  res.json(publicUser(user));
+});
+
+// ================= POINTS OF INTEREST =================
+app.get('/pois', (req, res) => {
+  const { city, category, q } = req.query;
+  let result = pois;
+  if (city) result = result.filter((p) => p.city.toLowerCase() === String(city).toLowerCase());
+  if (category) result = result.filter((p) => p.category.toLowerCase() === String(category).toLowerCase());
+  if (q) result = result.filter((p) => p.name.toLowerCase().includes(String(q).toLowerCase()));
+  res.json(result);
+});
+
+app.get('/pois/code/:code', (req, res) => {
+  const poi = pois.find((p) => p.code.toLowerCase() === req.params.code.toLowerCase());
+  if (!poi) return res.status(404).json({ message: 'No point of interest matches this QR code' });
+  res.json(poi);
+});
+
+// ================= AI LANDMARK RECOGNITION (simulated computer-vision API) =================
+app.post('/ai/landmark-recognition', (req, res) => {
+  const { imageBase64, hint } = req.body || {};
+  if (!imageBase64 && !hint) {
+    return res.status(400).json({ message: 'imageBase64 or hint is required' });
+  }
+  let poi;
+  if (hint) {
+    const h = String(hint).toLowerCase();
+    poi = pois.find((p) => p.city.toLowerCase().includes(h) || p.name.toLowerCase().includes(h));
+  }
+  if (!poi && imageBase64) {
+    // Deterministic pseudo-recognition: the same photo always resolves to the same
+    // landmark, simulating a trained model without needing a real cloud vision call.
+    let hash = 0;
+    for (let i = 0; i < imageBase64.length; i += 97) {
+      hash = (hash * 31 + imageBase64.charCodeAt(i)) % 100000;
+    }
+    poi = pois[hash % pois.length];
+  }
+  if (!poi) poi = pois[Math.floor(Math.random() * pois.length)];
+
+  setTimeout(() => {
+    res.json({
+      matchConfidence: Number((0.82 + Math.random() * 0.15).toFixed(2)),
+      landmark: poi,
+      simulated: true,
+      note: 'Simulates the cloud computer-vision API from the proposal using deterministic offline matching.',
+    });
+  }, 600);
+});
+
+// ================= AI TRAVEL PLANNER (simulated LLM itinerary generation) =================
+app.post('/ai/itinerary', (req, res) => {
+  const { destination, days, budgetTier, interests } = req.body || {};
+  const numDays = Math.min(Math.max(parseInt(days, 10) || 3, 1), 14);
+  const tier = budgetTier || 'mid';
+  const interestList = Array.isArray(interests) ? interests : [];
+
+  const d = destination ? String(destination).toLowerCase() : '';
+  const cityMatches = d ? pois.filter((p) => p.city.toLowerCase().includes(d)) : [];
+  const interestMatches = interestList.length
+    ? pois.filter((p) =>
+        interestList.some(
+          (i) => p.category.toLowerCase().includes(String(i).toLowerCase()) || p.ecoTags.includes(i)
+        )
+      )
+    : [];
+
+  // Prioritise POIs matching both filters, then one filter, then top up with the rest
+  // of the dataset so short trips near a single small town still get day-to-day variety.
+  const byId = new Map();
+  const addAll = (list) => list.forEach((p) => { if (!byId.has(p.id)) byId.set(p.id, p); });
+  addAll(cityMatches.filter((p) => interestMatches.some((m) => m.id === p.id)));
+  addAll(cityMatches);
+  addAll(interestMatches);
+  addAll(pois);
+  const candidates = Array.from(byId.values());
+
+  const itinerary = [];
+  let cursor = 0;
+  for (let day = 1; day <= numDays; day++) {
+    const dayPois = [0, 1].map(() => {
+      const poi = candidates[cursor % candidates.length];
+      cursor += 1;
+      return poi;
+    });
+    itinerary.push({
+      day,
+      title: `Day ${day}: ${dayPois[0].city}`,
+      items: dayPois.map((p, i) => ({
+        time: i === 0 ? '09:00' : '14:30',
+        poiId: p.id,
+        name: p.name,
+        activity: `Visit ${p.name} (${p.category})`,
+        estimatedCostUsd:
+          tier === 'budget'
+            ? Math.round(p.entryFeeUsd * 0.7)
+            : tier === 'premium'
+            ? Math.round(p.entryFeeUsd * 1.4 + 20)
+            : p.entryFeeUsd,
+      })),
+    });
+  }
+
+  const totalEstimate = itinerary.reduce(
+    (sum, d) => sum + d.items.reduce((s, i) => s + i.estimatedCostUsd, 0),
+    0
+  );
+
+  setTimeout(() => {
+    res.json({
+      destination: destination || 'Sri Lanka',
+      days: numDays,
+      budgetTier: tier,
+      interests: interestList,
+      estimatedTotalUsd: totalEstimate,
+      itinerary,
+      simulated: true,
+      note: 'Simulates the large-language-model itinerary planner from the proposal using rule-based generation over the POI dataset.',
+    });
+  }, 900);
+});
+
+// ================= AI CHATBOT =================
+app.post('/ai/chatbot', (req, res) => {
+  const { message } = req.body || {};
+  const text = String(message || '').toLowerCase();
+  const match = chatbotResponses.find((r) => r.keywords.some((k) => text.includes(k)));
+  const reply = match
+    ? match.reply
+    : "I'm not sure about that yet, but you can ask me about itineraries, offline maps, safety, weather, food, hotels, crowds, or transport.";
+  setTimeout(() => res.json({ reply, simulated: true }), 400);
+});
+
+// ================= AI TRANSLATOR =================
+app.post('/ai/translate', (req, res) => {
+  const { text, targetLang } = req.body || {};
+  if (!text) return res.status(400).json({ message: 'text is required' });
+  const lang = String(targetLang || 'si').toLowerCase();
+  const dict = translations[lang];
+  const key = String(text).trim().toLowerCase();
+  let translated;
+  if (dict && dict[key]) {
+    translated = dict[key];
+  } else if (dict) {
+    const partial = Object.keys(dict).find((k) => key.includes(k));
+    translated = partial ? dict[partial] : `[${lang}] ${text}`;
+  } else {
+    translated = `[${lang}] ${text}`;
+  }
+  res.json({ original: text, targetLang: lang, translated, simulated: true });
+});
+
+// ================= SMART CROWD PREDICTION =================
+app.get('/crowd/:poiId', (req, res) => {
+  const poi = pois.find((p) => p.id === req.params.poiId);
+  if (!poi) return res.status(404).json({ message: 'Unknown point of interest' });
+  const hour = new Date().getHours();
+  const timeFactor = hour >= 10 && hour <= 16 ? 1.2 : 0.7;
+  const score = Math.min(0.97, poi.crowdBaseline * timeFactor);
+  const level = score > 0.66 ? 'High' : score > 0.4 ? 'Medium' : 'Low';
+  res.json({ poiId: poi.id, name: poi.name, crowdScore: Number(score.toFixed(2)), level, checkedAt: new Date().toISOString() });
+});
+
+// ================= PUBLIC TRANSPORT ASSISTANT =================
+app.get('/transport/routes', (req, res) => {
+  const { from, to } = req.query;
+  let result = transportRoutes;
+  if (from) result = result.filter((r) => r.from.toLowerCase().includes(String(from).toLowerCase()));
+  if (to) result = result.filter((r) => r.to.toLowerCase().includes(String(to).toLowerCase()));
+  res.json(result);
+});
+
+// ================= WEATHER (real, keyless proxy to Open-Meteo) =================
+app.get('/weather', async (req, res) => {
+  const lat = req.query.lat || '7.2906';
+  const lon = req.query.lon || '80.6337';
+  const city = req.query.city || 'Kandy';
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=auto&forecast_days=5`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error(`Upstream weather API returned ${resp.status}`);
+    const data = await resp.json();
+    res.json({ city, source: 'open-meteo', ...data });
+  } catch (err) {
+    res.status(502).json({ message: 'Weather provider unreachable', error: String(err.message || err) });
+  }
+});
+
+// ================= PROTECTED CRUD RESOURCES (json-server) =================
+// GET requests are public (browsing hotels/restaurants/reviews); writes require a bearer token.
+app.use('/api', (req, res, next) => {
+  if (req.method === 'GET') return next();
+  return auth(req, res, next);
+});
+app.use('/api', router);
+
+app.get('/', (req, res) => {
+  res.json({ name: 'TourX Mock Server', status: 'ok', time: new Date().toISOString() });
+});
+
+app.listen(PORT, () => {
+  console.log(`TourX mock server listening on http://0.0.0.0:${PORT}`);
+  console.log('Demo login -> email: demo@tourx.app  password: Passw0rd!');
+});

@@ -1,0 +1,90 @@
+[
+  {
+    "id": "rt-001",
+    "from": "Colombo",
+    "to": "Kandy",
+    "mode": "Train",
+    "line": "Main Line (Intercity)",
+    "durationMinutes": 150,
+    "fareUsd": 3.5,
+    "frequency": "Every 1-2 hours, 05:55-20:00",
+    "notes": "Reserve an observation-saloon seat in advance for hill-country views."
+  },
+  {
+    "id": "rt-002",
+    "from": "Kandy",
+    "to": "Ella",
+    "mode": "Train",
+    "line": "Main Line (Upcountry)",
+    "durationMinutes": 390,
+    "fareUsd": 4,
+    "frequency": "3 departures daily",
+    "notes": "One of the world's most scenic rail journeys; book 2nd class reserved in advance."
+  },
+  {
+    "id": "rt-003",
+    "from": "Colombo",
+    "to": "Galle",
+    "mode": "Train",
+    "line": "Coastal Line",
+    "durationMinutes": 120,
+    "fareUsd": 2.5,
+    "frequency": "Every 30-60 minutes",
+    "notes": "Sit on the ocean side (left, heading south) for coastal views."
+  },
+  {
+    "id": "rt-004",
+    "from": "Colombo",
+    "to": "Sigiriya",
+    "mode": "Bus",
+    "line": "Intercity Bus via Dambulla",
+    "durationMinutes": 240,
+    "fareUsd": 3,
+    "frequency": "Hourly, 05:00-18:00",
+    "notes": "Change at Dambulla for a local bus to Sigiriya (15 min)."
+  },
+  {
+    "id": "rt-005",
+    "from": "Colombo",
+    "to": "Colombo Airport (CMB)",
+    "mode": "Bus",
+    "line": "Expressway Shuttle E-03",
+    "durationMinutes": 60,
+    "fareUsd": 2,
+    "frequency": "Every 30 minutes",
+    "notes": "Fastest and cheapest option outside of peak traffic hours."
+  },
+  {
+    "id": "rt-006",
+    "from": "Ella",
+    "to": "Mirissa",
+    "mode": "Bus",
+    "line": "Local Bus via Matara",
+    "durationMinutes": 300,
+    "fareUsd": 3.5,
+    "frequency": "Every 1-2 hours",
+    "notes": "Long journey; consider an overnight stop in Matara."
+  },
+  {
+    "id": "rt-007",
+    "from": "Colombo",
+    "to": "Colombo City Centre",
+    "mode": "Metro Bus (Local)",
+    "line": "Route 100/101",
+    "durationMinutes": 25,
+    "fareUsd": 0.3,
+    "frequency": "Every 10-15 minutes",
+    "notes": "Standard fare-stage ticketing; pay the conductor on board."
+  },
+  {
+    "id": "rt-008",
+    "from": "Kandy",
+    "to": "Nuwara Eliya",
+    "mode": "Bus",
+    "line": "Local Bus via Gampola",
+    "durationMinutes": 150,
+    "fareUsd": 1.5,
+    "frequency": "Every 20-30 minutes",
+    "notes": "Winding hill roads; front seats recommended for those prone to motion sickness."
+  }
+]
