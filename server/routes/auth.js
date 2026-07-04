@@ -23,6 +23,7 @@ const {
   refreshSchema,
   logoutSchema,
   googleAuthSchema,
+  profileUpdateSchema,
 } = require('../lib/validation');
 
 const IS_DEV = process.env.NODE_ENV !== 'production';
@@ -90,7 +91,11 @@ module.exports = function createAuthRouter(db) {
       passwordResetCode: null,
       passwordResetExpiry: null,
       homeCountry: homeCountry || '',
+      phone: '',
+      language: 'en',
+      avatarUrl: null,
       preferences: { interests: [], budgetTier: 'mid' },
+      notificationSettings: { crowdAlerts: true, weatherAlerts: true, tripReminders: true, promotional: false },
       createdAt: new Date().toISOString(),
     };
     db.get('users').push(user).write();
@@ -279,7 +284,11 @@ module.exports = function createAuthRouter(db) {
           passwordResetCode: null,
           passwordResetExpiry: null,
           homeCountry: '',
+          phone: '',
+          language: 'en',
+          avatarUrl: null,
           preferences: { interests: [], budgetTier: 'mid' },
+          notificationSettings: { crowdAlerts: true, weatherAlerts: true, tripReminders: true, promotional: false },
           createdAt: new Date().toISOString(),
         };
         db.get('users').push(user).write();
@@ -300,9 +309,16 @@ module.exports = function createAuthRouter(db) {
     res.json(publicUser(user));
   });
 
-  router.patch('/me', requireAuth, (req, res) => {
-    const { password, id, email, role, isEmailVerified, ...updatable } = req.body || {};
-    db.get('users').find({ id: req.user.sub }).assign(updatable).write();
+  router.patch('/me', requireAuth, validate(profileUpdateSchema), (req, res) => {
+    const current = db.get('users').find({ id: req.user.sub }).value();
+    if (!current) return res.status(404).json({ message: 'User not found' });
+
+    const { preferences, notificationSettings, ...rest } = req.body;
+    const changes = { ...rest };
+    if (preferences) changes.preferences = { ...current.preferences, ...preferences };
+    if (notificationSettings) changes.notificationSettings = { ...current.notificationSettings, ...notificationSettings };
+
+    db.get('users').find({ id: req.user.sub }).assign(changes).write();
     const user = db.get('users').find({ id: req.user.sub }).value();
     res.json(publicUser(user));
   });

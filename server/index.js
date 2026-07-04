@@ -8,6 +8,8 @@ const bcrypt = require('bcryptjs');
 const { requireAuth, requireRole } = require('./middleware/auth');
 const createAuthRouter = require('./routes/auth');
 const createAdminRouter = require('./routes/admin');
+const createUploadsRouter = require('./routes/uploads');
+const { validate, savedItemSchema, bookingCreateSchema, bookingStatusSchema } = require('./lib/validation');
 
 const PORT = process.env.PORT || 4000;
 
@@ -39,7 +41,11 @@ function seedDemoData() {
     passwordResetCode: null,
     passwordResetExpiry: null,
     homeCountry: 'Sri Lanka',
+    phone: '',
+    language: 'en',
+    avatarUrl: null,
     preferences: { interests: ['Historical Landmark', 'Wildlife', 'Beach'], budgetTier: 'mid' },
+    notificationSettings: { crowdAlerts: true, weatherAlerts: true, tripReminders: true, promotional: false },
     createdAt: now,
     ...overrides,
   });
@@ -50,6 +56,7 @@ function seedDemoData() {
     email: 'demo@tourx.app',
     password: bcrypt.hashSync('Passw0rd!', 8),
     role: 'tourist',
+    phone: '+94 77 123 4567',
   });
   const demoAdmin = makeUser({
     id: 'usr-demo-admin',
@@ -140,6 +147,32 @@ function seedDemoData() {
     )
     .write();
 
+  db.get('savedItems')
+    .push(
+      { id: 'svd-demo-001', userId: demoUser.id, targetType: 'poi', targetId: 'poi-009', listType: 'wishlist', createdAt: now },
+      { id: 'svd-demo-002', userId: demoUser.id, targetType: 'hotel', targetId: 'htl-004', listType: 'favorite', createdAt: now },
+      { id: 'svd-demo-003', userId: demoUser.id, targetType: 'poi', targetId: 'poi-002', listType: 'saved_place', createdAt: now }
+    )
+    .write();
+
+  db.get('bookings')
+    .push({
+      id: 'bkg-demo-001',
+      userId: demoUser.id,
+      targetType: 'hotel',
+      targetId: 'htl-002',
+      targetName: 'Sigiriya Jungle Lodge',
+      startDate: new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10),
+      endDate: new Date(Date.now() + 9 * 86400000).toISOString().slice(0, 10),
+      time: null,
+      partySize: 2,
+      status: 'confirmed',
+      totalEstimateUsd: 240,
+      notes: 'Anniversary trip — requested a rock-view room.',
+      createdAt: now,
+    })
+    .write();
+
   console.log('Seeded demo accounts (all password-verified, ready to log in):');
   console.log('  tourist            demo@tourx.app            / Passw0rd!');
   console.log('  admin              admin@tourx.app           / AdminPass1');
@@ -149,11 +182,14 @@ function seedDemoData() {
 }
 seedDemoData();
 
-if (!db.has('refreshTokens').value()) db.set('refreshTokens', []).write();
+['refreshTokens', 'savedItems', 'bookings'].forEach((collection) => {
+  if (!db.has(collection).value()) db.set(collection, []).write();
+});
 
-// ================= AUTH & ADMIN =================
+// ================= AUTH, ADMIN & UPLOADS =================
 app.use('/auth', createAuthRouter(db));
 app.use('/admin', createAdminRouter(db));
+app.use('/uploads', createUploadsRouter());
 
 // ================= POINTS OF INTEREST =================
 app.get('/pois', (req, res) => {
@@ -352,6 +388,34 @@ app.use('/api/hotels', (req, res, next) => {
 app.use('/api/restaurants', (req, res, next) => {
   if (req.method === 'GET') return next();
   return requireAuth(req, res, () => requireRole('restaurant_owner', 'admin')(req, res, next));
+});
+// Wishlist/Favorites/Saved Places are one model (savedItems) distinguished by listType.
+// userId/createdAt are set server-side from the authenticated token, never trusted from the client.
+app.use('/api/savedItems', (req, res, next) => {
+  if (req.method !== 'POST') return next();
+  return requireAuth(req, res, () =>
+    validate(savedItemSchema)(req, res, () => {
+      req.body.userId = req.user.sub;
+      req.body.createdAt = new Date().toISOString();
+      next();
+    })
+  );
+});
+// PATCH only ever changes a booking's status (cancel/complete) here — other fields
+// are intentionally stripped by the schema rather than freely editable post-creation.
+app.use('/api/bookings', (req, res, next) => {
+  if (req.method === 'POST') {
+    return requireAuth(req, res, () =>
+      validate(bookingCreateSchema)(req, res, () => {
+        req.body.userId = req.user.sub;
+        req.body.status = 'confirmed';
+        req.body.createdAt = new Date().toISOString();
+        next();
+      })
+    );
+  }
+  if (req.method === 'PATCH') return validate(bookingStatusSchema)(req, res, next);
+  next();
 });
 app.use('/api', (req, res, next) => {
   if (req.method === 'GET') return next();
