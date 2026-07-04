@@ -103,6 +103,10 @@ export const personalApi = apiSlice.injectEndpoints({
       query: (id) => ({ url: `/api/notifications/${id}`, method: 'PATCH', body: { isRead: true } }),
       invalidatesTags: [{ type: 'Notification', id: 'LIST' }],
     }),
+    createNotification: builder.mutation<AppNotification, Partial<AppNotification>>({
+      query: (body) => ({ url: '/api/notifications', method: 'POST', body }),
+      invalidatesTags: [{ type: 'Notification', id: 'LIST' }],
+    }),
   }),
 });
 
@@ -120,4 +124,5 @@ export const {
   useDeleteEmergencyContactMutation,
   useGetNotificationsQuery,
   useMarkNotificationReadMutation,
+  useCreateNotificationMutation,
 } = personalApi;

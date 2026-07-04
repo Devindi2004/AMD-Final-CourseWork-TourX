@@ -79,7 +79,7 @@ export default function ArNavigationScreen() {
 
   return (
     <View style={styles.flexFill}>
-      <CameraView style={StyleSheet.absoluteFillObject} facing="back" />
+      <CameraView style={StyleSheet.absoluteFill} facing="back" />
 
       <View style={styles.topBanner}>
         <Text style={styles.targetName}>{target.name}</Text>

@@ -41,7 +41,7 @@ export default function QrScannerScreen() {
     <View style={styles.flexFill}>
       {permission.granted ? (
         <CameraView
-          style={StyleSheet.absoluteFillObject}
+          style={StyleSheet.absoluteFill}
           facing="back"
           barcodeScannerSettings={{ barcodeTypes: ['qr'] }}
           onBarcodeScanned={scanned ? undefined : handleBarcodeScanned}

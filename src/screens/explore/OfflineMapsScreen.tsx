@@ -57,7 +57,7 @@ export default function OfflineMapsScreen() {
     <ScreenContainer scroll={false} padded={false}>
       <View style={styles.mapWrap}>
         <MapView
-          style={StyleSheet.absoluteFillObject}
+          style={StyleSheet.absoluteFill}
           initialRegion={{ latitude: center.lat, longitude: center.lng, latitudeDelta: 0.15, longitudeDelta: 0.15 }}
           region={{ latitude: center.lat, longitude: center.lng, latitudeDelta: 0.15, longitudeDelta: 0.15 }}
         >
