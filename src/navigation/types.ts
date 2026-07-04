@@ -28,7 +28,9 @@ export type ExploreStackParamList = {
   RestaurantList: undefined;
   RestaurantDetail: { restaurantId: string };
   Community: undefined;
-  ReviewComposer: { targetType: 'poi' | 'hotel' | 'restaurant'; targetId: string; targetName: string };
+  ReviewComposer:
+    | { targetType: 'poi' | 'hotel' | 'restaurant'; targetId: string; targetName: string }
+    | undefined;
   CrowdPrediction: undefined;
   OfflineMaps: undefined;
   ArNavigation: { poiId?: string } | undefined;
