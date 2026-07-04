@@ -24,6 +24,13 @@ export const ROLE_LABELS: Record<Role, string> = {
   admin: 'Admin',
 };
 
+export interface NotificationSettings {
+  crowdAlerts: boolean;
+  weatherAlerts: boolean;
+  tripReminders: boolean;
+  promotional: boolean;
+}
+
 export interface User {
   id: string;
   name: string;
@@ -31,9 +38,19 @@ export interface User {
   role: Role;
   authProvider: 'local' | 'google';
   homeCountry: string;
+  phone: string;
+  language: string;
+  avatarUrl: string | null;
   preferences: UserPreferences;
+  notificationSettings: NotificationSettings;
   createdAt: string;
 }
+
+export const LANGUAGE_OPTIONS: { code: string; label: string }[] = [
+  { code: 'en', label: 'English' },
+  { code: 'si', label: 'Sinhala' },
+  { code: 'ta', label: 'Tamil' },
+];
 
 export interface AuthSession {
   accessToken: string;
@@ -264,4 +281,56 @@ export interface OfflineRegion {
   city: string;
   downloadedAt: string;
   sizeMb: number;
+}
+
+// ---- Saved items (Wishlist / Favorites / Saved Places — one model, three filtered views) ----
+
+export type SaveableTargetType = 'poi' | 'hotel' | 'restaurant';
+export type ListType = 'wishlist' | 'favorite' | 'saved_place';
+
+export const LIST_TYPE_LABELS: Record<ListType, string> = {
+  wishlist: 'Wishlist',
+  favorite: 'Favorites',
+  saved_place: 'Saved Places',
+};
+
+export interface SavedItem {
+  id: string;
+  userId: string;
+  targetType: SaveableTargetType;
+  targetId: string;
+  listType: ListType;
+  createdAt: string;
+}
+
+// ---- Bookings (hotel/restaurant reservations — distinct from Trip itineraries) ----
+
+export type BookingTargetType = 'hotel' | 'restaurant';
+export type BookingStatus = 'confirmed' | 'cancelled' | 'completed';
+
+export interface Booking {
+  id: string;
+  userId: string;
+  targetType: BookingTargetType;
+  targetId: string;
+  targetName: string;
+  startDate: string;
+  endDate: string | null;
+  time: string | null;
+  partySize: number;
+  status: BookingStatus;
+  totalEstimateUsd: number;
+  notes: string;
+  createdAt: string;
+}
+
+// ---- Cloudinary signed upload ----
+
+export interface UploadSignature {
+  timestamp: number;
+  folder: string;
+  signature: string;
+  apiKey: string;
+  cloudName: string;
+  uploadUrl: string;
 }

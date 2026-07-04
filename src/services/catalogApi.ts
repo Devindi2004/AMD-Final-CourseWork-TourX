@@ -55,11 +55,12 @@ export const catalogApi = apiSlice.injectEndpoints({
     getPoiByCode: builder.query<PointOfInterest, string>({
       query: (code) => `/pois/code/${code}`,
     }),
-    getReviews: builder.query<Review[], { targetType?: string; targetId?: string } | void>({
+    getReviews: builder.query<Review[], { targetType?: string; targetId?: string; userId?: string } | void>({
       query: (filters) => {
         const params = new URLSearchParams();
         if (filters?.targetType) params.set('targetType', filters.targetType);
         if (filters?.targetId) params.set('targetId', filters.targetId);
+        if (filters?.userId) params.set('userId', filters.userId);
         const qs = params.toString();
         return `/api/reviews${qs ? `?${qs}` : ''}`;
       },

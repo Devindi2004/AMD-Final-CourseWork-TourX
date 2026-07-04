@@ -5,6 +5,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
+import SaveToggleButtons from '../../components/SaveToggleButtons';
 import ScreenContainer from '../../components/ScreenContainer';
 import { ErrorView, LoadingView } from '../../components/StateViews';
 import { colors, spacing, typography } from '../../constants/theme';
@@ -29,13 +30,26 @@ export default function RestaurantDetailScreen() {
         <Text style={styles.rating}>{restaurant.averageRating.toFixed(1)} average rating</Text>
       </View>
 
-      <Card style={{ marginTop: spacing.md }}>
+      <SaveToggleButtons targetType="restaurant" targetId={restaurant.id} />
+
+      <Card style={{ marginTop: spacing.sm }}>
         <Text style={styles.sectionTitle}>Cuisine</Text>
         <Text style={styles.body}>{restaurant.cuisine.join(', ')}</Text>
         <Text style={[styles.sectionTitle, { marginTop: spacing.sm }]}>Good for</Text>
         <Text style={styles.body}>{restaurant.tags.join(', ')}</Text>
       </Card>
 
+      <Button
+        label="Reserve a table"
+        onPress={() =>
+          navigation.navigate('BookingForm', {
+            targetType: 'restaurant',
+            targetId: restaurant.id,
+            targetName: restaurant.name,
+          })
+        }
+        style={{ marginTop: spacing.md }}
+      />
       <Button
         label="Write a review"
         variant="outline"
@@ -46,7 +60,7 @@ export default function RestaurantDetailScreen() {
             targetName: restaurant.name,
           })
         }
-        style={{ marginTop: spacing.md }}
+        style={{ marginTop: spacing.sm }}
       />
 
       <Text style={styles.sectionTitle2}>Reviews ({reviews?.length ?? 0})</Text>

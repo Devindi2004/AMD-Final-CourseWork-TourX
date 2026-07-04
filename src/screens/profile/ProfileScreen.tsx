@@ -1,51 +1,44 @@
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import Badge from '../../components/Badge';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
-import ChipSelector from '../../components/ChipSelector';
 import ScreenContainer from '../../components/ScreenContainer';
-import TextField from '../../components/TextField';
 import { colors, spacing, typography } from '../../constants/theme';
 import type { ProfileStackParamList } from '../../navigation/types';
-import { useLogoutMutation, useUpdateMeMutation } from '../../services/apiSlice';
-import { loggedOut, userUpdated } from '../../store/authSlice';
+import { useLogoutMutation } from '../../services/apiSlice';
+import { loggedOut } from '../../store/authSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { ROLE_LABELS } from '../../types';
 import { clearTokens } from '../../utils/authStorage';
 
-const INTEREST_OPTIONS = ['Historical Landmark', 'Religious Site', 'Scenic Landmark', 'Wildlife', 'Beach'];
+const MENU: { key: keyof ProfileStackParamList; label: string; icon: keyof typeof Ionicons.glyphMap }[] = [
+  { key: 'EditProfile', label: 'Edit Profile', icon: 'person-outline' },
+  { key: 'SavedItems', label: 'Wishlist, Favorites & Saved Places', icon: 'heart-outline' },
+  { key: 'BookingHistory', label: 'Booking History', icon: 'calendar-outline' },
+  { key: 'MyReviews', label: 'My Reviews & Ratings', icon: 'star-outline' },
+  { key: 'NotificationSettings', label: 'Notification Settings', icon: 'notifications-outline' },
+  { key: 'Translator', label: 'AI Translator', icon: 'language-outline' },
+  { key: 'Settings', label: 'Settings', icon: 'settings-outline' },
+];
 
 export default function ProfileScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<ProfileStackParamList>>();
+  // Cross-tab: jumps into the Trips tab's own list screen, filtered to past trips.
+  const rootNavigation = navigation.getParent<any>();
   const dispatch = useAppDispatch();
   const user = useAppSelector((s) => s.auth.user);
   const refreshToken = useAppSelector((s) => s.auth.refreshToken);
-  const [updateMe, { isLoading }] = useUpdateMeMutation();
   const [logout, { isLoading: loggingOut }] = useLogoutMutation();
-
-  const [homeCountry, setHomeCountry] = useState(user?.homeCountry ?? '');
-  const [interests, setInterests] = useState<string[]>(user?.preferences.interests ?? []);
-
-  const toggleInterest = (i: string) =>
-    setInterests((prev) => (prev.includes(i) ? prev.filter((x) => x !== i) : [...prev, i]));
-
-  const handleSave = async () => {
-    const updated = await updateMe({
-      homeCountry,
-      preferences: { ...user?.preferences, interests, budgetTier: user?.preferences.budgetTier ?? 'mid' },
-    }).unwrap();
-    dispatch(userUpdated(updated));
-  };
 
   const handleLogout = async () => {
     try {
       if (refreshToken) await logout({ refreshToken }).unwrap();
     } catch {
-      // Revocation failing server-side shouldn't block clearing the local session.
+      // Ignore server-side revocation failures — still clear the local session below.
     } finally {
       await clearTokens();
       dispatch(loggedOut());
@@ -55,36 +48,38 @@ export default function ProfileScreen() {
   return (
     <ScreenContainer>
       <Card style={styles.header}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>{user?.name?.[0]?.toUpperCase() ?? '?'}</Text>
-        </View>
+        {user?.avatarUrl ? (
+          <Image source={{ uri: user.avatarUrl }} style={styles.avatar} />
+        ) : (
+          <View style={[styles.avatar, styles.avatarPlaceholder]}>
+            <Text style={styles.avatarText}>{user?.name?.[0]?.toUpperCase() ?? '?'}</Text>
+          </View>
+        )}
         <Text style={styles.name}>{user?.name}</Text>
         <Text style={styles.email}>{user?.email}</Text>
         {user ? <Badge label={ROLE_LABELS[user.role]} tone="primary" /> : null}
       </Card>
 
-      <Text style={styles.label}>Home country</Text>
-      <TextField label="" value={homeCountry} onChangeText={setHomeCountry} placeholder="Sri Lanka" />
+      <Pressable
+        onPress={() => rootNavigation?.navigate('TripsTab', { screen: 'TripList', params: { filter: 'completed' } })}
+      >
+        <Card style={styles.menuRow}>
+          <Ionicons name="time-outline" size={20} color={colors.primary} />
+          <Text style={styles.menuLabel}>Trip History</Text>
+          <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
+        </Card>
+      </Pressable>
 
-      <Text style={[styles.label, { marginTop: spacing.md }]}>Interests</Text>
-      <ChipSelector options={INTEREST_OPTIONS} selected={interests} onToggle={toggleInterest} />
+      {MENU.map((item) => (
+        <Pressable key={item.key} onPress={() => navigation.navigate(item.key as never)}>
+          <Card style={styles.menuRow}>
+            <Ionicons name={item.icon} size={20} color={colors.primary} />
+            <Text style={styles.menuLabel}>{item.label}</Text>
+            <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
+          </Card>
+        </Pressable>
+      ))}
 
-      <Button label="Save profile" onPress={handleSave} loading={isLoading} style={{ marginTop: spacing.lg }} />
-
-      <Button
-        label="AI Translator"
-        variant="outline"
-        icon={<Ionicons name="language" size={16} color={colors.primary} />}
-        onPress={() => navigation.navigate('Translator')}
-        style={{ marginTop: spacing.md }}
-      />
-      <Button
-        label="Settings"
-        variant="outline"
-        icon={<Ionicons name="settings-outline" size={16} color={colors.primary} />}
-        onPress={() => navigation.navigate('Settings')}
-        style={{ marginTop: spacing.sm }}
-      />
       <Button label="Sign out" variant="danger" onPress={handleLogout} loading={loggingOut} style={{ marginTop: spacing.lg }} />
     </ScreenContainer>
   );
@@ -92,9 +87,11 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   header: { alignItems: 'center', paddingVertical: spacing.lg, marginBottom: spacing.md, gap: spacing.xs },
-  avatar: { width: 64, height: 64, borderRadius: 32, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center', marginBottom: spacing.sm },
-  avatarText: { color: colors.textInverse, fontSize: 26, fontWeight: '700' },
+  avatar: { width: 72, height: 72, borderRadius: 36, marginBottom: spacing.sm },
+  avatarPlaceholder: { backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
+  avatarText: { color: colors.textInverse, fontSize: 28, fontWeight: '700' },
   name: { ...typography.h3, color: colors.text },
   email: { ...typography.caption, color: colors.textMuted },
-  label: { ...typography.label, color: colors.text, marginBottom: spacing.sm },
+  menuRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.sm },
+  menuLabel: { ...typography.body, color: colors.text, flex: 1 },
 });

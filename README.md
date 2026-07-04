@@ -21,6 +21,7 @@ journal, and a community review platform.
 | Backend | Node.js + Express + `json-server` (REST CRUD store + simulated AI endpoints) |
 | Database | `db.json` (file-backed, persists between restarts) |
 | Native device APIs | Camera, GPS location, image picker, text-to-speech, share sheet, maps |
+| Media | Cloudinary (signed direct upload) for profile pictures |
 
 Why a mock server instead of Firebase: the coursework explicitly allows "a mock server for API
 calls" as one of three valid backend approaches. `json-server` gives real REST CRUD (not just
@@ -172,6 +173,44 @@ physical device. A real native Google Sign-In (working inside Expo Go or a stand
 either a custom EAS dev-client build with a fixed native URL scheme registered as an Android/iOS
 OAuth client, or the native `@react-native-google-signin/google-signin` SDK — both are outside
 Expo Go's managed-client model. This is a genuine platform constraint, not a configuration gap.
+
+## User Profile module
+
+Profile → **Edit Profile** covers profile picture, name, phone, home country, preferred language
+(English/Sinhala/Tamil), and interests. Everything else lives one tap away from the Profile hub:
+
+- **Wishlist / Favorites / Saved Places** — one `SavedItem` model (`targetType` + `targetId` +
+  `listType`), not three separate systems, since they're functionally identical (bookmark an item,
+  see it in a filtered list). Toggle buttons for all three appear on every landmark/hotel/restaurant
+  detail screen; the Profile → **Wishlist, Favorites & Saved Places** screen shows all three as tabs.
+- **Booking History** — a real new capability, distinct from the existing Trip itineraries: "Book
+  this hotel" / "Reserve a table" buttons on hotel/restaurant detail screens create a `Booking`
+  (dates, party size, status), cancellable from Profile → **Booking History**.
+- **Trip History** — not a separate screen; the existing Trips tab list now has status filter chips
+  (All/Planned/Ongoing/History), and Profile → Trip History jumps there pre-filtered to completed
+  trips.
+- **Reviews & Ratings** — Profile → **My Reviews & Ratings** lists every review you've written
+  (across landmarks/hotels/restaurants) with the star rating you gave, and lets you delete your own.
+- **Notification Settings** — four toggles (crowd alerts, weather alerts, trip reminders,
+  promotional) persisted on your user record via `PATCH /auth/me`.
+
+### Cloudinary setup (profile pictures)
+
+Uses a **signed direct upload**: the app asks the backend for a short-lived signature
+(`POST /uploads/signature`, requires being logged in), then uploads the image straight to
+Cloudinary using that signature — the Cloudinary API secret never leaves the server, and image
+bytes never round-trip through our own backend. Without credentials, the upload button just shows
+"Upload failed" with a clear "not configured" message instead of silently doing nothing.
+
+1. Create a free account at [cloudinary.com](https://cloudinary.com/) — no credit card required.
+2. From the dashboard, copy your **Cloud name**, **API Key**, and **API Secret**.
+3. Add them to `server/.env` (copy `server/.env.example` first):
+   ```
+   CLOUDINARY_CLOUD_NAME=your_cloud_name
+   CLOUDINARY_API_KEY=your_api_key
+   CLOUDINARY_API_SECRET=your_api_secret
+   ```
+4. Restart the mock server. Uploaded photos land in a `tourx/avatars/<userId>` folder per user.
 
 ## Setup
 

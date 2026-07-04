@@ -1,5 +1,14 @@
 import { apiSlice } from './apiSlice';
-import type { AppNotification, EmergencyContact, Expense, TravelJournalEntry } from '../types';
+import type {
+  AppNotification,
+  Booking,
+  BookingStatus,
+  EmergencyContact,
+  Expense,
+  ListType,
+  SavedItem,
+  TravelJournalEntry,
+} from '../types';
 
 export const personalApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -107,6 +116,65 @@ export const personalApi = apiSlice.injectEndpoints({
       query: (body) => ({ url: '/api/notifications', method: 'POST', body }),
       invalidatesTags: [{ type: 'Notification', id: 'LIST' }],
     }),
+
+    // ---- Saved items (Wishlist / Favorites / Saved Places) ----
+    getSavedItems: builder.query<SavedItem[], { userId: string; listType?: ListType }>({
+      query: ({ userId, listType }) => {
+        const params = new URLSearchParams({ userId });
+        if (listType) params.set('listType', listType);
+        return `/api/savedItems?${params.toString()}`;
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map((s) => ({ type: 'SavedItem' as const, id: s.id })),
+              { type: 'SavedItem', id: 'LIST' },
+            ]
+          : [{ type: 'SavedItem', id: 'LIST' }],
+    }),
+    createSavedItem: builder.mutation<
+      SavedItem,
+      { targetType: SavedItem['targetType']; targetId: string; listType: ListType }
+    >({
+      query: (body) => ({ url: '/api/savedItems', method: 'POST', body }),
+      invalidatesTags: [{ type: 'SavedItem', id: 'LIST' }],
+    }),
+    deleteSavedItem: builder.mutation<{ id: string }, string>({
+      query: (id) => ({ url: `/api/savedItems/${id}`, method: 'DELETE' }),
+      invalidatesTags: [{ type: 'SavedItem', id: 'LIST' }],
+    }),
+
+    // ---- Bookings ----
+    getBookings: builder.query<Booking[], string>({
+      query: (userId) => `/api/bookings?userId=${userId}`,
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map((b) => ({ type: 'Booking' as const, id: b.id })),
+              { type: 'Booking', id: 'LIST' },
+            ]
+          : [{ type: 'Booking', id: 'LIST' }],
+    }),
+    createBooking: builder.mutation<
+      Booking,
+      {
+        targetType: Booking['targetType'];
+        targetId: string;
+        targetName: string;
+        startDate: string;
+        endDate?: string | null;
+        time?: string | null;
+        partySize: number;
+        notes?: string;
+      }
+    >({
+      query: (body) => ({ url: '/api/bookings', method: 'POST', body }),
+      invalidatesTags: [{ type: 'Booking', id: 'LIST' }],
+    }),
+    updateBookingStatus: builder.mutation<Booking, { id: string; status: BookingStatus }>({
+      query: ({ id, status }) => ({ url: `/api/bookings/${id}`, method: 'PATCH', body: { status } }),
+      invalidatesTags: [{ type: 'Booking', id: 'LIST' }],
+    }),
   }),
 });
 
@@ -125,4 +193,10 @@ export const {
   useGetNotificationsQuery,
   useMarkNotificationReadMutation,
   useCreateNotificationMutation,
+  useGetSavedItemsQuery,
+  useCreateSavedItemMutation,
+  useDeleteSavedItemMutation,
+  useGetBookingsQuery,
+  useCreateBookingMutation,
+  useUpdateBookingStatusMutation,
 } = personalApi;

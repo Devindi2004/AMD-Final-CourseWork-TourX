@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { colors } from '../constants/theme';
 import ArNavigationScreen from '../screens/explore/ArNavigationScreen';
+import BookingFormScreen from '../screens/explore/BookingFormScreen';
 import CommunityFeedScreen from '../screens/explore/CommunityFeedScreen';
 import CrowdPredictionScreen from '../screens/explore/CrowdPredictionScreen';
 import ExploreHomeScreen from '../screens/explore/ExploreHomeScreen';
@@ -42,6 +43,7 @@ export default function ExploreStackNavigator() {
       <Stack.Screen name="LandmarkRecognition" component={LandmarkRecognitionScreen} options={{ title: 'Scan Landmark' }} />
       <Stack.Screen name="QrScanner" component={QrScannerScreen} options={{ title: 'QR Scanner', headerShown: false }} />
       <Stack.Screen name="PoiDetail" component={PoiDetailScreen} options={{ title: 'Landmark' }} />
+      <Stack.Screen name="BookingForm" component={BookingFormScreen} options={{ title: 'Book' }} />
     </Stack.Navigator>
   );
 }

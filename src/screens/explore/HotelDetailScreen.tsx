@@ -5,6 +5,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
+import SaveToggleButtons from '../../components/SaveToggleButtons';
 import ScreenContainer from '../../components/ScreenContainer';
 import { ErrorView, LoadingView } from '../../components/StateViews';
 import { colors, spacing, typography } from '../../constants/theme';
@@ -29,7 +30,9 @@ export default function HotelDetailScreen() {
         <Text style={styles.rating}>{hotel.averageRating.toFixed(1)} average rating</Text>
       </View>
 
-      <Card style={{ marginTop: spacing.md }}>
+      <SaveToggleButtons targetType="hotel" targetId={hotel.id} />
+
+      <Card style={{ marginTop: spacing.sm }}>
         <Text style={styles.sectionTitle}>Amenities</Text>
         <Text style={styles.body}>{hotel.amenities.join(', ')}</Text>
         <Text style={[styles.sectionTitle, { marginTop: spacing.sm }]}>Good for</Text>
@@ -37,10 +40,15 @@ export default function HotelDetailScreen() {
       </Card>
 
       <Button
+        label="Book this hotel"
+        onPress={() => navigation.navigate('BookingForm', { targetType: 'hotel', targetId: hotel.id, targetName: hotel.name })}
+        style={{ marginTop: spacing.md }}
+      />
+      <Button
         label="Write a review"
         variant="outline"
         onPress={() => navigation.navigate('ReviewComposer', { targetType: 'hotel', targetId: hotel.id, targetName: hotel.name })}
-        style={{ marginTop: spacing.md }}
+        style={{ marginTop: spacing.sm }}
       />
 
       <Text style={styles.sectionTitle2}>Reviews ({reviews?.length ?? 0})</Text>

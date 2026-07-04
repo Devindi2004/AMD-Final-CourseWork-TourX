@@ -7,6 +7,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Badge, { crowdTone } from '../../components/Badge';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
+import SaveToggleButtons from '../../components/SaveToggleButtons';
 import ScreenContainer from '../../components/ScreenContainer';
 import { LoadingView } from '../../components/StateViews';
 import { colors, spacing, typography } from '../../constants/theme';
@@ -51,6 +52,8 @@ export default function PoiDetailScreen() {
           <Badge label={`${crowd.level} crowd right now`} tone={crowdTone(crowd.level)} />
         </View>
       ) : null}
+
+      <SaveToggleButtons targetType="poi" targetId={poi.id} />
 
       <Card style={{ marginTop: spacing.sm }}>
         <Text style={styles.description}>{poi.description}</Text>

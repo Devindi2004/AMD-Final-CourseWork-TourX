@@ -10,7 +10,7 @@ import { API_BASE_URL } from '../constants/config';
 import type { RootState } from '../store/store';
 import { loggedOut, tokensRefreshed } from '../store/authSlice';
 import { clearTokens, saveTokens } from '../utils/authStorage';
-import type { AuthSession, MessageResponse, RegisterResponse, Role, User } from '../types';
+import type { AuthSession, MessageResponse, RegisterResponse, Role, UploadSignature, User } from '../types';
 
 // Only one in-flight refresh at a time: if several requests 401 simultaneously
 // (e.g. a screen firing multiple queries after a long background pause), they all
@@ -89,6 +89,8 @@ export const apiSlice = createApi({
     'Journal',
     'Contact',
     'Notification',
+    'SavedItem',
+    'Booking',
   ],
   endpoints: (builder) => ({
     register: builder.mutation<
@@ -137,6 +139,9 @@ export const apiSlice = createApi({
       query: ({ id, role }) => ({ url: `/admin/users/${id}/role`, method: 'PATCH', body: { role } }),
       invalidatesTags: [{ type: 'User', id: 'LIST' }],
     }),
+    getUploadSignature: builder.mutation<UploadSignature, void>({
+      query: () => ({ url: '/uploads/signature', method: 'POST' }),
+    }),
   }),
 });
 
@@ -153,4 +158,5 @@ export const {
   useUpdateMeMutation,
   useAdminListUsersQuery,
   useAdminChangeUserRoleMutation,
+  useGetUploadSignatureMutation,
 } = apiSlice;
