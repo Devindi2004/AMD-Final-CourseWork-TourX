@@ -14,7 +14,7 @@ journal, and a community review platform.
 
 | Layer | Technology |
 |---|---|
-| Frontend | React Native (Expo SDK 57), TypeScript, Expo Go |
+| Frontend | React Native (Expo SDK 56), TypeScript, Expo Go |
 | State management | Redux Toolkit + RTK Query (typed hooks, cache tags, loading/error states) |
 | Navigation | React Navigation (native-stack + bottom-tabs, 5 tabs each with a nested stack) |
 | Auth | Custom JWT auth against the mock server, session persisted in `expo-secure-store` |

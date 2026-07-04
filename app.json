@@ -56,7 +56,8 @@
           "cameraPermission": "TourX uses the camera to take photos for landmark scans and journal entries."
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-status-bar"
     ]
   }
 }
