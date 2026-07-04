@@ -1,16 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Button from '../../components/Button';
+import GoogleLoginButton from '../../components/GoogleLoginButton';
 import ScreenContainer from '../../components/ScreenContainer';
 import TextField from '../../components/TextField';
 import { colors, spacing, typography } from '../../constants/theme';
 import type { AuthStackParamList } from '../../navigation/types';
 import { useLoginMutation } from '../../services/apiSlice';
-import { credentialsSet } from '../../store/authSlice';
+import { sessionSet } from '../../store/authSlice';
 import { useAppDispatch } from '../../store/hooks';
-import { saveToken } from '../../utils/authStorage';
+import { saveTokens } from '../../utils/authStorage';
 
 export default function LoginScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
@@ -23,10 +24,14 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     setError(null);
     try {
-      const result = await login({ email: email.trim(), password }).unwrap();
-      await saveToken(result.accessToken);
-      dispatch(credentialsSet({ token: result.accessToken, user: result.user }));
+      const session = await login({ email: email.trim(), password }).unwrap();
+      await saveTokens(session);
+      dispatch(sessionSet(session));
     } catch (err: any) {
+      if (err?.data?.code === 'EMAIL_NOT_VERIFIED') {
+        navigation.navigate('OtpVerification', { email: err.data.email || email.trim() });
+        return;
+      }
       setError(err?.data?.message || 'Unable to sign in. Check your credentials.');
     }
   };
@@ -57,13 +62,23 @@ export default function LoginScreen() {
         placeholder="••••••••"
       />
 
+      <Pressable onPress={() => navigation.navigate('ForgotPassword')} style={{ alignSelf: 'flex-end', marginBottom: spacing.md }}>
+        <Text style={styles.link}>Forgot password?</Text>
+      </Pressable>
+
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
-      <Button label="Sign In" onPress={handleLogin} loading={isLoading} style={{ marginTop: spacing.sm }} />
+      <Button label="Sign In" onPress={handleLogin} loading={isLoading} />
 
-      <Text style={styles.demoHint}>
-        Demo account pre-filled: demo@tourx.app / Passw0rd!
-      </Text>
+      <View style={styles.divider}>
+        <View style={styles.dividerLine} />
+        <Text style={styles.dividerText}>or</Text>
+        <View style={styles.dividerLine} />
+      </View>
+
+      <GoogleLoginButton onError={setError} />
+
+      <Text style={styles.demoHint}>Demo account pre-filled: demo@tourx.app / Passw0rd!</Text>
 
       <Button
         label="Create an account"
@@ -90,5 +105,9 @@ const styles = StyleSheet.create({
   title: { ...typography.h1, color: colors.text },
   subtitle: { ...typography.body, color: colors.textMuted, textAlign: 'center', marginTop: spacing.xs },
   errorText: { color: colors.danger, marginBottom: spacing.sm },
+  link: { ...typography.caption, color: colors.primary, fontWeight: '600' },
+  divider: { flexDirection: 'row', alignItems: 'center', marginVertical: spacing.md, gap: spacing.sm },
+  dividerLine: { flex: 1, height: StyleSheet.hairlineWidth, backgroundColor: colors.border },
+  dividerText: { ...typography.caption, color: colors.textMuted },
   demoHint: { ...typography.caption, color: colors.textMuted, textAlign: 'center', marginTop: spacing.md },
 });

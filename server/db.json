@@ -1,7 +1,180 @@
 {
-  "users": [],
-  "refreshTokens": [],
-  "trips": [],
+  "users": [
+    {
+      "authProvider": "local",
+      "googleId": null,
+      "isEmailVerified": true,
+      "emailVerificationCode": null,
+      "emailVerificationExpiry": null,
+      "passwordResetCode": null,
+      "passwordResetExpiry": null,
+      "homeCountry": "Sri Lanka",
+      "preferences": {
+        "interests": [
+          "Historical Landmark",
+          "Wildlife",
+          "Beach"
+        ],
+        "budgetTier": "mid"
+      },
+      "createdAt": "2026-07-04T10:05:13.906Z",
+      "id": "usr-demo-001",
+      "name": "Devindi Perera",
+      "email": "demo@tourx.app",
+      "password": "$2a$08$vekiMb2IP.EWJWtSl753buUfBdfpUFVYWxbEwUSK0VARYSGIgWG52",
+      "role": "tourist"
+    },
+    {
+      "authProvider": "local",
+      "googleId": null,
+      "isEmailVerified": true,
+      "emailVerificationCode": null,
+      "emailVerificationExpiry": null,
+      "passwordResetCode": null,
+      "passwordResetExpiry": null,
+      "homeCountry": "Sri Lanka",
+      "preferences": {
+        "interests": [
+          "Historical Landmark",
+          "Wildlife",
+          "Beach"
+        ],
+        "budgetTier": "mid"
+      },
+      "createdAt": "2026-07-04T10:05:13.906Z",
+      "id": "usr-demo-admin",
+      "name": "TourX Admin",
+      "email": "admin@tourx.app",
+      "password": "$2a$08$52W7.djipOFjkLYJXB1uW.BGONYQnG36kEkVmrHrbxKVQbTA9NuUG",
+      "role": "admin"
+    },
+    {
+      "authProvider": "local",
+      "googleId": null,
+      "isEmailVerified": true,
+      "emailVerificationCode": null,
+      "emailVerificationExpiry": null,
+      "passwordResetCode": null,
+      "passwordResetExpiry": null,
+      "homeCountry": "Sri Lanka",
+      "preferences": {
+        "interests": [
+          "Historical Landmark",
+          "Wildlife",
+          "Beach"
+        ],
+        "budgetTier": "mid"
+      },
+      "createdAt": "2026-07-04T10:05:13.906Z",
+      "id": "usr-demo-guide",
+      "name": "Kasun Silva",
+      "email": "guide@tourx.app",
+      "password": "$2a$08$sPx2oLkoQoLuNhSbPOEmfufg5cO5Onj7MkdHqMIgKeitHnW3Cj/OO",
+      "role": "guide"
+    },
+    {
+      "authProvider": "local",
+      "googleId": null,
+      "isEmailVerified": true,
+      "emailVerificationCode": null,
+      "emailVerificationExpiry": null,
+      "passwordResetCode": null,
+      "passwordResetExpiry": null,
+      "homeCountry": "Sri Lanka",
+      "preferences": {
+        "interests": [
+          "Historical Landmark",
+          "Wildlife",
+          "Beach"
+        ],
+        "budgetTier": "mid"
+      },
+      "createdAt": "2026-07-04T10:05:13.906Z",
+      "id": "usr-demo-hotel",
+      "name": "Amara Fernando",
+      "email": "hotelowner@tourx.app",
+      "password": "$2a$08$ZhOO/WhzME3U/SMYmETFruxg34G6kldxNhmx76Cw.toH9auSAI6v2",
+      "role": "hotel_owner"
+    },
+    {
+      "authProvider": "local",
+      "googleId": null,
+      "isEmailVerified": true,
+      "emailVerificationCode": null,
+      "emailVerificationExpiry": null,
+      "passwordResetCode": null,
+      "passwordResetExpiry": null,
+      "homeCountry": "Sri Lanka",
+      "preferences": {
+        "interests": [
+          "Historical Landmark",
+          "Wildlife",
+          "Beach"
+        ],
+        "budgetTier": "mid"
+      },
+      "createdAt": "2026-07-04T10:05:13.906Z",
+      "id": "usr-demo-restaurant",
+      "name": "Ruwan Jayasuriya",
+      "email": "restaurantowner@tourx.app",
+      "password": "$2a$08$l37tADMNhFrVmQJZ2UrKvefVZx6SCBg36FoJPBlvJ2luacdV5vN2S",
+      "role": "restaurant_owner"
+    }
+  ],
+  "refreshTokens": [
+    {
+      "id": "rft-1783159514516-a93g9f",
+      "userId": "usr-demo-001",
+      "tokenHash": "720e432e5276ee08204c6c9f53659dd3b068bb3423cd3376b9fc881297481b41",
+      "createdAt": "2026-07-04T10:05:14.516Z",
+      "expiresAt": "2026-08-03T10:05:14.516Z",
+      "revokedAt": null
+    }
+  ],
+  "trips": [
+    {
+      "id": "trip-demo-001",
+      "userId": "usr-demo-001",
+      "title": "Cultural Triangle Explorer",
+      "destination": "Sigiriya",
+      "startDate": "2026-07-11",
+      "endDate": "2026-07-14",
+      "budgetUsd": 400,
+      "ecoScore": null,
+      "transportModes": [
+        "train",
+        "walking"
+      ],
+      "itineraryItems": [
+        {
+          "day": 1,
+          "time": "09:00",
+          "poiId": "poi-001",
+          "name": "Sigiriya Rock Fortress",
+          "activity": "Climb the rock fortress",
+          "estimatedCostUsd": 30
+        },
+        {
+          "day": 2,
+          "time": "09:00",
+          "poiId": "poi-005",
+          "name": "Dambulla Cave Temple",
+          "activity": "Explore the cave temples",
+          "estimatedCostUsd": 12
+        },
+        {
+          "day": 3,
+          "time": "09:00",
+          "poiId": "poi-006",
+          "name": "Pinnawala Elephant Orphanage",
+          "activity": "Watch the elephant river bathing",
+          "estimatedCostUsd": 15
+        }
+      ],
+      "status": "planned",
+      "createdAt": "2026-07-04T10:05:13.906Z"
+    }
+  ],
   "hotels": [
     {
       "id": "htl-001",
@@ -409,9 +582,90 @@
       ]
     }
   ],
-  "reviews": [],
-  "expenses": [],
-  "travelJournals": [],
-  "emergencyContacts": [],
-  "notifications": []
+  "reviews": [
+    {
+      "id": "rev-demo-001",
+      "userId": "usr-demo-001",
+      "targetType": "poi",
+      "targetId": "poi-004",
+      "rating": 5,
+      "comment": "Watching the train cross Nine Arches Bridge at sunrise was unforgettable.",
+      "photos": [],
+      "createdAt": "2026-07-04T10:05:13.906Z"
+    },
+    {
+      "id": "rev-demo-002",
+      "userId": "usr-demo-001",
+      "targetType": "hotel",
+      "targetId": "htl-004",
+      "rating": 5,
+      "comment": "Galle Fort Boutique Villa has the best rooftop view in the fort.",
+      "photos": [],
+      "createdAt": "2026-07-04T10:05:13.906Z"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "exp-demo-001",
+      "tripId": "trip-demo-001",
+      "userId": "usr-demo-001",
+      "category": "Accommodation",
+      "amount": 120,
+      "currency": "USD",
+      "note": "Sigiriya Jungle Lodge, 2 nights",
+      "date": "2026-07-04"
+    },
+    {
+      "id": "exp-demo-002",
+      "tripId": "trip-demo-001",
+      "userId": "usr-demo-001",
+      "category": "Food",
+      "amount": 35,
+      "currency": "USD",
+      "note": "Rock View Grill dinner",
+      "date": "2026-07-04"
+    }
+  ],
+  "travelJournals": [
+    {
+      "id": "jrn-demo-001",
+      "tripId": "trip-demo-001",
+      "userId": "usr-demo-001",
+      "title": "First glimpse of Sigiriya",
+      "entryText": "The rock fortress appeared through the morning mist right on schedule. Worth every one of the 1,200 steps.",
+      "photos": [],
+      "location": {
+        "lat": 7.957,
+        "lng": 80.7603
+      },
+      "timestamp": "2026-07-04T10:05:13.906Z"
+    }
+  ],
+  "emergencyContacts": [
+    {
+      "id": "ctc-demo-001",
+      "userId": "usr-demo-001",
+      "contactName": "Nimal Perera",
+      "contactPhone": "+94 71 234 5678",
+      "relationship": "Brother"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "ntf-demo-001",
+      "userId": "usr-demo-001",
+      "type": "crowd",
+      "message": "Sigiriya Rock Fortress crowd levels are lowest before 8am.",
+      "isRead": false,
+      "createdAt": "2026-07-04T10:05:13.906Z"
+    },
+    {
+      "id": "ntf-demo-002",
+      "userId": "usr-demo-001",
+      "type": "weather",
+      "message": "Rain expected in Kandy this afternoon — pack a light rain jacket.",
+      "isRead": false,
+      "createdAt": "2026-07-04T10:05:13.906Z"
+    }
+  ]
 }

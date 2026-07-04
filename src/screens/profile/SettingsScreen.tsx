@@ -4,13 +4,16 @@ import Button from '../../components/Button';
 import Card from '../../components/Card';
 import ScreenContainer from '../../components/ScreenContainer';
 import { colors, spacing, typography } from '../../constants/theme';
+import { useLogoutMutation } from '../../services/apiSlice';
 import { loggedOut } from '../../store/authSlice';
-import { useAppDispatch } from '../../store/hooks';
-import { clearToken } from '../../utils/authStorage';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { clearTokens } from '../../utils/authStorage';
 import { saveOfflineRegions } from '../../utils/offlineRegions';
 
 export default function SettingsScreen() {
   const dispatch = useAppDispatch();
+  const refreshToken = useAppSelector((s) => s.auth.refreshToken);
+  const [logout, { isLoading: loggingOut }] = useLogoutMutation();
   const [cleared, setCleared] = useState(false);
 
   const handleClearOfflineData = async () => {
@@ -19,8 +22,14 @@ export default function SettingsScreen() {
   };
 
   const handleLogout = async () => {
-    await clearToken();
-    dispatch(loggedOut());
+    try {
+      if (refreshToken) await logout({ refreshToken }).unwrap();
+    } catch {
+      // Ignore server-side revocation failures — still clear the local session below.
+    } finally {
+      await clearTokens();
+      dispatch(loggedOut());
+    }
   };
 
   return (
@@ -38,7 +47,7 @@ export default function SettingsScreen() {
       {cleared ? <Text style={styles.confirmText}>Offline map data cleared.</Text> : null}
 
       <Text style={styles.sectionTitle}>Account</Text>
-      <Button label="Sign out" variant="danger" onPress={handleLogout} />
+      <Button label="Sign out" variant="danger" onPress={handleLogout} loading={loggingOut} />
     </ScreenContainer>
   );
 }

@@ -3,30 +3,33 @@ import React, { useEffect } from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { colors } from '../constants/theme';
 import { apiSlice } from '../services/apiSlice';
-import { bootstrapFinished, loggedOut, tokenLoaded, userUpdated } from '../store/authSlice';
+import { bootstrapFinished, loggedOut, tokensLoaded, userUpdated } from '../store/authSlice';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { clearToken, readToken } from '../utils/authStorage';
+import { clearTokens, readTokens } from '../utils/authStorage';
 import AuthNavigator from './AuthNavigator';
 import MainTabs from './MainTabs';
 
 export default function RootNavigator() {
   const dispatch = useAppDispatch();
-  const { token, bootstrapped } = useAppSelector((s) => s.auth);
+  const { accessToken, bootstrapped } = useAppSelector((s) => s.auth);
 
   useEffect(() => {
     (async () => {
-      const stored = await readToken();
+      const stored = await readTokens();
       if (!stored) {
         dispatch(bootstrapFinished());
         return;
       }
-      dispatch(tokenLoaded(stored));
+      // Seed the store with the persisted tokens first: baseQueryWithReauth reads
+      // the access token from state, and will transparently refresh it via the
+      // stored refresh token if it has already expired since the last session.
+      dispatch(tokensLoaded(stored));
       try {
         const user = await dispatch(apiSlice.endpoints.getMe.initiate(undefined, { forceRefetch: true }))
           .unwrap();
         dispatch(userUpdated(user));
       } catch {
-        await clearToken();
+        await clearTokens();
         dispatch(loggedOut());
       } finally {
         dispatch(bootstrapFinished());
@@ -43,7 +46,7 @@ export default function RootNavigator() {
     );
   }
 
-  return <NavigationContainer>{token ? <MainTabs /> : <AuthNavigator />}</NavigationContainer>;
+  return <NavigationContainer>{accessToken ? <MainTabs /> : <AuthNavigator />}</NavigationContainer>;
 }
 
 const styles = StyleSheet.create({

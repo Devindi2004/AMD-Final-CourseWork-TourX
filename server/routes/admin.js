@@ -21,6 +21,9 @@ module.exports = function createAdminRouter(db) {
   router.patch('/users/:id/role', validate(changeRoleSchema), (req, res) => {
     const user = db.get('users').find({ id: req.params.id }).value();
     if (!user) return res.status(404).json({ message: 'User not found' });
+    if (req.params.id === req.user.sub) {
+      return res.status(400).json({ message: 'You cannot change your own role.' });
+    }
 
     db.get('users').find({ id: req.params.id }).assign({ role: req.body.role }).write();
     res.json(publicUser(db.get('users').find({ id: req.params.id }).value()));

@@ -3,24 +3,27 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Button from '../../components/Button';
+import ChipSelector from '../../components/ChipSelector';
 import ScreenContainer from '../../components/ScreenContainer';
 import TextField from '../../components/TextField';
 import { colors, spacing, typography } from '../../constants/theme';
 import type { AuthStackParamList } from '../../navigation/types';
 import { useRegisterMutation } from '../../services/apiSlice';
-import { credentialsSet } from '../../store/authSlice';
-import { useAppDispatch } from '../../store/hooks';
-import { saveToken } from '../../utils/authStorage';
+import { ROLE_LABELS, SELF_REGISTERABLE_ROLES, type Role } from '../../types';
+
+const ROLE_OPTIONS = SELF_REGISTERABLE_ROLES.map((role) => ROLE_LABELS[role]);
+const roleFromLabel = (label: string): Role =>
+  SELF_REGISTERABLE_ROLES.find((role) => ROLE_LABELS[role] === label) ?? 'tourist';
 
 export default function RegisterScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
-  const dispatch = useAppDispatch();
   const [register, { isLoading }] = useRegisterMutation();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [homeCountry, setHomeCountry] = useState('');
   const [password, setPassword] = useState('');
+  const [roleLabel, setRoleLabel] = useState(ROLE_LABELS.tourist);
   const [error, setError] = useState<string | null>(null);
 
   const handleRegister = async () => {
@@ -30,11 +33,20 @@ export default function RegisterScreen() {
       return;
     }
     try {
-      const result = await register({ name, email: email.trim(), password, homeCountry }).unwrap();
-      await saveToken(result.accessToken);
-      dispatch(credentialsSet({ token: result.accessToken, user: result.user }));
+      const result = await register({
+        name,
+        email: email.trim(),
+        password,
+        role: roleFromLabel(roleLabel),
+        homeCountry,
+      }).unwrap();
+      navigation.navigate('OtpVerification', { email: result.email });
     } catch (err: any) {
-      setError(err?.data?.message || 'Unable to create your account.');
+      if (err?.data?.errors?.length) {
+        setError(err.data.errors.map((e: { message: string }) => e.message).join('\n'));
+      } else {
+        setError(err?.data?.message || 'Unable to create your account.');
+      }
     }
   };
 
@@ -65,12 +77,15 @@ export default function RegisterScreen() {
         value={password}
         onChangeText={setPassword}
         secureTextEntry
-        placeholder="At least 6 characters"
+        placeholder="At least 8 characters, with a letter and a number"
       />
+
+      <Text style={styles.label}>I am a...</Text>
+      <ChipSelector options={ROLE_OPTIONS} selected={[roleLabel]} onToggle={setRoleLabel} />
 
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
-      <Button label="Sign Up" onPress={handleRegister} loading={isLoading} style={{ marginTop: spacing.sm }} />
+      <Button label="Sign Up" onPress={handleRegister} loading={isLoading} style={{ marginTop: spacing.md }} />
       <Button
         label="Back to sign in"
         variant="outline"
@@ -85,5 +100,6 @@ const styles = StyleSheet.create({
   header: { marginTop: spacing.xl, marginBottom: spacing.lg },
   title: { ...typography.h1, color: colors.text },
   subtitle: { ...typography.body, color: colors.textMuted, marginTop: spacing.xs },
-  errorText: { color: colors.danger, marginBottom: spacing.sm },
+  label: { ...typography.label, color: colors.text, marginTop: spacing.sm, marginBottom: spacing.sm },
+  errorText: { color: colors.danger, marginTop: spacing.sm, marginBottom: spacing.sm },
 });

@@ -54,7 +54,8 @@
           "photosPermission": "TourX lets you attach photos to travel journal entries and landmark scans.",
           "cameraPermission": "TourX uses the camera to take photos for landmark scans and journal entries."
         }
-      ]
+      ],
+      "expo-web-browser"
     ]
   }
 }

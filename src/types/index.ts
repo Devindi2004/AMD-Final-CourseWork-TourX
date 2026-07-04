@@ -7,19 +7,50 @@ export interface UserPreferences {
   budgetTier: BudgetTier;
 }
 
+export type Role = 'tourist' | 'guide' | 'hotel_owner' | 'restaurant_owner' | 'admin';
+
+export const SELF_REGISTERABLE_ROLES: Exclude<Role, 'admin'>[] = [
+  'tourist',
+  'guide',
+  'hotel_owner',
+  'restaurant_owner',
+];
+
+export const ROLE_LABELS: Record<Role, string> = {
+  tourist: 'Tourist',
+  guide: 'Guide',
+  hotel_owner: 'Hotel Owner',
+  restaurant_owner: 'Restaurant Owner',
+  admin: 'Admin',
+};
+
 export interface User {
   id: string;
   name: string;
   email: string;
-  profileType: string;
+  role: Role;
+  authProvider: 'local' | 'google';
   homeCountry: string;
   preferences: UserPreferences;
   createdAt: string;
 }
 
-export interface AuthResponse {
+export interface AuthSession {
   accessToken: string;
+  refreshToken: string;
   user: User;
+}
+
+export interface RegisterResponse {
+  message: string;
+  email: string;
+  devVerificationCode?: string;
+}
+
+export interface MessageResponse {
+  message: string;
+  devVerificationCode?: string;
+  devResetCode?: string;
 }
 
 export interface PointOfInterest {

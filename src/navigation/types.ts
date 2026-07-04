@@ -3,6 +3,9 @@ import type { NavigatorScreenParams } from '@react-navigation/native';
 export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
+  OtpVerification: { email: string };
+  ForgotPassword: undefined;
+  ResetPassword: { email: string };
 };
 
 export type HomeStackParamList = {
@@ -51,12 +54,17 @@ export type ProfileStackParamList = {
   Settings: undefined;
 };
 
+export type AdminStackParamList = {
+  AdminUsers: undefined;
+};
+
 export type MainTabParamList = {
   HomeTab: NavigatorScreenParams<HomeStackParamList>;
   TripsTab: NavigatorScreenParams<TripsStackParamList>;
   ExploreTab: NavigatorScreenParams<ExploreStackParamList>;
   SafetyTab: NavigatorScreenParams<SafetyStackParamList>;
   ProfileTab: NavigatorScreenParams<ProfileStackParamList>;
+  AdminTab: NavigatorScreenParams<AdminStackParamList>;
 };
 
 export type RootStackParamList = {
