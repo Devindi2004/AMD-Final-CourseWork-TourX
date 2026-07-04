@@ -1,29 +1,62 @@
 {
   "expo": {
-    "name": "tourx-tmp",
-    "slug": "tourx-tmp",
+    "name": "TourX",
+    "slug": "tourx",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "tourx",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tourx.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "TourX uses the camera to scan QR codes, recognise landmarks, and power AR navigation.",
+        "NSLocationWhenInUseUsageDescription": "TourX uses your location for AR navigation, weather, crowd context, the travel journal, and Emergency SOS.",
+        "NSPhotoLibraryUsageDescription": "TourX lets you attach photos to travel journal entries and landmark scans."
+      }
     },
     "android": {
+      "package": "com.tourx.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-secure-store",
-      "expo-sharing"
+      "expo-sharing",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "TourX uses the camera to scan QR codes, recognise landmarks, and power AR navigation."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "TourX uses your location for AR navigation, weather, crowd context, the travel journal, and Emergency SOS."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "TourX lets you attach photos to travel journal entries and landmark scans.",
+          "cameraPermission": "TourX uses the camera to take photos for landmark scans and journal entries."
+        }
+      ],
+      "expo-font"
     ]
   }
 }
