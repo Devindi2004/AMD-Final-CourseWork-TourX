@@ -14,7 +14,7 @@ journal, and a community review platform.
 
 | Layer | Technology |
 |---|---|
-| Frontend | React Native (Expo SDK 56), TypeScript, Expo Go |
+| Frontend | React Native (Expo SDK 54), TypeScript, Expo Go |
 | State management | Redux Toolkit + RTK Query (typed hooks, cache tags, loading/error states) |
 | Navigation | React Navigation (native-stack + bottom-tabs, 5 tabs each with a nested stack) |
 | Auth | Custom JWT auth against the mock server, session persisted in `expo-secure-store` |
@@ -172,6 +172,43 @@ image may render blank. To enable tiles, get a free key from the
 ```json
 "android": { "config": { "googleMaps": { "apiKey": "YOUR_KEY" } } }
 ```
+
+### Which Expo SDK version, and why
+
+The project is pinned to **Expo SDK 54**, not whatever `create-expo-app` scaffolds by default at
+the time you read this. The Expo Go client on the App Store / Play Store only supports whatever SDK
+version it was last published against — if your installed Expo Go is older than the project's SDK,
+you'll see `Project is incompatible with this version of Expo Go`. Check your installed Expo Go
+app's version (App Store / Play Store listing) before bumping `expo` in `package.json`; if you do
+change it, run `npx expo install --fix` afterwards to align every `expo-*` package, then
+`npx expo-doctor` to confirm.
+
+## Testing in a browser
+
+The mobile UI can also run in a desktop browser for quick iteration, without a phone at all:
+
+```bash
+npx expo start --web
+```
+
+This opens `http://localhost:8081` (or press `w` in an already-running `npx expo start` session).
+The mock server must still be running (`cd server && npm start`) — the web build talks to it over
+`localhost:4000` directly since both run on the same machine.
+
+Two things behave differently on web, both handled automatically:
+
+- **Auth persistence**: `expo-secure-store` has no Keychain/Keystore on web, so the session token
+  falls back to `AsyncStorage` (`localStorage`) there instead — see `src/utils/authStorage.ts`.
+- **Offline Maps**: `react-native-maps` has no web renderer at all (it imports native-only React
+  Native internals), so `OfflineMapsScreen.web.tsx` is a separate implementation — same city
+  selector, POI data, and download flow, minus the live `MapView`. Metro picks this file
+  automatically for web builds because of the `.web.tsx` suffix; the native app still gets the real
+  map on Android/iOS.
+
+Camera-dependent screens (QR Scanner, Landmark Recognition, AR Navigation) will prompt for browser
+camera/location permissions and work in Chrome/Edge, but AR Navigation's compass bearing won't
+rotate on desktop browsers (no device orientation sensor) — it still shows distance and direction
+assuming you're facing north.
 
 ## Building an APK
 
