@@ -3,11 +3,13 @@ const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const jsonServer = require('json-server');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
+const { requireAuth, requireRole } = require('./middleware/auth');
+const createAuthRouter = require('./routes/auth');
+const createAdminRouter = require('./routes/admin');
+
 const PORT = process.env.PORT || 4000;
-const JWT_SECRET = process.env.JWT_SECRET || 'tourx-dev-secret-change-me';
 
 const app = express();
 app.use(cors());
@@ -23,42 +25,62 @@ const transportRoutes = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/tr
 const chatbotResponses = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/chatbotResponses.json'), 'utf8'));
 const translations = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/translations.json'), 'utf8'));
 
-// ---------- helpers ----------
-function sign(user) {
-  return jwt.sign({ sub: user.id, email: user.email }, JWT_SECRET, { expiresIn: '30d' });
-}
-function publicUser(user) {
-  if (!user) return null;
-  const { password, ...rest } = user;
-  return rest;
-}
-function auth(req, res, next) {
-  const header = req.headers.authorization || '';
-  const token = header.startsWith('Bearer ') ? header.slice(7) : null;
-  if (!token) return res.status(401).json({ message: 'Missing bearer token' });
-  try {
-    req.user = jwt.verify(token, JWT_SECRET);
-    next();
-  } catch (e) {
-    return res.status(401).json({ message: 'Invalid or expired token' });
-  }
-}
-
-// ---------- seed a demo account on first run ----------
+// ---------- seed demo accounts (one per role) on first run ----------
 function seedDemoData() {
   if (db.get('users').size().value() > 0) return;
 
-  const demoUser = {
+  const now = new Date().toISOString();
+  const makeUser = (overrides) => ({
+    authProvider: 'local',
+    googleId: null,
+    isEmailVerified: true,
+    emailVerificationCode: null,
+    emailVerificationExpiry: null,
+    passwordResetCode: null,
+    passwordResetExpiry: null,
+    homeCountry: 'Sri Lanka',
+    preferences: { interests: ['Historical Landmark', 'Wildlife', 'Beach'], budgetTier: 'mid' },
+    createdAt: now,
+    ...overrides,
+  });
+
+  const demoUser = makeUser({
     id: 'usr-demo-001',
     name: 'Devindi Perera',
     email: 'demo@tourx.app',
     password: bcrypt.hashSync('Passw0rd!', 8),
-    profileType: 'Solo Traveller',
-    homeCountry: 'Sri Lanka',
-    preferences: { interests: ['Historical Landmark', 'Wildlife', 'Beach'], budgetTier: 'mid' },
-    createdAt: new Date().toISOString(),
-  };
-  db.get('users').push(demoUser).write();
+    role: 'tourist',
+  });
+  const demoAdmin = makeUser({
+    id: 'usr-demo-admin',
+    name: 'TourX Admin',
+    email: 'admin@tourx.app',
+    password: bcrypt.hashSync('AdminPass1', 8),
+    role: 'admin',
+  });
+  const demoGuide = makeUser({
+    id: 'usr-demo-guide',
+    name: 'Kasun Silva',
+    email: 'guide@tourx.app',
+    password: bcrypt.hashSync('GuidePass1', 8),
+    role: 'guide',
+  });
+  const demoHotelOwner = makeUser({
+    id: 'usr-demo-hotel',
+    name: 'Amara Fernando',
+    email: 'hotelowner@tourx.app',
+    password: bcrypt.hashSync('HotelPass1', 8),
+    role: 'hotel_owner',
+  });
+  const demoRestaurantOwner = makeUser({
+    id: 'usr-demo-restaurant',
+    name: 'Ruwan Jayasuriya',
+    email: 'restaurantowner@tourx.app',
+    password: bcrypt.hashSync('RestoPass1', 8),
+    role: 'restaurant_owner',
+  });
+
+  db.get('users').push(demoUser, demoAdmin, demoGuide, demoHotelOwner, demoRestaurantOwner).write();
 
   const demoTrip = {
     id: 'trip-demo-001',
@@ -76,14 +98,14 @@ function seedDemoData() {
       { day: 3, time: '09:00', poiId: 'poi-006', name: 'Pinnawala Elephant Orphanage', activity: 'Watch the elephant river bathing', estimatedCostUsd: 15 },
     ],
     status: 'planned',
-    createdAt: new Date().toISOString(),
+    createdAt: now,
   };
   db.get('trips').push(demoTrip).write();
 
   db.get('expenses')
     .push(
-      { id: 'exp-demo-001', tripId: demoTrip.id, userId: demoUser.id, category: 'Accommodation', amount: 120, currency: 'USD', note: 'Sigiriya Jungle Lodge, 2 nights', date: new Date().toISOString().slice(0, 10) },
-      { id: 'exp-demo-002', tripId: demoTrip.id, userId: demoUser.id, category: 'Food', amount: 35, currency: 'USD', note: 'Rock View Grill dinner', date: new Date().toISOString().slice(0, 10) }
+      { id: 'exp-demo-001', tripId: demoTrip.id, userId: demoUser.id, category: 'Accommodation', amount: 120, currency: 'USD', note: 'Sigiriya Jungle Lodge, 2 nights', date: now.slice(0, 10) },
+      { id: 'exp-demo-002', tripId: demoTrip.id, userId: demoUser.id, category: 'Food', amount: 35, currency: 'USD', note: 'Rock View Grill dinner', date: now.slice(0, 10) }
     )
     .write();
 
@@ -96,7 +118,7 @@ function seedDemoData() {
       entryText: 'The rock fortress appeared through the morning mist right on schedule. Worth every one of the 1,200 steps.',
       photos: [],
       location: { lat: 7.9570, lng: 80.7603 },
-      timestamp: new Date().toISOString(),
+      timestamp: now,
     })
     .write();
 
@@ -106,69 +128,32 @@ function seedDemoData() {
 
   db.get('reviews')
     .push(
-      { id: 'rev-demo-001', userId: demoUser.id, targetType: 'poi', targetId: 'poi-004', rating: 5, comment: 'Watching the train cross Nine Arches Bridge at sunrise was unforgettable.', photos: [], createdAt: new Date().toISOString() },
-      { id: 'rev-demo-002', userId: demoUser.id, targetType: 'hotel', targetId: 'htl-004', rating: 5, comment: 'Galle Fort Boutique Villa has the best rooftop view in the fort.', photos: [], createdAt: new Date().toISOString() }
+      { id: 'rev-demo-001', userId: demoUser.id, targetType: 'poi', targetId: 'poi-004', rating: 5, comment: 'Watching the train cross Nine Arches Bridge at sunrise was unforgettable.', photos: [], createdAt: now },
+      { id: 'rev-demo-002', userId: demoUser.id, targetType: 'hotel', targetId: 'htl-004', rating: 5, comment: 'Galle Fort Boutique Villa has the best rooftop view in the fort.', photos: [], createdAt: now }
     )
     .write();
 
   db.get('notifications')
     .push(
-      { id: 'ntf-demo-001', userId: demoUser.id, type: 'crowd', message: 'Sigiriya Rock Fortress crowd levels are lowest before 8am.', isRead: false, createdAt: new Date().toISOString() },
-      { id: 'ntf-demo-002', userId: demoUser.id, type: 'weather', message: 'Rain expected in Kandy this afternoon — pack a light rain jacket.', isRead: false, createdAt: new Date().toISOString() }
+      { id: 'ntf-demo-001', userId: demoUser.id, type: 'crowd', message: 'Sigiriya Rock Fortress crowd levels are lowest before 8am.', isRead: false, createdAt: now },
+      { id: 'ntf-demo-002', userId: demoUser.id, type: 'weather', message: 'Rain expected in Kandy this afternoon — pack a light rain jacket.', isRead: false, createdAt: now }
     )
     .write();
 
-  console.log('Seeded demo account -> email: demo@tourx.app  password: Passw0rd!');
+  console.log('Seeded demo accounts (all password-verified, ready to log in):');
+  console.log('  tourist            demo@tourx.app            / Passw0rd!');
+  console.log('  admin              admin@tourx.app           / AdminPass1');
+  console.log('  guide              guide@tourx.app           / GuidePass1');
+  console.log('  hotel_owner        hotelowner@tourx.app      / HotelPass1');
+  console.log('  restaurant_owner   restaurantowner@tourx.app / RestoPass1');
 }
 seedDemoData();
 
-// ================= AUTH =================
-app.post('/auth/register', (req, res) => {
-  const { name, email, password, homeCountry, profileType } = req.body || {};
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: 'name, email and password are required' });
-  }
-  if (String(password).length < 6) {
-    return res.status(400).json({ message: 'Password must be at least 6 characters' });
-  }
-  const existing = db.get('users').find({ email: String(email).toLowerCase() }).value();
-  if (existing) return res.status(409).json({ message: 'An account with this email already exists' });
+if (!db.has('refreshTokens').value()) db.set('refreshTokens', []).write();
 
-  const user = {
-    id: 'usr-' + Date.now(),
-    name,
-    email: String(email).toLowerCase(),
-    password: bcrypt.hashSync(password, 8),
-    profileType: profileType || 'International Tourist',
-    homeCountry: homeCountry || '',
-    preferences: { interests: [], budgetTier: 'mid' },
-    createdAt: new Date().toISOString(),
-  };
-  db.get('users').push(user).write();
-  return res.status(201).json({ accessToken: sign(user), user: publicUser(user) });
-});
-
-app.post('/auth/login', (req, res) => {
-  const { email, password } = req.body || {};
-  const user = db.get('users').find({ email: String(email || '').toLowerCase() }).value();
-  if (!user || !bcrypt.compareSync(password || '', user.password)) {
-    return res.status(401).json({ message: 'Invalid email or password' });
-  }
-  return res.json({ accessToken: sign(user), user: publicUser(user) });
-});
-
-app.get('/auth/me', auth, (req, res) => {
-  const user = db.get('users').find({ id: req.user.sub }).value();
-  if (!user) return res.status(404).json({ message: 'User not found' });
-  res.json(publicUser(user));
-});
-
-app.patch('/auth/me', auth, (req, res) => {
-  const { password, id, email, ...updatable } = req.body || {};
-  db.get('users').find({ id: req.user.sub }).assign(updatable).write();
-  const user = db.get('users').find({ id: req.user.sub }).value();
-  res.json(publicUser(user));
-});
+// ================= AUTH & ADMIN =================
+app.use('/auth', createAuthRouter(db));
+app.use('/admin', createAdminRouter(db));
 
 // ================= POINTS OF INTEREST =================
 app.get('/pois', (req, res) => {
@@ -357,10 +342,20 @@ app.get('/weather', async (req, res) => {
 });
 
 // ================= PROTECTED CRUD RESOURCES (json-server) =================
-// GET requests are public (browsing hotels/restaurants/reviews); writes require a bearer token.
+// GET requests are public (browsing hotels/restaurants/reviews). Writes require a
+// bearer access token; hotels/restaurants additionally require the matching owner
+// role (or admin), demonstrating role-gated protected routes end to end.
+app.use('/api/hotels', (req, res, next) => {
+  if (req.method === 'GET') return next();
+  return requireAuth(req, res, () => requireRole('hotel_owner', 'admin')(req, res, next));
+});
+app.use('/api/restaurants', (req, res, next) => {
+  if (req.method === 'GET') return next();
+  return requireAuth(req, res, () => requireRole('restaurant_owner', 'admin')(req, res, next));
+});
 app.use('/api', (req, res, next) => {
   if (req.method === 'GET') return next();
-  return auth(req, res, next);
+  return requireAuth(req, res, next);
 });
 app.use('/api', router);
 
@@ -370,5 +365,4 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`TourX mock server listening on http://0.0.0.0:${PORT}`);
-  console.log('Demo login -> email: demo@tourx.app  password: Passw0rd!');
 });
