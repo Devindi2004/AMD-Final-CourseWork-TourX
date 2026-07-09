@@ -26,11 +26,11 @@
         "tripReminders": true,
         "promotional": false
       },
-      "createdAt": "2026-07-04T10:58:54.907Z",
+      "createdAt": "2026-07-09T05:03:13.429Z",
       "id": "usr-demo-001",
       "name": "Devindi Perera",
       "email": "demo@tourx.app",
-      "password": "$2a$08$4NrccZAfTRfaK75EZ4kda.leO0pba9DRn99kca.V2rytesO6kCxDC",
+      "password": "$2a$08$8AaJmHBVpfc7CYUyUxQE5.I45MtjdRulfZ6gjjtOJGIZCPbEq5r5O",
       "role": "tourist"
     },
     {
@@ -59,11 +59,11 @@
         "tripReminders": true,
         "promotional": false
       },
-      "createdAt": "2026-07-04T10:58:54.907Z",
+      "createdAt": "2026-07-09T05:03:13.429Z",
       "id": "usr-demo-admin",
       "name": "TourX Admin",
       "email": "admin@tourx.app",
-      "password": "$2a$08$AuPn6qu4ySe1I7sibtaL2OqN1uVI4u16/iealHDldbV0t/fjSuqUe",
+      "password": "$2a$08$F87k2fJOacyZoIZtAMA7fOeKIdmusiGcP5Ij9QM5LB4mze7YvCqdq",
       "role": "admin"
     },
     {
@@ -92,11 +92,11 @@
         "tripReminders": true,
         "promotional": false
       },
-      "createdAt": "2026-07-04T10:58:54.907Z",
+      "createdAt": "2026-07-09T05:03:13.429Z",
       "id": "usr-demo-guide",
       "name": "Kasun Silva",
       "email": "guide@tourx.app",
-      "password": "$2a$08$Z43ryyjSIRfLF1JAy455Xeo.3uRfq6sSoMu6VRBPRhS3pa7QMfU3.",
+      "password": "$2a$08$8TGuZd0EVBmjSeakG45TBOBUQRKfxu57EMv8Xjvew8tNsvaCHxhw2",
       "role": "guide"
     },
     {
@@ -125,11 +125,11 @@
         "tripReminders": true,
         "promotional": false
       },
-      "createdAt": "2026-07-04T10:58:54.907Z",
+      "createdAt": "2026-07-09T05:03:13.429Z",
       "id": "usr-demo-hotel",
       "name": "Amara Fernando",
       "email": "hotelowner@tourx.app",
-      "password": "$2a$08$ompsiy.dbhzRs3e68StgqeC0HdSDFwaFtuKY3.U7/3emzTwnUBXmO",
+      "password": "$2a$08$w3IiIQ7rY3hXF1Nu3qEB8.OorqDTzhgvwEKvRmaOCfVOQ7RUbuNOS",
       "role": "hotel_owner"
     },
     {
@@ -158,32 +158,23 @@
         "tripReminders": true,
         "promotional": false
       },
-      "createdAt": "2026-07-04T10:58:54.907Z",
+      "createdAt": "2026-07-09T05:03:13.429Z",
       "id": "usr-demo-restaurant",
       "name": "Ruwan Jayasuriya",
       "email": "restaurantowner@tourx.app",
-      "password": "$2a$08$7U7To8eG8brZMx13IUogPeegjKLLxtoi1a9EgBdYkdDYp.Ng1MqTG",
+      "password": "$2a$08$IEuy5N2WNxRYwRK5Ys89A.lcBe7yCrTKaoQIXxYkL2rGf7NaJklbe",
       "role": "restaurant_owner"
     }
   ],
-  "refreshTokens": [
-    {
-      "id": "rft-1783162735193-8tythb",
-      "userId": "usr-demo-001",
-      "tokenHash": "57c588e66e3ff4f5dec78909c6ab9ce44d017ab2d84b13722b22f3f94353bc04",
-      "createdAt": "2026-07-04T10:58:55.194Z",
-      "expiresAt": "2026-08-03T10:58:55.194Z",
-      "revokedAt": null
-    }
-  ],
+  "refreshTokens": [],
   "trips": [
     {
       "id": "trip-demo-001",
       "userId": "usr-demo-001",
       "title": "Cultural Triangle Explorer",
       "destination": "Sigiriya",
-      "startDate": "2026-07-11",
-      "endDate": "2026-07-14",
+      "startDate": "2026-07-16",
+      "endDate": "2026-07-19",
       "budgetUsd": 400,
       "ecoScore": null,
       "transportModes": [
@@ -217,7 +208,7 @@
         }
       ],
       "status": "planned",
-      "createdAt": "2026-07-04T10:58:54.907Z"
+      "createdAt": "2026-07-09T05:03:13.429Z"
     }
   ],
   "hotels": [
@@ -636,7 +627,7 @@
       "rating": 5,
       "comment": "Watching the train cross Nine Arches Bridge at sunrise was unforgettable.",
       "photos": [],
-      "createdAt": "2026-07-04T10:58:54.907Z"
+      "createdAt": "2026-07-09T05:03:13.429Z"
     },
     {
       "id": "rev-demo-002",
@@ -646,7 +637,7 @@
       "rating": 5,
       "comment": "Galle Fort Boutique Villa has the best rooftop view in the fort.",
       "photos": [],
-      "createdAt": "2026-07-04T10:58:54.907Z"
+      "createdAt": "2026-07-09T05:03:13.429Z"
     }
   ],
   "expenses": [
@@ -658,7 +649,7 @@
       "amount": 120,
       "currency": "USD",
       "note": "Sigiriya Jungle Lodge, 2 nights",
-      "date": "2026-07-04"
+      "date": "2026-07-09"
     },
     {
       "id": "exp-demo-002",
@@ -668,7 +659,7 @@
       "amount": 35,
       "currency": "USD",
       "note": "Rock View Grill dinner",
-      "date": "2026-07-04"
+      "date": "2026-07-09"
     }
   ],
   "travelJournals": [
@@ -683,7 +674,7 @@
         "lat": 7.957,
         "lng": 80.7603
       },
-      "timestamp": "2026-07-04T10:58:54.907Z"
+      "timestamp": "2026-07-09T05:03:13.429Z"
     }
   ],
   "emergencyContacts": [
@@ -702,7 +693,7 @@
       "type": "crowd",
       "message": "Sigiriya Rock Fortress crowd levels are lowest before 8am.",
       "isRead": false,
-      "createdAt": "2026-07-04T10:58:54.907Z"
+      "createdAt": "2026-07-09T05:03:13.429Z"
     },
     {
       "id": "ntf-demo-002",
@@ -710,7 +701,7 @@
       "type": "weather",
       "message": "Rain expected in Kandy this afternoon — pack a light rain jacket.",
       "isRead": false,
-      "createdAt": "2026-07-04T10:58:54.907Z"
+      "createdAt": "2026-07-09T05:03:13.429Z"
     }
   ],
   "savedItems": [
@@ -720,7 +711,7 @@
       "targetType": "poi",
       "targetId": "poi-009",
       "listType": "wishlist",
-      "createdAt": "2026-07-04T10:58:54.907Z"
+      "createdAt": "2026-07-09T05:03:13.429Z"
     },
     {
       "id": "svd-demo-002",
@@ -728,7 +719,7 @@
       "targetType": "hotel",
       "targetId": "htl-004",
       "listType": "favorite",
-      "createdAt": "2026-07-04T10:58:54.907Z"
+      "createdAt": "2026-07-09T05:03:13.429Z"
     },
     {
       "id": "svd-demo-003",
@@ -736,7 +727,7 @@
       "targetType": "poi",
       "targetId": "poi-002",
       "listType": "saved_place",
-      "createdAt": "2026-07-04T10:58:54.907Z"
+      "createdAt": "2026-07-09T05:03:13.429Z"
     }
   ],
   "bookings": [
@@ -746,14 +737,14 @@
       "targetType": "hotel",
       "targetId": "htl-002",
       "targetName": "Sigiriya Jungle Lodge",
-      "startDate": "2026-07-11",
-      "endDate": "2026-07-13",
+      "startDate": "2026-07-16",
+      "endDate": "2026-07-18",
       "time": null,
       "partySize": 2,
       "status": "confirmed",
       "totalEstimateUsd": 240,
       "notes": "Anniversary trip — requested a rock-view room.",
-      "createdAt": "2026-07-04T10:58:54.907Z"
+      "createdAt": "2026-07-09T05:03:13.429Z"
     }
   ]
 }

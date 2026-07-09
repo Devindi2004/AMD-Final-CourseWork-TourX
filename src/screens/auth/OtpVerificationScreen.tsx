@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import Button from '../../components/Button';
 import ScreenContainer from '../../components/ScreenContainer';
 import TextField from '../../components/TextField';
-import { colors, spacing, typography } from '../../constants/theme';
+import { colors, radius, spacing, typography } from '../../constants/theme';
 import type { AuthStackParamList } from '../../navigation/types';
 import { useResendVerificationMutation, useVerifyEmailMutation } from '../../services/apiSlice';
 import { sessionSet } from '../../store/authSlice';
@@ -14,7 +14,8 @@ import { saveTokens } from '../../utils/authStorage';
 export default function OtpVerificationScreen() {
   const { params } = useRoute<RouteProp<AuthStackParamList, 'OtpVerification'>>();
   const dispatch = useAppDispatch();
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState(params.devCode ?? '');
+  const [devCode, setDevCode] = useState(params.devCode ?? null);
   const [error, setError] = useState<string | null>(null);
   const [resent, setResent] = useState(false);
 
@@ -39,8 +40,12 @@ export default function OtpVerificationScreen() {
   const handleResend = async () => {
     setError(null);
     setResent(false);
-    await resendVerification({ email: params.email }).unwrap();
+    const result = await resendVerification({ email: params.email }).unwrap();
     setResent(true);
+    if (result.devVerificationCode) {
+      setDevCode(result.devVerificationCode);
+      setCode(result.devVerificationCode);
+    }
   };
 
   return (
@@ -52,6 +57,15 @@ export default function OtpVerificationScreen() {
           <Text style={styles.email}>{params.email}</Text>
         </Text>
       </View>
+
+      {devCode ? (
+        <View style={styles.devBanner}>
+          <Text style={styles.devBannerText}>
+            Dev mode — no real email is sent yet (see README &gt; Email delivery). Your code is{' '}
+            <Text style={styles.devBannerCode}>{devCode}</Text> (already filled in below).
+          </Text>
+        </View>
+      ) : null}
 
       <TextField
         label="Verification code"
@@ -83,6 +97,9 @@ const styles = StyleSheet.create({
   title: { ...typography.h1, color: colors.text },
   subtitle: { ...typography.body, color: colors.textMuted, textAlign: 'center', marginTop: spacing.xs },
   email: { fontWeight: '700', color: colors.text },
+  devBanner: { backgroundColor: '#FEF3C7', borderRadius: radius.sm, padding: spacing.sm, marginBottom: spacing.md },
+  devBannerText: { ...typography.caption, color: '#92400E' },
+  devBannerCode: { fontWeight: '800', letterSpacing: 1 },
   codeInput: { fontSize: 24, letterSpacing: 8, textAlign: 'center' },
   errorText: { color: colors.danger, marginBottom: spacing.sm },
   successText: { color: colors.success, marginBottom: spacing.sm },

@@ -40,7 +40,7 @@ export default function RegisterScreen() {
         role: roleFromLabel(roleLabel),
         homeCountry,
       }).unwrap();
-      navigation.navigate('OtpVerification', { email: result.email });
+      navigation.navigate('OtpVerification', { email: result.email, devCode: result.devVerificationCode });
     } catch (err: any) {
       if (err?.data?.errors?.length) {
         setError(err.data.errors.map((e: { message: string }) => e.message).join('\n'));

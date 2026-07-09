@@ -16,8 +16,8 @@ export default function ForgotPasswordScreen() {
 
   const handleSubmit = async () => {
     if (!email.trim()) return;
-    await forgotPassword({ email: email.trim() }).unwrap();
-    navigation.navigate('ResetPassword', { email: email.trim() });
+    const result = await forgotPassword({ email: email.trim() }).unwrap();
+    navigation.navigate('ResetPassword', { email: email.trim(), devCode: result.devResetCode });
   };
 
   return (
