@@ -1,3 +1,4 @@
+require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
 const express = require('express');
@@ -10,6 +11,7 @@ const createAuthRouter = require('./routes/auth');
 const createAdminRouter = require('./routes/admin');
 const createUploadsRouter = require('./routes/uploads');
 const { validate, savedItemSchema, bookingCreateSchema, bookingStatusSchema } = require('./lib/validation');
+const { translateText } = require('./lib/translate');
 
 const PORT = process.env.PORT || 4000;
 
@@ -25,7 +27,6 @@ const db = router.db; // lowdb instance backing db.json
 const pois = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/pois.json'), 'utf8'));
 const transportRoutes = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/transportRoutes.json'), 'utf8'));
 const chatbotResponses = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/chatbotResponses.json'), 'utf8'));
-const translations = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/translations.json'), 'utf8'));
 
 // ---------- seed demo accounts (one per role) on first run ----------
 function seedDemoData() {
@@ -322,23 +323,27 @@ app.post('/ai/chatbot', (req, res) => {
   setTimeout(() => res.json({ reply, simulated: true }), 400);
 });
 
-// ================= AI TRANSLATOR =================
-app.post('/ai/translate', (req, res) => {
-  const { text, targetLang } = req.body || {};
-  if (!text) return res.status(400).json({ message: 'text is required' });
-  const lang = String(targetLang || 'si').toLowerCase();
-  const dict = translations[lang];
-  const key = String(text).trim().toLowerCase();
-  let translated;
-  if (dict && dict[key]) {
-    translated = dict[key];
-  } else if (dict) {
-    const partial = Object.keys(dict).find((k) => key.includes(k));
-    translated = partial ? dict[partial] : `[${lang}] ${text}`;
-  } else {
-    translated = `[${lang}] ${text}`;
+// ================= AI TRANSLATOR (real, Claude Haiku 4.5, auto-detects source language) =================
+app.post('/ai/translate', async (req, res) => {
+  const { text, targetLanguage } = req.body || {};
+  if (!text || !String(text).trim()) return res.status(400).json({ message: 'text is required' });
+  if (!targetLanguage || !String(targetLanguage).trim()) {
+    return res.status(400).json({ message: 'targetLanguage is required, e.g. "French"' });
   }
-  res.json({ original: text, targetLang: lang, translated, simulated: true });
+
+  try {
+    const result = await translateText(String(text), String(targetLanguage));
+    res.json({
+      original: text,
+      targetLanguage,
+      translated: result.translated,
+      detectedSourceLang: result.detectedSourceLang,
+      detectedSourceLangName: result.detectedSourceLangName,
+    });
+  } catch (err) {
+    const status = err.code === 'ANTHROPIC_NOT_CONFIGURED' ? 501 : 502;
+    res.status(status).json({ message: err.message, code: err.code || 'TRANSLATION_FAILED' });
+  }
 });
 
 // ================= SMART CROWD PREDICTION =================

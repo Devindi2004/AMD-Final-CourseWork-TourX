@@ -233,9 +233,10 @@ export interface ChatbotReply {
 
 export interface TranslationResult {
   original: string;
-  targetLang: string;
+  targetLanguage: string;
   translated: string;
-  simulated: true;
+  detectedSourceLang: string;
+  detectedSourceLangName: string;
 }
 
 export interface CrowdPrediction {

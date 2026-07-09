@@ -18,7 +18,7 @@ journal, and a community review platform.
 | State management | Redux Toolkit + RTK Query (typed hooks, cache tags, loading/error states) |
 | Navigation | React Navigation (native-stack + bottom-tabs, 5 tabs each with a nested stack) |
 | Auth | JWT access + rotating refresh tokens, email verification (OTP), forgot/reset password, Google OAuth, role-based access (5 roles) — session persisted in `expo-secure-store` |
-| Backend | Node.js + Express + `json-server` (REST CRUD store + simulated AI endpoints) |
+| Backend | Node.js + Express + `json-server` (REST CRUD store, simulated AI endpoints, and a real Claude-powered translator) |
 | Database | `db.json` (file-backed, persists between restarts) |
 | Native device APIs | Camera, GPS location, image picker, text-to-speech, share sheet, maps |
 | Media | Cloudinary (signed direct upload) for profile pictures |
@@ -74,7 +74,7 @@ TourX/
 | AR Navigation | Explore → **AR Navigate** (camera + compass-bearing arrow overlay to a POI) |
 | AI Landmark Recognition | Explore → **Scan Landmark** (photo → matched POI + confidence) |
 | AI Voice Guide | POI detail → **AI Voice Guide** button (text-to-speech narration) |
-| AI Translator | Profile → **AI Translator** (EN → Sinhala/Tamil phrasebook + speech playback) |
+| AI Translator | Profile → **AI Translator** (real Claude-powered translation, 100+ languages, auto-detects the source language, + speech playback) |
 | Smart Hotel Recommendation | Explore → **Hotels** (city/budget filters) |
 | Local Food Recommendation | Explore → **Food** (city/budget filters) |
 | Smart Crowd Prediction | Explore → **Crowd Levels** (live-estimated levels per attraction) |
@@ -106,10 +106,12 @@ rather than using the real native APIs the proposal names:
   descriptions genuinely stay usable without a connection.
 
 Everything else (AI chatbot, itinerary planner, landmark recognition, translator, crowd prediction,
-transport routes) is **served over real HTTP from the mock server**; only the underlying "AI" is
-rule-based/deterministic rather than a live LLM/vision API call, which the proposal itself treats as
-acceptable ("orchestrating third-party cloud AI services... reflecting the time and computational
-constraints of the project" — Section 9.2).
+transport routes) is **served over real HTTP from the mock server**. The **AI Translator** is a real
+call to Claude (Haiku 4.5) with genuine language auto-detection across 100+ languages — see
+"AI Translator setup" below. The rest (chatbot, itinerary planner, landmark recognition, crowd
+prediction) are rule-based/deterministic rather than a live LLM/vision API call, which the proposal
+itself treats as acceptable ("orchestrating third-party cloud AI services... reflecting the time and
+computational constraints of the project" — Section 9.2).
 
 ## Authentication system
 
@@ -211,6 +213,25 @@ bytes never round-trip through our own backend. Without credentials, the upload 
    CLOUDINARY_API_SECRET=your_api_secret
    ```
 4. Restart the mock server. Uploaded photos land in a `tourx/avatars/<userId>` folder per user.
+
+### AI Translator setup (real Claude API, not simulated)
+
+Unlike the other "AI" endpoints in this project (chatbot, itinerary planner, landmark recognition —
+all rule-based simulations over the mock dataset), the **Translator is a real call to Claude**
+(`claude-haiku-4-5`, via `@anthropic-ai/sdk`). One request does both jobs at once — detects the
+source language and translates into whichever of 100+ target languages you pick — using a forced
+tool call (`tool_choice`) so the response is always structured JSON, never a stray sentence to
+parse. Without a key, the endpoint returns a clear 501 "not configured" message instead of a
+confusing failure.
+
+1. Create an API key at [console.anthropic.com/settings/keys](https://console.anthropic.com/settings/keys)
+   (pay-as-you-go; Haiku 4.5 is Anthropic's cheapest tier — a translation costs a small fraction of
+   a cent).
+2. Add it to `server/.env` (copy `server/.env.example` first):
+   ```
+   ANTHROPIC_API_KEY=sk-ant-...
+   ```
+3. Restart the mock server.
 
 ## Setup
 

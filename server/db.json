@@ -164,9 +164,63 @@
       "email": "restaurantowner@tourx.app",
       "password": "$2a$08$IEuy5N2WNxRYwRK5Ys89A.lcBe7yCrTKaoQIXxYkL2rGf7NaJklbe",
       "role": "restaurant_owner"
+    },
+    {
+      "id": "usr-1783573800532",
+      "name": "Hashini devindi ",
+      "email": "hashinidevindi558@gmail.com",
+      "password": "$2a$08$qanGNPRDLpErTxjVtibMCeyuf0eWPjDwaGJWTbJ23YHRsijfiRVKC",
+      "role": "tourist",
+      "authProvider": "local",
+      "googleId": null,
+      "isEmailVerified": true,
+      "emailVerificationCode": null,
+      "emailVerificationExpiry": null,
+      "passwordResetCode": null,
+      "passwordResetExpiry": null,
+      "homeCountry": "Sri lanka",
+      "phone": "",
+      "language": "en",
+      "avatarUrl": null,
+      "preferences": {
+        "interests": [],
+        "budgetTier": "mid"
+      },
+      "notificationSettings": {
+        "crowdAlerts": true,
+        "weatherAlerts": true,
+        "tripReminders": true,
+        "promotional": false
+      },
+      "createdAt": "2026-07-09T05:10:00.547Z"
     }
   ],
-  "refreshTokens": [],
+  "refreshTokens": [
+    {
+      "id": "rft-1783573816548-ovcpf9",
+      "userId": "usr-1783573800532",
+      "tokenHash": "9adc6a1ecf192c61871e9cd1aa40dfa5f07ed77b079fe37beee0f78367970645",
+      "createdAt": "2026-07-09T05:10:16.548Z",
+      "expiresAt": "2026-08-08T05:10:16.548Z",
+      "revokedAt": "2026-07-09T05:26:27.874Z"
+    },
+    {
+      "id": "rft-1783574787876-zt7q6u",
+      "userId": "usr-1783573800532",
+      "tokenHash": "f2916c760e3cc98c3c577371bfbebf3c5f38e9e01df8a79e5f16141f8f667fad",
+      "createdAt": "2026-07-09T05:26:27.876Z",
+      "expiresAt": "2026-08-08T05:26:27.876Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783575056992-87zqqn",
+      "userId": "usr-demo-001",
+      "tokenHash": "0cc21f2d8cac289d15dd994404ea6fdd61a0777de6d5910a7d71e846a62fa5a2",
+      "createdAt": "2026-07-09T05:30:56.992Z",
+      "expiresAt": "2026-08-08T05:30:56.992Z",
+      "revokedAt": null
+    }
+  ],
   "trips": [
     {
       "id": "trip-demo-001",
@@ -702,6 +756,14 @@
       "message": "Rain expected in Kandy this afternoon — pack a light rain jacket.",
       "isRead": false,
       "createdAt": "2026-07-09T05:03:13.429Z"
+    },
+    {
+      "userId": "usr-1783573800532",
+      "type": "sos",
+      "message": "SOS alert prepared for: no contacts registered.",
+      "isRead": false,
+      "createdAt": "2026-07-09T05:26:28.169Z",
+      "id": "FweQQIs"
     }
   ],
   "savedItems": [

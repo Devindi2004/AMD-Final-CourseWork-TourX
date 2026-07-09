@@ -24,7 +24,7 @@ export const aiApi = apiSlice.injectEndpoints({
     askChatbot: builder.mutation<ChatbotReply, { message: string }>({
       query: (body) => ({ url: '/ai/chatbot', method: 'POST', body }),
     }),
-    translateText: builder.mutation<TranslationResult, { text: string; targetLang: string }>({
+    translateText: builder.mutation<TranslationResult, { text: string; targetLanguage: string }>({
       query: (body) => ({ url: '/ai/translate', method: 'POST', body }),
     }),
   }),
