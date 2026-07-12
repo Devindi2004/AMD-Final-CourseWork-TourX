@@ -378,3 +378,5 @@ screen has something to show immediately after login. Log in as `admin@tourx.app
 role-gated **Admin** tab (list all users, change roles); log in as `hotelowner@tourx.app` or
 `restaurantowner@tourx.app` to get write access to `/api/hotels` or `/api/restaurants` respectively
 (no dedicated UI for that yet — it's enforced and testable via the API today).
+#   A M D - F i n a l - C o u r s e W o r k - T o u r X  
+ 
