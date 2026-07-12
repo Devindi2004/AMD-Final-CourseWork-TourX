@@ -1,14 +1,79 @@
-# TourX
+<p align="center">
+  <img src="./assets/icon.png" width="96" alt="TourX logo" />
+</p>
 
-An AI-powered smart tourism guide mobile app for Sri Lanka — built with **React Native (Expo)**,
-**Redux Toolkit + RTK Query**, and a **json-server + Express mock backend**, as the final coursework
-project for *ITS 2127 — Advanced Mobile Developer*.
+<h1 align="center">TourX</h1>
+<p align="center"><b>An AI-powered smart tourism guide for Sri Lanka</b> — built with React Native (Expo)</p>
+
+<p align="center">
+  <img alt="Expo SDK" src="https://img.shields.io/badge/Expo-SDK%2054-000020?logo=expo&logoColor=white" />
+  <img alt="React Native" src="https://img.shields.io/badge/React%20Native-0.81-61DAFB?logo=react&logoColor=white" />
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white" />
+  <img alt="Redux Toolkit" src="https://img.shields.io/badge/State-Redux%20Toolkit%20%2B%20RTK%20Query-764ABC?logo=redux&logoColor=white" />
+  <img alt="Platform" src="https://img.shields.io/badge/platform-Android%20%7C%20iOS%20%7C%20Web-lightgrey" />
+  <img alt="License" src="https://img.shields.io/badge/license-MIT-blue" />
+</p>
+
+<p align="center">
+  <b>ITS 2127 — Advanced Mobile Developer</b> · Final Examination Assignment<br/>
+  Graduate Diploma in Software Engineering · Course Coordinator: Shamodha Sahan
+</p>
+
+<p align="center">
+  <a href="https://github.com/Devindi2004/AMD-Final-CourseWork-TourX/releases/tag/v1.0.0"><b>⬇ Download the Android APK</b></a>
+  ·
+  <a href="#setup--installation">Run it locally</a>
+  ·
+  <a href="#rubric-compliance-matrix">Rubric compliance</a>
+</p>
+
+---
+
+## Table of contents
+
+- [Overview](#overview)
+- [Rubric compliance matrix](#rubric-compliance-matrix)
+- [Tech stack](#tech-stack)
+- [Project structure](#project-structure)
+- [Feature → screen map](#feature--screen-map)
+- [Authentication system](#authentication-system)
+- [User profile module](#user-profile-module)
+- [Setup & installation](#setup--installation)
+- [Download the APK](#download-the-apk)
+- [Building an APK from source](#building-an-apk-from-source)
+- [Testing in a browser](#testing-in-a-browser)
+- [Demo accounts](#demo-accounts)
+- [Honest limitations](#honest-limitations)
+- [License](#license)
+
+---
+
+## Overview
+
+TourX is an AI-powered smart tourism guide mobile app for Sri Lanka, built with **React Native
+(Expo)**, **Redux Toolkit + RTK Query**, and a **Node.js/Express + json-server mock backend**, as
+the final coursework project for *ITS 2127 — Advanced Mobile Developer*.
 
 TourX implements all 18 feature modules from the project proposal: an AI travel planner, offline
 maps, camera-based AR navigation, AI landmark recognition, an AI voice guide, an AI translator,
 hotel/food recommendations, smart crowd prediction, an eco travel score, a QR tourist scanner, an
 AI chatbot, Emergency SOS, a public transport assistant, an expense tracker, live weather, a travel
-journal, and a community review platform.
+journal, a community review platform, and a destination photo gallery.
+
+## Rubric compliance matrix
+
+How this submission maps to the module's evaluation criteria:
+
+| Criterion | Weight | Where it's satisfied |
+|---|---|---|
+| **Functionality** | 15% | Full CRUD on Trips (+ Gallery, Bookings, Reviews, Expenses), navigation, JWT auth, and a real REST backend — see [Feature → screen map](#feature--screen-map) |
+| **UI/UX** | 10% | Consistent design system (`src/constants/theme`), 49 screens, bottom-tab + nested-stack navigation, RTK Query caching keeps lists fast and re-render-safe |
+| **State management & authentication** | 10% | Redux Toolkit + RTK Query with per-query `isLoading`/`isError` states and tag-based cache invalidation (no manual re-fetch plumbing); JWT access + rotating refresh tokens, OTP email verification, Google OAuth, 5 roles — see [Authentication system](#authentication-system) |
+| **iOS & Android builds** | 10% | Signed Android APK built via EAS Build, published as a [GitHub Release](https://github.com/Devindi2004/AMD-Final-CourseWork-TourX/releases/tag/v1.0.0) — see [Download the APK](#download-the-apk) |
+| **Git commit history** | 5% | Logical, incremental commits across the repository's history |
+| **Documentation & README** | 5% | This document — app description, architecture, setup, and run instructions |
+| **Creativity & innovation** | 5% | Real Claude (Haiku 4.5) AI translator and gallery insights, native Camera/GPS/ImagePicker/Speech APIs, AR-lite navigation, 5-role access control, signed direct-to-Cloudinary uploads |
+| **Viva / presentation** | 40% | Architecture and design decisions documented throughout this README, ready to walk through live |
 
 ## Tech stack
 
@@ -47,9 +112,10 @@ TourX/
 │   │   ├── trips/            # Trip CRUD, AI Travel Planner, Expenses, Travel Journal
 │   │   ├── explore/          # Hotels, Restaurants, Community, Crowd, Offline Maps,
 │   │   │                     # AR Navigation, Public Transport, Landmark Scan, QR Scanner
+│   │   ├── gallery/          # Gallery home (masonry), detail, full-screen viewer, upload, comments
 │   │   ├── safety/           # Emergency SOS, Emergency Contacts
 │   │   └── profile/          # Profile, AI Translator, Settings
-│   ├── services/             # RTK Query API slices (auth, trips, catalog, ai, misc, personal)
+│   ├── services/             # RTK Query API slices (auth, trips, catalog, gallery, ai, misc, personal)
 │   ├── store/                 # Redux store, auth slice, typed hooks
 │   ├── types/                 # Shared TypeScript models (mirrors the DB collections)
 │   └── utils/                 # eco score, geo/bearing math, weather codes, auth storage
@@ -57,7 +123,8 @@ TourX/
     ├── index.js               # Express app: mounts auth/admin routers, simulated AI endpoints,
     │                          #   json-server CRUD mount (role-gated for hotels/restaurants)
     ├── routes/                 # auth.js (register/verify/login/refresh/logout/password/google),
-    │                          # admin.js (list users, change role)
+    │                          # admin.js (list users, change role, gallery moderation/analytics),
+    │                          # gallery.js (list/search/CRUD/likes/comments/nearby/AI insights)
     ├── middleware/auth.js       # requireAuth (JWT bearer), requireRole(...roles)
     ├── lib/                     # tokens.js (JWT + opaque refresh tokens), validation.js (zod),
     │                          # email.js (simulated sender), googleAuth.js (ID token verification)
@@ -87,6 +154,7 @@ TourX/
 | Weather Forecast | Home → **Weather** (real live data, no API key, via Open-Meteo) |
 | Travel Journal | Trip detail → **Journal** (photo + geotagged entries) |
 | Community Platform | Explore → **Community** (review feed + composer) |
+| Destination Gallery | Explore → **Gallery** (Pinterest-style masonry browsing, search/filter, full-screen pinch-zoom viewer, likes, favorites, threaded comments, AI-generated destination insights, nearby-attractions, admin moderation + analytics) |
 
 The central CRUD model required by the coursework rubric is the **Trip / Itinerary**: full
 create/read/update/delete on trips, plus add/remove on itinerary items, all via RTK Query mutations
@@ -176,7 +244,7 @@ either a custom EAS dev-client build with a fixed native URL scheme registered a
 OAuth client, or the native `@react-native-google-signin/google-signin` SDK — both are outside
 Expo Go's managed-client model. This is a genuine platform constraint, not a configuration gap.
 
-## User Profile module
+## User profile module
 
 Profile → **Edit Profile** covers profile picture, name, phone, home country, preferred language
 (English/Sinhala/Tamil), and interests. Everything else lives one tap away from the Profile hub:
@@ -233,7 +301,12 @@ confusing failure.
    ```
 3. Restart the mock server.
 
-## Setup
+The same key also powers Gallery → photo detail → **Generate AI Insights** (travel summary,
+history, best time to visit, things to do, nearby hotels/restaurants, travel tips, and an estimated
+budget for that destination). Without a key, both features show a clear "not configured" message
+instead of failing silently.
+
+## Setup & installation
 
 Requires Node.js 18+ and the **Expo Go** app (Android/iOS) on your phone, on the **same Wi-Fi**
 network as your computer.
@@ -318,6 +391,29 @@ app's version (App Store / Play Store listing) before bumping `expo` in `package
 change it, run `npx expo install --fix` afterwards to align every `expo-*` package, then
 `npx expo-doctor` to confirm.
 
+## Download the APK
+
+A signed Android build is published as a GitHub Release — no build tools needed:
+
+**[⬇ Download tourx-preview.apk (v1.0.0)](https://github.com/Devindi2004/AMD-Final-CourseWork-TourX/releases/tag/v1.0.0)**
+
+Install directly on an Android device (enable "Install from unknown sources" if prompted).
+
+## Building an APK from source
+
+This project uses [EAS Build](https://docs.expo.dev/build/introduction/) (no local Android Studio
+install required):
+
+```bash
+npm install -g eas-cli
+eas login          # free Expo account
+eas build --platform android --profile preview
+```
+
+This produces a downloadable `.apk` (see `eas.json` — the `preview` profile is configured for
+`buildType: apk`, internal distribution). Alternatively, if you have Android Studio installed
+locally: `npx expo prebuild` then build the generated `android/` project with Gradle.
+
 ## Testing in a browser
 
 The mobile UI can also run in a desktop browser for quick iteration, without a phone at all:
@@ -345,21 +441,6 @@ camera/location permissions and work in Chrome/Edge, but AR Navigation's compass
 rotate on desktop browsers (no device orientation sensor) — it still shows distance and direction
 assuming you're facing north.
 
-## Building an APK
-
-This project uses [EAS Build](https://docs.expo.dev/build/introduction/) (no local Android Studio
-install required):
-
-```bash
-npm install -g eas-cli
-eas login          # free Expo account
-eas build --platform android --profile preview
-```
-
-This produces a downloadable `.apk` (see `eas.json` — the `preview` profile is configured for
-`buildType: apk`, internal distribution). Alternatively, if you have Android Studio installed
-locally: `npx expo prebuild` then build the generated `android/` project with Gradle.
-
 ## Demo accounts
 
 One verified account per role, so you can test role-gating without going through registration:
@@ -378,5 +459,11 @@ screen has something to show immediately after login. Log in as `admin@tourx.app
 role-gated **Admin** tab (list all users, change roles); log in as `hotelowner@tourx.app` or
 `restaurantowner@tourx.app` to get write access to `/api/hotels` or `/api/restaurants` respectively
 (no dedicated UI for that yet — it's enforced and testable via the API today).
-#   A M D - F i n a l - C o u r s e W o r k - T o u r X  
- 
+
+## License
+
+MIT — see [`LICENSE`](./LICENSE).
+
+---
+
+<p align="center">Built by <b>Devindi Punchihewa</b> for ITS 2127 — Advanced Mobile Developer, Graduate Diploma in Software Engineering.</p>

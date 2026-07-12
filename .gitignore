@@ -49,3 +49,6 @@ server/uploads/
 # generated native folders
 /ios
 /android
+
+# APK builds (published as GitHub Releases instead)
+/builds
