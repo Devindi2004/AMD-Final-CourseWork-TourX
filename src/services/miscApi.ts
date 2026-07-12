@@ -2,6 +2,7 @@ import { apiSlice } from './apiSlice';
 import type { CrowdPrediction, TransportRoute, WeatherResponse } from '../types';
 
 export const miscApi = apiSlice.injectEndpoints({
+  overrideExisting: __DEV__,
   endpoints: (builder) => ({
     getCrowdPrediction: builder.query<CrowdPrediction, string>({
       query: (poiId) => `/crowd/${poiId}`,

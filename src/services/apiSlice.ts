@@ -91,11 +91,23 @@ export const apiSlice = createApi({
     'Notification',
     'SavedItem',
     'Booking',
+    'Gallery',
+    'GalleryComment',
   ],
   endpoints: (builder) => ({
     register: builder.mutation<
       RegisterResponse,
-      { name: string; email: string; password: string; role: Role; homeCountry?: string }
+      {
+        name: string;
+        email: string;
+        password: string;
+        role: Role;
+        homeCountry?: string;
+        homeTown?: string;
+        language?: string;
+        familyContactName?: string;
+        familyContactPhone?: string;
+      }
     >({
       query: (body) => ({ url: '/auth/register', method: 'POST', body }),
     }),
@@ -142,6 +154,9 @@ export const apiSlice = createApi({
     getUploadSignature: builder.mutation<UploadSignature, void>({
       query: () => ({ url: '/uploads/signature', method: 'POST' }),
     }),
+    uploadImageLocally: builder.mutation<{ url: string }, { imageBase64: string }>({
+      query: (body) => ({ url: '/uploads/local', method: 'POST', body }),
+    }),
   }),
 });
 
@@ -159,4 +174,5 @@ export const {
   useAdminListUsersQuery,
   useAdminChangeUserRoleMutation,
   useGetUploadSignatureMutation,
+  useUploadImageLocallyMutation,
 } = apiSlice;

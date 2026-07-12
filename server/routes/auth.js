@@ -72,7 +72,7 @@ module.exports = function createAuthRouter(db) {
 
   // ================= REGISTER =================
   router.post('/register', validate(registerSchema), (req, res) => {
-    const { name, email, password, role, homeCountry } = req.body;
+    const { name, email, password, role, homeCountry, homeTown, language, familyContactName, familyContactPhone } = req.body;
     const existing = db.get('users').find({ email }).value();
     if (existing) return res.status(409).json({ message: 'An account with this email already exists' });
 
@@ -91,14 +91,27 @@ module.exports = function createAuthRouter(db) {
       passwordResetCode: null,
       passwordResetExpiry: null,
       homeCountry: homeCountry || '',
+      homeTown: homeTown || '',
       phone: '',
-      language: 'en',
+      language: language || 'en',
       avatarUrl: null,
       preferences: { interests: [], budgetTier: 'mid' },
       notificationSettings: { crowdAlerts: true, weatherAlerts: true, tripReminders: true, promotional: false },
       createdAt: new Date().toISOString(),
     };
     db.get('users').push(user).write();
+
+    if (familyContactPhone && familyContactPhone.trim()) {
+      db.get('emergencyContacts')
+        .push({
+          id: `ecn-${Date.now()}`,
+          userId: user.id,
+          contactName: (familyContactName || 'Family contact').trim(),
+          contactPhone: familyContactPhone.trim(),
+          relationship: 'Family',
+        })
+        .write();
+    }
 
     sendEmail({
       to: email,

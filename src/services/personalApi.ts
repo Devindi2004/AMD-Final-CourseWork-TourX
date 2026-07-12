@@ -11,6 +11,7 @@ import type {
 } from '../types';
 
 export const personalApi = apiSlice.injectEndpoints({
+  overrideExisting: __DEV__,
   endpoints: (builder) => ({
     // ---- Expenses ----
     getExpenses: builder.query<Expense[], { tripId?: string; userId?: string }>({
@@ -166,6 +167,9 @@ export const personalApi = apiSlice.injectEndpoints({
         time?: string | null;
         partySize: number;
         notes?: string;
+        totalEstimateUsd?: number;
+        roomTypeName?: string | null;
+        roomFeatures?: string[];
       }
     >({
       query: (body) => ({ url: '/api/bookings', method: 'POST', body }),

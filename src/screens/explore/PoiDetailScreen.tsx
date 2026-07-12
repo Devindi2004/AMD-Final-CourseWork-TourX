@@ -19,7 +19,7 @@ export default function PoiDetailScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<ExploreStackParamList>>();
   const { params } = useRoute<RouteProp<ExploreStackParamList, 'PoiDetail'>>();
   const { data: pois, isLoading } = useGetPoisQuery();
-  const { data: crowd } = useGetCrowdPredictionQuery(params.poiId);
+  const { data: crowd } = useGetCrowdPredictionQuery(params.poiId, { pollingInterval: 20000 });
   const { data: reviews } = useGetReviewsQuery({ targetType: 'poi', targetId: params.poiId });
   const [speaking, setSpeaking] = useState(false);
 
@@ -49,7 +49,7 @@ export default function PoiDetailScreen() {
 
       {crowd ? (
         <View style={{ marginTop: spacing.xs, marginBottom: spacing.sm }}>
-          <Badge label={`${crowd.level} crowd right now`} tone={crowdTone(crowd.level)} />
+          <Badge label={`${crowd.level} crowd right now (${Math.round(crowd.crowdScore * 100)}%)`} tone={crowdTone(crowd.level)} />
         </View>
       ) : null}
 

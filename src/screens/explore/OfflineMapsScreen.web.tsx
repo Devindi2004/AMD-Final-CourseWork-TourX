@@ -56,8 +56,9 @@ export default function OfflineMapsScreen() {
       <View style={styles.mapNotice}>
         <Ionicons name="information-circle-outline" size={16} color={colors.textMuted} />
         <Text style={styles.mapNoticeText}>
-          Interactive map view is available on the mobile app (Android/iOS) only. This web build
-          shows the same points of interest and offline-download flow as a list.
+          Interactive map view and the live traffic layer are available on the mobile app
+          (Android/iOS) only. This web build shows the same points of interest and
+          offline-download flow as a list.
         </Text>
       </View>
 

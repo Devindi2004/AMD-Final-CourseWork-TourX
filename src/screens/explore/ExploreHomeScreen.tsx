@@ -13,11 +13,12 @@ const TILES: {
   description: string;
   icon: keyof typeof Ionicons.glyphMap;
 }[] = [
+  { key: 'Gallery', label: 'Gallery', description: 'Photos from across Sri Lanka', icon: 'images' },
   { key: 'HotelList', label: 'Hotels', description: 'Hybrid recommendations', icon: 'bed' },
   { key: 'RestaurantList', label: 'Food', description: 'Local cuisine nearby', icon: 'restaurant' },
   { key: 'Community', label: 'Community', description: 'Reviews & tips', icon: 'people' },
   { key: 'CrowdPrediction', label: 'Crowd Levels', description: 'Plan around busy times', icon: 'bar-chart' },
-  { key: 'OfflineMaps', label: 'Offline Maps', description: 'Download regions', icon: 'map' },
+  { key: 'OfflineMaps', label: 'Live Map', description: 'Traffic, POIs & offline downloads', icon: 'map' },
   { key: 'ArNavigation', label: 'AR Navigate', description: 'Camera-guided wayfinding', icon: 'compass' },
   { key: 'PublicTransport', label: 'Transport', description: 'Bus, train & fares', icon: 'bus' },
   { key: 'LandmarkRecognition', label: 'Scan Landmark', description: 'Identify from a photo', icon: 'camera' },

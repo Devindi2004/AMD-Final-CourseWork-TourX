@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import ScreenContainer from '../../components/ScreenContainer';
@@ -50,7 +50,10 @@ export default function EmergencyContactsScreen() {
               <Text style={styles.name}>{c.contactName}</Text>
               <Text style={styles.meta}>{c.relationship} · {c.contactPhone}</Text>
             </View>
-            <Pressable onPress={() => deleteContact(c.id)}>
+            <Pressable style={styles.callButton} onPress={() => Linking.openURL(`tel:${c.contactPhone}`)}>
+              <Ionicons name="call" size={18} color={colors.textInverse} />
+            </Pressable>
+            <Pressable onPress={() => deleteContact(c.id)} hitSlop={8}>
               <Ionicons name="trash-outline" size={20} color={colors.danger} />
             </Pressable>
           </Card>
@@ -63,7 +66,8 @@ export default function EmergencyContactsScreen() {
 const styles = StyleSheet.create({
   title: { ...typography.h3, color: colors.text, marginBottom: spacing.sm },
   sectionTitle: { ...typography.h3, color: colors.text, marginTop: spacing.lg, marginBottom: spacing.sm },
-  row: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.sm },
+  row: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.sm },
   name: { ...typography.label, color: colors.text },
   meta: { ...typography.caption, color: colors.textMuted },
+  callButton: { width: 34, height: 34, borderRadius: 17, backgroundColor: colors.success, alignItems: 'center', justifyContent: 'center' },
 });

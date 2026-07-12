@@ -41,6 +41,7 @@ server/.env
 # mock server
 server/server.log
 server/db.json.bak
+server/uploads/
 
 # typescript
 *.tsbuildinfo

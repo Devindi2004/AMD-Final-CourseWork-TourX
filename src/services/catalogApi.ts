@@ -2,6 +2,7 @@ import { apiSlice } from './apiSlice';
 import type { Hotel, PointOfInterest, Restaurant, Review } from '../types';
 
 export const catalogApi = apiSlice.injectEndpoints({
+  overrideExisting: __DEV__,
   endpoints: (builder) => ({
     getHotels: builder.query<Hotel[], { city?: string; priceRange?: string } | void>({
       query: (filters) => {

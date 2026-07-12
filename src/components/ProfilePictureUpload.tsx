@@ -3,7 +3,7 @@ import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors } from '../constants/theme';
-import { useGetUploadSignatureMutation } from '../services/apiSlice';
+import { useGetUploadSignatureMutation, useUploadImageLocallyMutation } from '../services/apiSlice';
 import { uploadImageToCloudinary } from '../utils/cloudinaryUpload';
 
 interface ProfilePictureUploadProps {
@@ -14,6 +14,7 @@ interface ProfilePictureUploadProps {
 
 export default function ProfilePictureUpload({ avatarUrl, name, onUploaded }: ProfilePictureUploadProps) {
   const [getUploadSignature] = useGetUploadSignatureMutation();
+  const [uploadImageLocally] = useUploadImageLocallyMutation();
   const [uploading, setUploading] = useState(false);
 
   const pickAndUpload = async (fromCamera: boolean) => {
@@ -23,20 +24,33 @@ export default function ProfilePictureUpload({ avatarUrl, name, onUploaded }: Pr
     if (!permission.granted) return;
 
     const result = fromCamera
-      ? await ImagePicker.launchCameraAsync({ quality: 0.7, allowsEditing: true, aspect: [1, 1] })
+      ? await ImagePicker.launchCameraAsync({ quality: 0.5, allowsEditing: true, aspect: [1, 1], base64: true })
       : await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ['images'],
-          quality: 0.7,
+          quality: 0.5,
           allowsEditing: true,
           aspect: [1, 1],
+          base64: true,
         });
     if (result.canceled || !result.assets[0]) return;
+    const asset = result.assets[0];
 
     setUploading(true);
     try {
-      const signature = await getUploadSignature().unwrap();
-      const secureUrl = await uploadImageToCloudinary(result.assets[0].uri, signature);
-      onUploaded(secureUrl);
+      // Cloudinary is the production path (signed direct-to-Cloudinary upload). If it
+      // isn't configured on this server yet, fall back to saving the photo on our own
+      // server instead, so profile pictures still work with zero third-party setup.
+      try {
+        const signature = await getUploadSignature().unwrap();
+        const secureUrl = await uploadImageToCloudinary(asset.uri, signature);
+        onUploaded(secureUrl);
+      } catch (err: any) {
+        if (err?.data?.code !== 'CLOUDINARY_NOT_CONFIGURED') throw err;
+        if (!asset.base64) throw new Error('Could not read the selected photo.');
+        const mime = asset.mimeType ?? 'image/jpeg';
+        const { url } = await uploadImageLocally({ imageBase64: `data:${mime};base64,${asset.base64}` }).unwrap();
+        onUploaded(url);
+      }
     } catch (err: any) {
       Alert.alert('Upload failed', err?.data?.message || err?.message || 'Could not upload your photo.');
     } finally {

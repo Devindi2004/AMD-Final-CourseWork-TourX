@@ -1,23 +1,32 @@
-require('dotenv').config();
-const path = require('path');
-const fs = require('fs');
-const express = require('express');
-const cors = require('cors');
-const jsonServer = require('json-server');
-const bcrypt = require('bcryptjs');
+require("dotenv").config();
 
-const { requireAuth, requireRole } = require('./middleware/auth');
-const createAuthRouter = require('./routes/auth');
-const createAdminRouter = require('./routes/admin');
-const createUploadsRouter = require('./routes/uploads');
-const { validate, savedItemSchema, bookingCreateSchema, bookingStatusSchema } = require('./lib/validation');
-const { translateText } = require('./lib/translate');
+const express = require("express");
+const path = require("path");
+const fs = require("fs");
+const cors = require("cors");
+const jsonServer = require("json-server");
+const bcrypt = require("bcryptjs");
+
+const { requireAuth, requireRole } = require("./middleware/auth");
+const createAuthRouter = require("./routes/auth");
+const createAdminRouter = require("./routes/admin");
+const createUploadsRouter = require("./routes/uploads");
+const createGalleryRouter = require("./routes/gallery");
+const {
+  validate,
+  savedItemSchema,
+  bookingCreateSchema,
+  bookingStatusSchema,
+} = require("./lib/validation");
+const { translateText } = require("./lib/translate");
+const { askChatbot } = require("./lib/chatbot");
 
 const PORT = process.env.PORT || 4000;
 
 const app = express();
+
 app.use(cors());
-app.use(express.json({ limit: '5mb' }));
+app.use(express.json({ limit: "5mb" }));
 
 const dbPath = path.join(__dirname, 'db.json');
 const router = jsonServer.router(dbPath);
@@ -26,7 +35,6 @@ const db = router.db; // lowdb instance backing db.json
 // ---------- static AI/reference datasets ----------
 const pois = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/pois.json'), 'utf8'));
 const transportRoutes = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/transportRoutes.json'), 'utf8'));
-const chatbotResponses = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/chatbotResponses.json'), 'utf8'));
 
 // ---------- seed demo accounts (one per role) on first run ----------
 function seedDemoData() {
@@ -183,14 +191,119 @@ function seedDemoData() {
 }
 seedDemoData();
 
-['refreshTokens', 'savedItems', 'bookings'].forEach((collection) => {
+['refreshTokens', 'savedItems', 'bookings', 'gallery', 'galleryComments'].forEach((collection) => {
   if (!db.has(collection).value()) db.set(collection, []).write();
 });
+
+// ---------- seed demo gallery items (independent of seedDemoData's user guard,
+// since it can run against a db.json that already has users but no gallery yet) ----------
+function seedGalleryData() {
+  if (db.get('gallery').size().value() > 0) return;
+  const now = new Date().toISOString();
+  const adminId = 'usr-demo-admin';
+  const touristId = 'usr-demo-001';
+
+  const items = [
+    {
+      id: 'gal-demo-001',
+      imageUrl: 'https://images.unsplash.com/photo-1586183189334-3a23d68f0f27?w=1200',
+      title: 'Sigiriya Rock Fortress at Dawn',
+      category: 'Heritage',
+      district: 'Matale',
+      province: 'Central',
+      description: 'The ancient rock fortress rising out of the jungle canopy, best seen before the crowds arrive.',
+      lat: 7.9570, lng: 80.7603,
+      photographer: 'TourX Admin',
+      tags: ['Heritage', 'Sunrise', 'UNESCO'],
+      entryFee: 'paid', familyFriendly: true,
+      rating: 4.8, views: 132, downloads: 4, likedBy: [touristId],
+      status: 'approved', aiDescription: null,
+      createdBy: adminId, createdAt: now, updatedAt: now,
+    },
+    {
+      id: 'gal-demo-002',
+      imageUrl: 'https://images.unsplash.com/photo-1546484475-7f7bd55792da?w=1200',
+      title: 'Mirissa Whale Watching Sunrise',
+      category: 'Beaches',
+      district: 'Matara',
+      province: 'Southern',
+      description: 'Fishing boats heading out past Mirissa\'s golden coastline at first light.',
+      lat: 5.9483, lng: 80.4589,
+      photographer: 'TourX Admin',
+      tags: ['Beach', 'Sunrise', 'Whales'],
+      entryFee: 'free', familyFriendly: true,
+      rating: 4.6, views: 98, downloads: 2, likedBy: [],
+      status: 'approved', aiDescription: null,
+      createdBy: adminId, createdAt: now, updatedAt: now,
+    },
+    {
+      id: 'gal-demo-003',
+      imageUrl: 'https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=1200',
+      title: 'Nine Arches Bridge, Ella',
+      category: 'Adventure',
+      district: 'Badulla',
+      province: 'Uva',
+      description: 'The iconic colonial-era railway bridge threading through Ella\'s tea country.',
+      lat: 6.8781, lng: 81.0578,
+      photographer: 'Kasun Silva',
+      tags: ['Adventure', 'Train', 'Nature'],
+      entryFee: 'free', familyFriendly: true,
+      rating: 4.9, views: 210, downloads: 9, likedBy: [touristId, adminId],
+      status: 'approved', aiDescription: null,
+      createdBy: 'usr-demo-guide', createdAt: now, updatedAt: now,
+    },
+    {
+      id: 'gal-demo-004',
+      imageUrl: 'https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=1200',
+      title: 'Yala National Park Leopard',
+      category: 'Wildlife',
+      district: 'Hambantota',
+      province: 'Southern',
+      description: 'A Sri Lankan leopard resting on a rock outcrop during an early morning safari.',
+      lat: 6.3728, lng: 81.5183,
+      photographer: 'TourX Admin',
+      tags: ['Wildlife', 'Safari', 'Leopard'],
+      entryFee: 'paid', familyFriendly: true,
+      rating: 4.7, views: 76, downloads: 1, likedBy: [],
+      status: 'approved', aiDescription: null,
+      createdBy: adminId, createdAt: now, updatedAt: now,
+    },
+    {
+      id: 'gal-demo-005',
+      imageUrl: 'https://images.unsplash.com/photo-1596302713037-a3b6b6c5c9e3?w=1200',
+      title: 'Temple of the Sacred Tooth Relic, Kandy',
+      category: 'Religious Places',
+      district: 'Kandy',
+      province: 'Central',
+      description: 'The golden roof of Sri Dalada Maligawa reflecting over Kandy Lake.',
+      lat: 7.2936, lng: 80.6413,
+      photographer: 'Amara Fernando',
+      tags: ['Temple', 'Culture', 'Kandy'],
+      entryFee: 'paid', familyFriendly: true,
+      rating: 4.5, views: 54, downloads: 0, likedBy: [],
+      status: 'pending', aiDescription: null,
+      createdBy: touristId, createdAt: now, updatedAt: now,
+    },
+  ];
+  db.get('gallery').push(...items).write();
+
+  db.get('galleryComments')
+    .push(
+      { id: 'gcm-demo-001', galleryId: 'gal-demo-003', userId: adminId, userName: 'TourX Admin', text: 'One of the best photo spots on the island!', parentCommentId: null, likedBy: [touristId], status: 'visible', createdAt: now },
+      { id: 'gcm-demo-002', galleryId: 'gal-demo-003', userId: touristId, userName: 'Devindi Perera', text: 'Agreed, the morning train timing is around 9:30am.', parentCommentId: 'gcm-demo-001', likedBy: [], status: 'visible', createdAt: now }
+    )
+    .write();
+}
+seedGalleryData();
 
 // ================= AUTH, ADMIN & UPLOADS =================
 app.use('/auth', createAuthRouter(db));
 app.use('/admin', createAdminRouter(db));
 app.use('/uploads', createUploadsRouter());
+// Serves files saved by the /uploads/local fallback route above (falls through
+// from the router when a request doesn't match /signature or /local).
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/gallery', createGalleryRouter(db));
 
 // ================= POINTS OF INTEREST =================
 app.get('/pois', (req, res) => {
@@ -312,15 +425,24 @@ app.post('/ai/itinerary', (req, res) => {
   }, 900);
 });
 
-// ================= AI CHATBOT =================
-app.post('/ai/chatbot', (req, res) => {
-  const { message } = req.body || {};
-  const text = String(message || '').toLowerCase();
-  const match = chatbotResponses.find((r) => r.keywords.some((k) => text.includes(k)));
-  const reply = match
-    ? match.reply
-    : "I'm not sure about that yet, but you can ask me about itineraries, offline maps, safety, weather, food, hotels, crowds, or transport.";
-  setTimeout(() => res.json({ reply, simulated: true }), 400);
+// ================= AI CHATBOT (rule-based, no external API key needed) =================
+app.post('/ai/chatbot', async (req, res) => {
+  const { message, history } = req.body || {};
+  if (!message || !String(message).trim()) return res.status(400).json({ message: 'message is required' });
+
+  const safeHistory = Array.isArray(history)
+    ? history
+        .filter((turn) => turn && (turn.role === 'user' || turn.role === 'assistant') && typeof turn.text === 'string')
+        .map((turn) => ({ role: turn.role, text: turn.text }))
+    : [];
+
+  try {
+    const reply = await askChatbot(String(message), safeHistory);
+    res.json({ reply });
+  } catch (err) {
+    const status = err.code === 'ANTHROPIC_NOT_CONFIGURED' ? 501 : 502;
+    res.status(status).json({ message: err.message, code: err.code || 'CHATBOT_FAILED' });
+  }
 });
 
 // ================= AI TRANSLATOR (real, Claude Haiku 4.5, auto-detects source language) =================

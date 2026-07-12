@@ -1,6 +1,7 @@
 import { apiSlice } from './apiSlice';
 import type {
   BudgetTier,
+  ChatbotHistoryTurn,
   ChatbotReply,
   GeneratedItinerary,
   LandmarkRecognitionResult,
@@ -8,6 +9,7 @@ import type {
 } from '../types';
 
 export const aiApi = apiSlice.injectEndpoints({
+  overrideExisting: __DEV__,
   endpoints: (builder) => ({
     generateItinerary: builder.mutation<
       GeneratedItinerary,
@@ -21,7 +23,7 @@ export const aiApi = apiSlice.injectEndpoints({
     >({
       query: (body) => ({ url: '/ai/landmark-recognition', method: 'POST', body }),
     }),
-    askChatbot: builder.mutation<ChatbotReply, { message: string }>({
+    askChatbot: builder.mutation<ChatbotReply, { message: string; history?: ChatbotHistoryTurn[] }>({
       query: (body) => ({ url: '/ai/chatbot', method: 'POST', body }),
     }),
     translateText: builder.mutation<TranslationResult, { text: string; targetLanguage: string }>({

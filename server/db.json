@@ -181,7 +181,7 @@
       "homeCountry": "Sri lanka",
       "phone": "",
       "language": "en",
-      "avatarUrl": null,
+      "avatarUrl": "http://172.20.10.3:4000/uploads/avatars/usr-1783573800532/1783584714987.jpg",
       "preferences": {
         "interests": [],
         "budgetTier": "mid"
@@ -193,6 +193,36 @@
         "promotional": false
       },
       "createdAt": "2026-07-09T05:10:00.547Z"
+    },
+    {
+      "id": "usr-1783586012535",
+      "name": "Test Traveller",
+      "email": "test.traveller.1783586012@example.com",
+      "password": "$2a$08$IF5vWtH3iomkPsbTqMYpk.nTsWwQ1bENlnQrIjBjFCOZjeXL4h0Em",
+      "role": "tourist",
+      "authProvider": "local",
+      "googleId": null,
+      "isEmailVerified": true,
+      "emailVerificationCode": null,
+      "emailVerificationExpiry": null,
+      "passwordResetCode": null,
+      "passwordResetExpiry": null,
+      "homeCountry": "United Kingdom",
+      "homeTown": "London",
+      "phone": "",
+      "language": "si",
+      "avatarUrl": null,
+      "preferences": {
+        "interests": [],
+        "budgetTier": "mid"
+      },
+      "notificationSettings": {
+        "crowdAlerts": true,
+        "weatherAlerts": true,
+        "tripReminders": true,
+        "promotional": false
+      },
+      "createdAt": "2026-07-09T08:33:32.556Z"
     }
   ],
   "refreshTokens": [
@@ -218,6 +248,270 @@
       "tokenHash": "0cc21f2d8cac289d15dd994404ea6fdd61a0777de6d5910a7d71e846a62fa5a2",
       "createdAt": "2026-07-09T05:30:56.992Z",
       "expiresAt": "2026-08-08T05:30:56.992Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783580250607-j9npr7",
+      "userId": "usr-1783573800532",
+      "tokenHash": "fcca3afebfa202fc5f719ef8fac9bffa40c67d7dfbe5466c2981ad0b45375bd4",
+      "createdAt": "2026-07-09T06:57:30.607Z",
+      "expiresAt": "2026-08-08T06:57:30.607Z",
+      "revokedAt": "2026-07-09T07:21:19.545Z"
+    },
+    {
+      "id": "rft-1783581679547-w37e2c",
+      "userId": "usr-1783573800532",
+      "tokenHash": "54013b5665ed1c8c6be7b54331d9220ec53c5c881045fb87cf1283cea762cfa0",
+      "createdAt": "2026-07-09T07:21:19.547Z",
+      "expiresAt": "2026-08-08T07:21:19.547Z",
+      "revokedAt": "2026-07-09T07:43:02.082Z"
+    },
+    {
+      "id": "rft-1783582835844-8qiy0l",
+      "userId": "usr-demo-001",
+      "tokenHash": "a08ae870cb6fc90d80ff982cb14d6cf302738cfb29ddc7d00ab9365fc641f7d3",
+      "createdAt": "2026-07-09T07:40:35.844Z",
+      "expiresAt": "2026-08-08T07:40:35.844Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783582982085-araupf",
+      "userId": "usr-1783573800532",
+      "tokenHash": "e5a99708c2d6de7d13a1c8d92435f2ac663b7723364f81a49750ed3cd4ccf6b9",
+      "createdAt": "2026-07-09T07:43:02.085Z",
+      "expiresAt": "2026-08-08T07:43:02.085Z",
+      "revokedAt": "2026-07-09T08:05:45.548Z"
+    },
+    {
+      "id": "rft-1783584345552-erlj9u",
+      "userId": "usr-1783573800532",
+      "tokenHash": "5d7f6b9ff5d71d23f27148e85d46ceab33e3c15a2bdc54a67550137af66365a1",
+      "createdAt": "2026-07-09T08:05:45.552Z",
+      "expiresAt": "2026-08-08T08:05:45.552Z",
+      "revokedAt": "2026-07-09T08:35:36.663Z"
+    },
+    {
+      "id": "rft-1783584555215-t45yjr",
+      "userId": "usr-demo-001",
+      "tokenHash": "940265741c36504cb8c570194fb8a80e7a8d026eb4282a4c4954d8a1b45bafcb",
+      "createdAt": "2026-07-09T08:09:15.215Z",
+      "expiresAt": "2026-08-08T08:09:15.216Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783586012916-991h7b",
+      "userId": "usr-1783586012535",
+      "tokenHash": "227ba9172d63f17ad60978f558fa0774ea2b7a8e4ec76f71387449474aa4ed8c",
+      "createdAt": "2026-07-09T08:33:32.916Z",
+      "expiresAt": "2026-08-08T08:33:32.916Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783586027532-9vo0d9",
+      "userId": "usr-1783586012535",
+      "tokenHash": "7314f5be7d663b6f9a699aaa2f7f1044483b455f7fcb3b0bcbaa96a63ba5b1f2",
+      "createdAt": "2026-07-09T08:33:47.532Z",
+      "expiresAt": "2026-08-08T08:33:47.532Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783586136665-sv310m",
+      "userId": "usr-1783573800532",
+      "tokenHash": "fb231efe0ad0d8871a0670567bd130043013d5cec11f85a1b8fa5a7931ede378",
+      "createdAt": "2026-07-09T08:35:36.665Z",
+      "expiresAt": "2026-08-08T08:35:36.665Z",
+      "revokedAt": "2026-07-11T06:10:37.677Z"
+    },
+    {
+      "id": "rft-1783750237689-72z51t",
+      "userId": "usr-1783573800532",
+      "tokenHash": "e2078fcf1c64e1aa3ad831aedcb80e4151c37e55de459406cdc0572b939e5356",
+      "createdAt": "2026-07-11T06:10:37.689Z",
+      "expiresAt": "2026-08-10T06:10:37.689Z",
+      "revokedAt": "2026-07-11T06:25:42.218Z"
+    },
+    {
+      "id": "rft-1783751142224-6fbxia",
+      "userId": "usr-1783573800532",
+      "tokenHash": "5fc3faa3a1c60c28c4427ddcb490c223d28958ae67f307775658e5ed2878d57a",
+      "createdAt": "2026-07-11T06:25:42.226Z",
+      "expiresAt": "2026-08-10T06:25:42.226Z",
+      "revokedAt": "2026-07-11T06:58:57.647Z"
+    },
+    {
+      "id": "rft-1783753137651-f2e2bh",
+      "userId": "usr-1783573800532",
+      "tokenHash": "4a472908a8aed0664c691a9a1e19bc796d52d5a44ba2d5db5ed9509fcf4f2cec",
+      "createdAt": "2026-07-11T06:58:57.651Z",
+      "expiresAt": "2026-08-10T06:58:57.651Z",
+      "revokedAt": "2026-07-11T08:47:26.712Z"
+    },
+    {
+      "id": "rft-1783757067735-ratnxb",
+      "userId": "usr-demo-001",
+      "tokenHash": "c6e09de0ef93e6fa25535f130a3cec7657028744f8186d901671dc17a5a5dc5f",
+      "createdAt": "2026-07-11T08:04:27.735Z",
+      "expiresAt": "2026-08-10T08:04:27.735Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783759646721-zo5sk6",
+      "userId": "usr-1783573800532",
+      "tokenHash": "b749087473ffc4b4174fa1ccf7807a48e110ffc14d01a6b5d5428673d47118a2",
+      "createdAt": "2026-07-11T08:47:26.722Z",
+      "expiresAt": "2026-08-10T08:47:26.722Z",
+      "revokedAt": "2026-07-11T09:15:36.779Z"
+    },
+    {
+      "id": "rft-1783761336791-0sgyv2",
+      "userId": "usr-1783573800532",
+      "tokenHash": "2d266798babfb54ff89f82f6f1788d7eebe0dc56c135cdd91b159e9b5e10103f",
+      "createdAt": "2026-07-11T09:15:36.791Z",
+      "expiresAt": "2026-08-10T09:15:36.791Z",
+      "revokedAt": "2026-07-11T10:04:49.969Z"
+    },
+    {
+      "id": "rft-1783764289973-d5xuwg",
+      "userId": "usr-1783573800532",
+      "tokenHash": "7cae4a21c59cf2c4c30977eb7ff46e76e38004515a7089f26f74c43cbe1e3b76",
+      "createdAt": "2026-07-11T10:04:49.973Z",
+      "expiresAt": "2026-08-10T10:04:49.973Z",
+      "revokedAt": "2026-07-12T03:22:55.036Z"
+    },
+    {
+      "id": "rft-1783826575050-ydvpl3",
+      "userId": "usr-1783573800532",
+      "tokenHash": "16b286ba9562321c1ca59397c7673d5206d4df492b5eb1c9cf668e73af0466d0",
+      "createdAt": "2026-07-12T03:22:55.051Z",
+      "expiresAt": "2026-08-11T03:22:55.051Z",
+      "revokedAt": "2026-07-12T03:41:53.783Z"
+    },
+    {
+      "id": "rft-1783827713792-gacpsl",
+      "userId": "usr-1783573800532",
+      "tokenHash": "0e5809cfbb1a8a7eb9c21da18b04bfd00a5a61b61adb1d3fc9e010a4295bc888",
+      "createdAt": "2026-07-12T03:41:53.792Z",
+      "expiresAt": "2026-08-11T03:41:53.792Z",
+      "revokedAt": "2026-07-12T04:50:56.734Z"
+    },
+    {
+      "id": "rft-1783829898500-qr1bw6",
+      "userId": "usr-demo-001",
+      "tokenHash": "d0e4967e4a415201b043012daae21dc56997123f76d8786ed141d26f05fa02e7",
+      "createdAt": "2026-07-12T04:18:18.500Z",
+      "expiresAt": "2026-08-11T04:18:18.500Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783829898696-1wjd68",
+      "userId": "usr-demo-admin",
+      "tokenHash": "4a3690152bfcacd89b453d0fde5f943ead4c58fa1dbf7dc89b6349f775b00dfb",
+      "createdAt": "2026-07-12T04:18:18.696Z",
+      "expiresAt": "2026-08-11T04:18:18.696Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783830922958-pall8z",
+      "userId": "usr-demo-001",
+      "tokenHash": "eb0b34649756f807d738a3866216de8829922a7b63c2f9b00bec180df17e68e9",
+      "createdAt": "2026-07-12T04:35:22.958Z",
+      "expiresAt": "2026-08-11T04:35:22.958Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783830982348-6nwme2",
+      "userId": "usr-demo-001",
+      "tokenHash": "4a1569b871e8dbececde8eb3dbd40cd0bf134b1ffdf43d14ddcd587d0bd6866b",
+      "createdAt": "2026-07-12T04:36:22.349Z",
+      "expiresAt": "2026-08-11T04:36:22.349Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783831029362-295uy4",
+      "userId": "usr-demo-001",
+      "tokenHash": "1011ee0f96c53885dcd1bb349baba68d459ca6021ebb503256b49402c663314c",
+      "createdAt": "2026-07-12T04:37:09.362Z",
+      "expiresAt": "2026-08-11T04:37:09.362Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783831101715-ry1w65",
+      "userId": "usr-demo-001",
+      "tokenHash": "683320345475f66237fd6e8d3c0013c2c4527de304bae0f2af81a4058f1cc9ba",
+      "createdAt": "2026-07-12T04:38:21.716Z",
+      "expiresAt": "2026-08-11T04:38:21.716Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783831227499-326ytq",
+      "userId": "usr-demo-001",
+      "tokenHash": "e27037b640cddd047ecbaa8bd7756136ce89ccd8366fc10e8314a099a128a8cb",
+      "createdAt": "2026-07-12T04:40:27.500Z",
+      "expiresAt": "2026-08-11T04:40:27.500Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783831302319-s6czxw",
+      "userId": "usr-demo-001",
+      "tokenHash": "50bc7812b87e0afa1610c68554e268e8683c7bce736a4c44817267e44ef9b790",
+      "createdAt": "2026-07-12T04:41:42.319Z",
+      "expiresAt": "2026-08-11T04:41:42.319Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783831355867-p8t3il",
+      "userId": "usr-demo-001",
+      "tokenHash": "bc2507d7aedf304459192aaca9b95b5d6b0a266c569d0ccbab4df59a3ac64870",
+      "createdAt": "2026-07-12T04:42:35.867Z",
+      "expiresAt": "2026-08-11T04:42:35.867Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783831456735-t67h25",
+      "userId": "usr-demo-001",
+      "tokenHash": "6dd953251ca3e899f4c51a321a861df625eeef1ee403934613501026a3c8f4da",
+      "createdAt": "2026-07-12T04:44:16.737Z",
+      "expiresAt": "2026-08-11T04:44:16.737Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783831570388-fczabj",
+      "userId": "usr-demo-001",
+      "tokenHash": "c68921b9f847d8e29c756596ffe36a719a8090deb2dff1aaf311474a28477e91",
+      "createdAt": "2026-07-12T04:46:10.388Z",
+      "expiresAt": "2026-08-11T04:46:10.388Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783831675877-8mwc68",
+      "userId": "usr-demo-001",
+      "tokenHash": "5a2118cf5dc6310f8cf029559a126570d250d3d56083b450f2d0422292dbe96d",
+      "createdAt": "2026-07-12T04:47:55.877Z",
+      "expiresAt": "2026-08-11T04:47:55.877Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783831741388-dngfm4",
+      "userId": "usr-demo-admin",
+      "tokenHash": "539aa9a7adeeef4ff0ca0df45d47ef6f9bdecd2ed17ea934a649ade500db6496",
+      "createdAt": "2026-07-12T04:49:01.388Z",
+      "expiresAt": "2026-08-11T04:49:01.388Z",
+      "revokedAt": null
+    },
+    {
+      "id": "rft-1783831856739-2xdzi7",
+      "userId": "usr-1783573800532",
+      "tokenHash": "dc65684bf4aeb4d05d3ba3afca7ae92135b31ca747f5e95af26af85dd73ba78f",
+      "createdAt": "2026-07-12T04:50:56.739Z",
+      "expiresAt": "2026-08-11T04:50:56.739Z",
+      "revokedAt": "2026-07-12T05:17:34.437Z"
+    },
+    {
+      "id": "rft-1783833454451-q9nig6",
+      "userId": "usr-1783573800532",
+      "tokenHash": "cddfa9af265d78bf888f160e69adfcc500aeebbcfc8be5110637b46ae6b1f396",
+      "createdAt": "2026-07-12T05:17:34.451Z",
+      "expiresAt": "2026-08-11T05:17:34.451Z",
       "revokedAt": null
     }
   ],
@@ -263,6 +557,47 @@
       ],
       "status": "planned",
       "createdAt": "2026-07-09T05:03:13.429Z"
+    },
+    {
+      "title": "Galle Trip",
+      "destination": "Galle",
+      "startDate": "2026-07-30",
+      "endDate": "2026-08-02",
+      "budgetUsd": 100,
+      "transportModes": [
+        "bicycle"
+      ],
+      "userId": "usr-1783573800532",
+      "itineraryItems": [
+        {
+          "day": 1,
+          "time": "09:00",
+          "poiId": "custom",
+          "name": "Visit galle fort",
+          "activity": "Visit galle fort",
+          "estimatedCostUsd": 20
+        }
+      ],
+      "ecoScore": 68,
+      "status": "planned",
+      "createdAt": "2026-07-09T07:21:19.909Z",
+      "id": "kBKHtHo"
+    },
+    {
+      "title": "Jaffna trip",
+      "destination": "Jaffna",
+      "startDate": "2026-07-11",
+      "endDate": "2026-07-12",
+      "budgetUsd": 150,
+      "transportModes": [
+        "train"
+      ],
+      "userId": "usr-1783573800532",
+      "itineraryItems": [],
+      "ecoScore": null,
+      "status": "planned",
+      "createdAt": "2026-07-11T06:13:39.728Z",
+      "id": "2Aw8cmv"
     }
   ],
   "hotels": [
@@ -285,6 +620,45 @@
       "tags": [
         "culture",
         "romantic"
+      ],
+      "roomTypes": [
+        {
+          "id": "htl-001-standard",
+          "name": "Standard Room",
+          "pricePerNightUsd": 55,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Daily Housekeeping"
+          ]
+        },
+        {
+          "id": "htl-001-deluxe",
+          "name": "Deluxe Room",
+          "pricePerNightUsd": 74,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Premium Bedding",
+            "Breakfast Included",
+            "Lake View"
+          ]
+        },
+        {
+          "id": "htl-001-suite",
+          "name": "Family Suite",
+          "pricePerNightUsd": 99,
+          "capacity": 4,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Separate Living Area",
+            "Extra Beds",
+            "Breakfast Included",
+            "Lake View"
+          ]
+        }
       ]
     },
     {
@@ -307,6 +681,47 @@
       "tags": [
         "nature",
         "romantic"
+      ],
+      "roomTypes": [
+        {
+          "id": "htl-002-standard",
+          "name": "Standard Room",
+          "pricePerNightUsd": 120,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Daily Housekeeping"
+          ]
+        },
+        {
+          "id": "htl-002-deluxe",
+          "name": "Deluxe Room",
+          "pricePerNightUsd": 162,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Premium Bedding",
+            "Pool Access",
+            "Breakfast Included",
+            "Rock View"
+          ]
+        },
+        {
+          "id": "htl-002-suite",
+          "name": "Family Suite",
+          "pricePerNightUsd": 216,
+          "capacity": 4,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Separate Living Area",
+            "Extra Beds",
+            "Pool Access",
+            "Breakfast Included",
+            "Rock View"
+          ]
+        }
       ]
     },
     {
@@ -328,6 +743,45 @@
       "tags": [
         "backpacker",
         "social"
+      ],
+      "roomTypes": [
+        {
+          "id": "htl-003-standard",
+          "name": "Standard Room",
+          "pricePerNightUsd": 18,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Daily Housekeeping"
+          ]
+        },
+        {
+          "id": "htl-003-deluxe",
+          "name": "Deluxe Room",
+          "pricePerNightUsd": 24,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Premium Bedding",
+            "Shared Kitchen",
+            "Mountain View"
+          ]
+        },
+        {
+          "id": "htl-003-suite",
+          "name": "Family Suite",
+          "pricePerNightUsd": 32,
+          "capacity": 4,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Separate Living Area",
+            "Extra Beds",
+            "Shared Kitchen",
+            "Mountain View"
+          ]
+        }
       ]
     },
     {
@@ -350,6 +804,45 @@
       "tags": [
         "heritage",
         "romantic"
+      ],
+      "roomTypes": [
+        {
+          "id": "htl-004-standard",
+          "name": "Standard Room",
+          "pricePerNightUsd": 140,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Daily Housekeeping"
+          ]
+        },
+        {
+          "id": "htl-004-deluxe",
+          "name": "Deluxe Room",
+          "pricePerNightUsd": 189,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Premium Bedding",
+            "Pool Access",
+            "Breakfast Included"
+          ]
+        },
+        {
+          "id": "htl-004-suite",
+          "name": "Family Suite",
+          "pricePerNightUsd": 252,
+          "capacity": 4,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Separate Living Area",
+            "Extra Beds",
+            "Pool Access",
+            "Breakfast Included"
+          ]
+        }
       ]
     },
     {
@@ -372,6 +865,45 @@
       "tags": [
         "business",
         "family"
+      ],
+      "roomTypes": [
+        {
+          "id": "htl-005-standard",
+          "name": "Standard Room",
+          "pricePerNightUsd": 48,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Daily Housekeeping"
+          ]
+        },
+        {
+          "id": "htl-005-deluxe",
+          "name": "Deluxe Room",
+          "pricePerNightUsd": 65,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Premium Bedding",
+            "Gym Access",
+            "Breakfast Included"
+          ]
+        },
+        {
+          "id": "htl-005-suite",
+          "name": "Family Suite",
+          "pricePerNightUsd": 86,
+          "capacity": 4,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Separate Living Area",
+            "Extra Beds",
+            "Gym Access",
+            "Breakfast Included"
+          ]
+        }
       ]
     },
     {
@@ -393,6 +925,45 @@
       "tags": [
         "beach",
         "surf"
+      ],
+      "roomTypes": [
+        {
+          "id": "htl-006-standard",
+          "name": "Standard Room",
+          "pricePerNightUsd": 45,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Daily Housekeeping"
+          ]
+        },
+        {
+          "id": "htl-006-deluxe",
+          "name": "Deluxe Room",
+          "pricePerNightUsd": 61,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Premium Bedding",
+            "Beach Access",
+            "Breakfast Included"
+          ]
+        },
+        {
+          "id": "htl-006-suite",
+          "name": "Family Suite",
+          "pricePerNightUsd": 81,
+          "capacity": 4,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Separate Living Area",
+            "Extra Beds",
+            "Beach Access",
+            "Breakfast Included"
+          ]
+        }
       ]
     },
     {
@@ -415,6 +986,47 @@
       "tags": [
         "colonial",
         "family"
+      ],
+      "roomTypes": [
+        {
+          "id": "htl-007-standard",
+          "name": "Standard Room",
+          "pricePerNightUsd": 95,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Daily Housekeeping"
+          ]
+        },
+        {
+          "id": "htl-007-deluxe",
+          "name": "Deluxe Room",
+          "pricePerNightUsd": 128,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Premium Bedding",
+            "Fireplace",
+            "Breakfast Included",
+            "Tea Estate Tour"
+          ]
+        },
+        {
+          "id": "htl-007-suite",
+          "name": "Family Suite",
+          "pricePerNightUsd": 171,
+          "capacity": 4,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Separate Living Area",
+            "Extra Beds",
+            "Fireplace",
+            "Breakfast Included",
+            "Tea Estate Tour"
+          ]
+        }
       ]
     },
     {
@@ -435,6 +1047,43 @@
       "tags": [
         "heritage",
         "budget"
+      ],
+      "roomTypes": [
+        {
+          "id": "htl-008-standard",
+          "name": "Standard Room",
+          "pricePerNightUsd": 22,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Daily Housekeeping"
+          ]
+        },
+        {
+          "id": "htl-008-deluxe",
+          "name": "Deluxe Room",
+          "pricePerNightUsd": 30,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Premium Bedding",
+            "Bicycle Rental"
+          ]
+        },
+        {
+          "id": "htl-008-suite",
+          "name": "Family Suite",
+          "pricePerNightUsd": 40,
+          "capacity": 4,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Separate Living Area",
+            "Extra Beds",
+            "Bicycle Rental"
+          ]
+        }
       ]
     },
     {
@@ -456,6 +1105,45 @@
       "tags": [
         "wildlife",
         "luxury"
+      ],
+      "roomTypes": [
+        {
+          "id": "htl-009-standard",
+          "name": "Standard Room",
+          "pricePerNightUsd": 160,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Daily Housekeeping"
+          ]
+        },
+        {
+          "id": "htl-009-deluxe",
+          "name": "Deluxe Room",
+          "pricePerNightUsd": 216,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Premium Bedding",
+            "Guided Safari Tours",
+            "All Meals Included"
+          ]
+        },
+        {
+          "id": "htl-009-suite",
+          "name": "Family Suite",
+          "pricePerNightUsd": 288,
+          "capacity": 4,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Separate Living Area",
+            "Extra Beds",
+            "Guided Safari Tours",
+            "All Meals Included"
+          ]
+        }
       ]
     },
     {
@@ -476,6 +1164,43 @@
       "tags": [
         "local",
         "quiet"
+      ],
+      "roomTypes": [
+        {
+          "id": "htl-010-standard",
+          "name": "Standard Room",
+          "pricePerNightUsd": 25,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Daily Housekeeping"
+          ]
+        },
+        {
+          "id": "htl-010-deluxe",
+          "name": "Deluxe Room",
+          "pricePerNightUsd": 34,
+          "capacity": 2,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Premium Bedding",
+            "Breakfast Included"
+          ]
+        },
+        {
+          "id": "htl-010-suite",
+          "name": "Family Suite",
+          "pricePerNightUsd": 45,
+          "capacity": 4,
+          "features": [
+            "Free Wifi",
+            "Air Conditioning",
+            "Separate Living Area",
+            "Extra Beds",
+            "Breakfast Included"
+          ]
+        }
       ]
     }
   ],
@@ -738,6 +1463,20 @@
       "contactName": "Nimal Perera",
       "contactPhone": "+94 71 234 5678",
       "relationship": "Brother"
+    },
+    {
+      "id": "ecn-1783586012558",
+      "userId": "usr-1783586012535",
+      "contactName": "Mother",
+      "contactPhone": "+94711234567",
+      "relationship": "Family"
+    },
+    {
+      "userId": "usr-1783573800532",
+      "contactName": "Haahi",
+      "contactPhone": "0764749837",
+      "relationship": "Akka",
+      "id": "KNQEevR"
     }
   ],
   "notifications": [
@@ -764,6 +1503,14 @@
       "isRead": false,
       "createdAt": "2026-07-09T05:26:28.169Z",
       "id": "FweQQIs"
+    },
+    {
+      "userId": "usr-1783573800532",
+      "type": "sos",
+      "message": "SOS alert prepared for: Haahi.",
+      "isRead": false,
+      "createdAt": "2026-07-09T08:37:08.236Z",
+      "id": "K9bsS_Y"
     }
   ],
   "savedItems": [
@@ -790,6 +1537,14 @@
       "targetId": "poi-002",
       "listType": "saved_place",
       "createdAt": "2026-07-09T05:03:13.429Z"
+    },
+    {
+      "targetType": "gallery",
+      "targetId": "gal-demo-001",
+      "listType": "favorite",
+      "userId": "usr-demo-001",
+      "createdAt": "2026-07-12T04:18:20.223Z",
+      "id": "NDijfxi"
     }
   ],
   "bookings": [
@@ -807,6 +1562,294 @@
       "totalEstimateUsd": 240,
       "notes": "Anniversary trip — requested a rock-view room.",
       "createdAt": "2026-07-09T05:03:13.429Z"
+    },
+    {
+      "targetType": "hotel",
+      "targetId": "htl-001",
+      "targetName": "Kandy Hill Retreat",
+      "startDate": "2026-08-01",
+      "endDate": "2026-08-04",
+      "partySize": 2,
+      "notes": "",
+      "totalEstimateUsd": 222,
+      "roomTypeName": "Deluxe Room",
+      "roomFeatures": [
+        "Free Wifi",
+        "Air Conditioning",
+        "Premium Bedding",
+        "Breakfast Included",
+        "Lake View"
+      ],
+      "userId": "usr-demo-001",
+      "status": "confirmed",
+      "createdAt": "2026-07-09T07:40:35.920Z",
+      "id": "jm8lxR5"
+    },
+    {
+      "targetType": "hotel",
+      "targetId": "htl-004",
+      "targetName": "Galle Fort Boutique Villa",
+      "startDate": "2026-07-31",
+      "endDate": "2026-08-02",
+      "time": null,
+      "partySize": 2,
+      "notes": "",
+      "totalEstimateUsd": 378,
+      "roomTypeName": "Deluxe Room",
+      "roomFeatures": [
+        "Free Wifi",
+        "Air Conditioning",
+        "Premium Bedding",
+        "Pool Access",
+        "Breakfast Included"
+      ],
+      "userId": "usr-1783573800532",
+      "status": "cancelled",
+      "createdAt": "2026-07-09T07:43:02.137Z",
+      "id": "Ffdwugb"
+    },
+    {
+      "targetType": "hotel",
+      "targetId": "htl-004",
+      "targetName": "Galle Fort Boutique Villa",
+      "startDate": "2026-07-31",
+      "endDate": "2026-08-02",
+      "time": null,
+      "partySize": 2,
+      "notes": "",
+      "totalEstimateUsd": 378,
+      "roomTypeName": "Deluxe Room",
+      "roomFeatures": [
+        "Free Wifi",
+        "Air Conditioning",
+        "Premium Bedding",
+        "Pool Access",
+        "Breakfast Included"
+      ],
+      "userId": "usr-1783573800532",
+      "status": "confirmed",
+      "createdAt": "2026-07-09T07:43:12.855Z",
+      "id": "3bFmhXy"
+    },
+    {
+      "targetType": "restaurant",
+      "targetId": "res-001",
+      "targetName": "Devon Falls Kitchen",
+      "startDate": "2026-07-31",
+      "endDate": null,
+      "time": "19:00",
+      "partySize": 2,
+      "notes": "",
+      "totalEstimateUsd": 0,
+      "roomTypeName": null,
+      "roomFeatures": [],
+      "userId": "usr-1783573800532",
+      "status": "confirmed",
+      "createdAt": "2026-07-09T07:44:23.554Z",
+      "id": "o0jlcVy"
+    },
+    {
+      "targetType": "restaurant",
+      "targetId": "res-001",
+      "targetName": "Devon Falls Kitchen",
+      "startDate": "2026-08-02",
+      "endDate": null,
+      "time": "19:00",
+      "partySize": 2,
+      "notes": "",
+      "totalEstimateUsd": 0,
+      "roomTypeName": null,
+      "roomFeatures": [],
+      "userId": "usr-1783573800532",
+      "status": "confirmed",
+      "createdAt": "2026-07-09T07:47:32.192Z",
+      "id": "48zoq-a"
+    }
+  ],
+  "gallery": [
+    {
+      "id": "gal-demo-001",
+      "imageUrl": "https://images.unsplash.com/photo-1586183189334-3a23d68f0f27?w=1200",
+      "title": "Sigiriya Rock Fortress at Dawn",
+      "category": "Heritage",
+      "district": "Matale",
+      "province": "Central",
+      "description": "The ancient rock fortress rising out of the jungle canopy, best seen before the crowds arrive.",
+      "lat": 7.957,
+      "lng": 80.7603,
+      "photographer": "TourX Admin",
+      "tags": [
+        "Heritage",
+        "Sunrise",
+        "UNESCO"
+      ],
+      "entryFee": "paid",
+      "familyFriendly": true,
+      "rating": 4.8,
+      "views": 132,
+      "downloads": 4,
+      "likedBy": [
+        "usr-demo-001"
+      ],
+      "status": "approved",
+      "aiDescription": null,
+      "createdBy": "usr-demo-admin",
+      "createdAt": "2026-07-12T04:14:04.931Z",
+      "updatedAt": "2026-07-12T04:14:04.931Z"
+    },
+    {
+      "id": "gal-demo-002",
+      "imageUrl": "https://images.unsplash.com/photo-1546484475-7f7bd55792da?w=1200",
+      "title": "Mirissa Whale Watching Sunrise",
+      "category": "Beaches",
+      "district": "Matara",
+      "province": "Southern",
+      "description": "Fishing boats heading out past Mirissa's golden coastline at first light.",
+      "lat": 5.9483,
+      "lng": 80.4589,
+      "photographer": "TourX Admin",
+      "tags": [
+        "Beach",
+        "Sunrise",
+        "Whales"
+      ],
+      "entryFee": "free",
+      "familyFriendly": true,
+      "rating": 4.6,
+      "views": 99,
+      "downloads": 2,
+      "likedBy": [
+        "usr-demo-001"
+      ],
+      "status": "approved",
+      "aiDescription": null,
+      "createdBy": "usr-demo-admin",
+      "createdAt": "2026-07-12T04:14:04.931Z",
+      "updatedAt": "2026-07-12T04:14:04.931Z"
+    },
+    {
+      "id": "gal-demo-003",
+      "imageUrl": "https://images.unsplash.com/photo-1562962230-16e4623d36e6?w=1200",
+      "title": "Nine Arches Bridge, Ella",
+      "category": "Adventure",
+      "district": "Badulla",
+      "province": "Uva",
+      "description": "The iconic colonial-era railway bridge threading through Ella's tea country.",
+      "lat": 6.8781,
+      "lng": 81.0578,
+      "photographer": "Kasun Silva",
+      "tags": [
+        "Adventure",
+        "Train",
+        "Nature"
+      ],
+      "entryFee": "free",
+      "familyFriendly": true,
+      "rating": 4.9,
+      "views": 219,
+      "downloads": 9,
+      "likedBy": [
+        "usr-demo-001",
+        "usr-demo-admin"
+      ],
+      "status": "approved",
+      "aiDescription": null,
+      "createdBy": "usr-demo-guide",
+      "createdAt": "2026-07-12T04:14:04.931Z",
+      "updatedAt": "2026-07-12T04:14:04.931Z"
+    },
+    {
+      "id": "gal-demo-004",
+      "imageUrl": "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=1200",
+      "title": "Yala National Park Leopard",
+      "category": "Wildlife",
+      "district": "Hambantota",
+      "province": "Southern",
+      "description": "A Sri Lankan leopard resting on a rock outcrop during an early morning safari.",
+      "lat": 6.3728,
+      "lng": 81.5183,
+      "photographer": "TourX Admin",
+      "tags": [
+        "Wildlife",
+        "Safari",
+        "Leopard"
+      ],
+      "entryFee": "paid",
+      "familyFriendly": true,
+      "rating": 4.7,
+      "views": 76,
+      "downloads": 1,
+      "likedBy": [],
+      "status": "approved",
+      "aiDescription": null,
+      "createdBy": "usr-demo-admin",
+      "createdAt": "2026-07-12T04:14:04.931Z",
+      "updatedAt": "2026-07-12T04:14:04.931Z"
+    },
+    {
+      "id": "gal-demo-005",
+      "imageUrl": "https://images.unsplash.com/photo-1596302713037-a3b6b6c5c9e3?w=1200",
+      "title": "Temple of the Sacred Tooth Relic, Kandy",
+      "category": "Religious Places",
+      "district": "Kandy",
+      "province": "Central",
+      "description": "The golden roof of Sri Dalada Maligawa reflecting over Kandy Lake.",
+      "lat": 7.2936,
+      "lng": 80.6413,
+      "photographer": "Amara Fernando",
+      "tags": [
+        "Temple",
+        "Culture",
+        "Kandy"
+      ],
+      "entryFee": "paid",
+      "familyFriendly": true,
+      "rating": 4.5,
+      "views": 54,
+      "downloads": 0,
+      "likedBy": [],
+      "status": "approved",
+      "aiDescription": null,
+      "createdBy": "usr-demo-001",
+      "createdAt": "2026-07-12T04:14:04.931Z",
+      "updatedAt": "2026-07-12T04:18:19.916Z"
+    }
+  ],
+  "galleryComments": [
+    {
+      "id": "gcm-demo-001",
+      "galleryId": "gal-demo-003",
+      "userId": "usr-demo-admin",
+      "userName": "TourX Admin",
+      "text": "One of the best photo spots on the island!",
+      "parentCommentId": null,
+      "likedBy": [
+        "usr-demo-001"
+      ],
+      "status": "visible",
+      "createdAt": "2026-07-12T04:14:04.931Z"
+    },
+    {
+      "id": "gcm-demo-002",
+      "galleryId": "gal-demo-003",
+      "userId": "usr-demo-001",
+      "userName": "Devindi Perera",
+      "text": "Agreed, the morning train timing is around 9:30am.",
+      "parentCommentId": "gcm-demo-001",
+      "likedBy": [],
+      "status": "visible",
+      "createdAt": "2026-07-12T04:14:04.931Z"
+    },
+    {
+      "id": "gcm-b9f2105e14f7",
+      "galleryId": "gal-demo-001",
+      "userId": "usr-demo-001",
+      "userName": "Devindi Perera",
+      "text": "Stunning shot!",
+      "parentCommentId": null,
+      "likedBy": [],
+      "status": "visible",
+      "createdAt": "2026-07-12T04:18:19.569Z"
     }
   ]
 }

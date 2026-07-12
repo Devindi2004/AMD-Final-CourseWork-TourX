@@ -15,7 +15,7 @@ export type HomeStackParamList = {
 };
 
 export type TripsStackParamList = {
-  TripList: { filter?: 'planned' | 'ongoing' | 'completed' } | undefined;
+  TripList: { filter?: 'planned' | 'ongoing' | 'completed'; fromProfile?: boolean } | undefined;
   TripForm: { tripId?: string } | undefined;
   TripDetail: { tripId: string };
   ItineraryPlanner: { tripId?: string } | undefined;
@@ -42,6 +42,11 @@ export type ExploreStackParamList = {
   QrScanner: undefined;
   PoiDetail: { poiId: string };
   BookingForm: { targetType: 'hotel' | 'restaurant'; targetId: string; targetName: string };
+  Gallery: undefined;
+  GalleryDetail: { galleryId: string };
+  GalleryViewer: { galleryIds: string[]; startIndex: number };
+  GalleryUpload: undefined;
+  GalleryComments: { galleryId: string };
 };
 
 export type SafetyStackParamList = {
@@ -62,6 +67,7 @@ export type ProfileStackParamList = {
 
 export type AdminStackParamList = {
   AdminUsers: undefined;
+  AdminGallery: undefined;
 };
 
 export type MainTabParamList = {

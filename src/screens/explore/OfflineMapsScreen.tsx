@@ -17,6 +17,7 @@ export default function OfflineMapsScreen() {
   const [selectedCity, setSelectedCity] = useState(CITY_OPTIONS[0]);
   const [regions, setRegions] = useState<OfflineRegion[]>([]);
   const [downloading, setDownloading] = useState(false);
+  const [trafficOn, setTrafficOn] = useState(false);
 
   useEffect(() => {
     getOfflineRegions().then(setRegions);
@@ -60,16 +61,25 @@ export default function OfflineMapsScreen() {
           style={StyleSheet.absoluteFill}
           initialRegion={{ latitude: center.lat, longitude: center.lng, latitudeDelta: 0.15, longitudeDelta: 0.15 }}
           region={{ latitude: center.lat, longitude: center.lng, latitudeDelta: 0.15, longitudeDelta: 0.15 }}
+          showsTraffic={trafficOn}
         >
           {cityPois.map((poi) => (
             <Marker key={poi.id} coordinate={{ latitude: poi.lat, longitude: poi.lng }} title={poi.name} description={poi.category} />
           ))}
         </MapView>
+
+        <Pressable style={[styles.trafficToggle, trafficOn && styles.trafficToggleActive]} onPress={() => setTrafficOn((v) => !v)}>
+          <Ionicons name="car" size={16} color={trafficOn ? colors.textInverse : colors.primary} />
+          <Text style={[styles.trafficToggleText, trafficOn && styles.trafficToggleTextActive]}>
+            Traffic {trafficOn ? 'On' : 'Off'}
+          </Text>
+        </Pressable>
+
         {Platform.OS === 'android' ? (
           <View style={styles.mapNotice}>
             <Text style={styles.mapNoticeText}>
-              Map tiles need a Google Maps API key on Android — see README. Markers and offline
-              downloads still work regardless.
+              Map tiles need a Google Maps API key on Android — see README. Markers, live traffic, and
+              offline downloads still work regardless.
             </Text>
           </View>
         ) : null}
@@ -109,6 +119,26 @@ const styles = StyleSheet.create({
   mapWrap: { flex: 1 },
   mapNotice: { position: 'absolute', top: spacing.sm, left: spacing.sm, right: spacing.sm, backgroundColor: colors.overlay, borderRadius: radius.sm, padding: spacing.sm },
   mapNoticeText: { color: colors.textInverse, fontSize: 12 },
+  trafficToggle: {
+    position: 'absolute',
+    bottom: spacing.md,
+    right: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.xs,
+    backgroundColor: colors.surface,
+    borderRadius: radius.pill,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
+  },
+  trafficToggleActive: { backgroundColor: colors.primary },
+  trafficToggleText: { ...typography.caption, color: colors.primary, fontWeight: '700' },
+  trafficToggleTextActive: { color: colors.textInverse },
   panel: { padding: spacing.md, backgroundColor: colors.background },
   cityRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginBottom: spacing.sm },
   cityChip: { paddingHorizontal: spacing.sm, paddingVertical: 6, borderRadius: radius.pill, borderWidth: 1, borderColor: colors.border, backgroundColor: colors.surface },

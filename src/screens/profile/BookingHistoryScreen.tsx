@@ -6,7 +6,7 @@ import Button from '../../components/Button';
 import Card from '../../components/Card';
 import ScreenContainer from '../../components/ScreenContainer';
 import { EmptyState, LoadingView } from '../../components/StateViews';
-import { colors, spacing, typography } from '../../constants/theme';
+import { colors, radius, spacing, typography } from '../../constants/theme';
 import { useGetBookingsQuery, useUpdateBookingStatusMutation } from '../../services/personalApi';
 import { useAppSelector } from '../../store/hooks';
 import type { BookingStatus } from '../../types';
@@ -50,6 +50,21 @@ export default function BookingHistoryScreen() {
                 ? `${b.startDate} → ${b.endDate} · ${b.partySize} guests`
                 : `${b.startDate} ${b.time ?? ''} · ${b.partySize} people`}
             </Text>
+            {b.targetType === 'hotel' && b.roomTypeName ? (
+              <Text style={styles.roomText}>
+                {b.roomTypeName}
+                {b.totalEstimateUsd ? ` · $${b.totalEstimateUsd} total` : ''}
+              </Text>
+            ) : null}
+            {b.roomFeatures && b.roomFeatures.length > 0 ? (
+              <View style={styles.featureRow}>
+                {b.roomFeatures.map((f) => (
+                  <View key={f} style={styles.featureChip}>
+                    <Text style={styles.featureChipText}>{f}</Text>
+                  </View>
+                ))}
+              </View>
+            ) : null}
             {b.notes ? <Text style={styles.notes}>{b.notes}</Text> : null}
             {b.status === 'confirmed' ? (
               <Button label="Cancel booking" variant="outline" onPress={() => handleCancel(b.id)} style={{ marginTop: spacing.sm }} />
@@ -66,5 +81,9 @@ const styles = StyleSheet.create({
   headerRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.xs },
   name: { ...typography.label, color: colors.text, flex: 1 },
   meta: { ...typography.caption, color: colors.textMuted, marginTop: spacing.xs },
+  roomText: { ...typography.caption, color: colors.primaryDark, marginTop: spacing.xs, fontWeight: '700' },
+  featureRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.xs, marginTop: spacing.xs },
+  featureChip: { paddingHorizontal: spacing.sm, paddingVertical: 3, borderRadius: radius.pill, backgroundColor: colors.background, borderWidth: StyleSheet.hairlineWidth, borderColor: colors.border },
+  featureChipText: { fontSize: 11, color: colors.text },
   notes: { ...typography.caption, color: colors.textMuted, marginTop: spacing.xs, fontStyle: 'italic' },
 });

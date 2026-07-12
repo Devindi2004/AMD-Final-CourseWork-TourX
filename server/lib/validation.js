@@ -15,6 +15,10 @@ const registerSchema = z.object({
   password: passwordSchema,
   role: z.enum(SELF_REGISTERABLE_ROLES).optional().default('tourist'),
   homeCountry: z.string().optional().default(''),
+  homeTown: z.string().optional().default(''),
+  language: z.string().optional().default('en'),
+  familyContactName: z.string().optional().default(''),
+  familyContactPhone: z.string().optional().default(''),
 });
 
 const loginSchema = z.object({
@@ -49,6 +53,7 @@ const profileUpdateSchema = z
   .object({
     name: z.string().min(2).optional(),
     homeCountry: z.string().optional(),
+    homeTown: z.string().optional(),
     phone: z
       .string()
       .regex(/^[+0-9 ()-]{6,20}$/, 'Enter a valid phone number')
@@ -76,7 +81,7 @@ const profileUpdateSchema = z
   .partial();
 
 const LIST_TYPES = ['wishlist', 'favorite', 'saved_place'];
-const SAVEABLE_TARGET_TYPES = ['poi', 'hotel', 'restaurant'];
+const SAVEABLE_TARGET_TYPES = ['poi', 'hotel', 'restaurant', 'gallery'];
 
 const savedItemSchema = z.object({
   targetType: z.enum(SAVEABLE_TARGET_TYPES),
@@ -96,6 +101,9 @@ const bookingCreateSchema = z.object({
   time: z.string().optional().nullable(),
   partySize: z.number().int().min(1).max(30),
   notes: z.string().optional().default(''),
+  totalEstimateUsd: z.number().min(0).optional().default(0),
+  roomTypeName: z.string().optional().nullable(),
+  roomFeatures: z.array(z.string()).optional().default([]),
 });
 
 const bookingStatusSchema = z.object({ status: z.enum(BOOKING_STATUSES) });

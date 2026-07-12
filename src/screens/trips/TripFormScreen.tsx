@@ -1,13 +1,16 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute, type RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { Text } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import Button from '../../components/Button';
 import ChipSelector from '../../components/ChipSelector';
+import DateField from '../../components/DateField';
+import MapDestinationPicker from '../../components/MapDestinationPicker';
 import ScreenContainer from '../../components/ScreenContainer';
 import TextField from '../../components/TextField';
 import { LoadingView } from '../../components/StateViews';
-import { colors, spacing, typography } from '../../constants/theme';
+import { colors, radius, spacing, typography } from '../../constants/theme';
 import type { TripsStackParamList } from '../../navigation/types';
 import { useCreateTripMutation, useGetTripQuery, useUpdateTripMutation } from '../../services/tripsApi';
 import { useAppSelector } from '../../store/hooks';
@@ -32,6 +35,7 @@ export default function TripFormScreen() {
   const [transportModes, setTransportModes] = useState<string[]>(existingTrip?.transportModes ?? []);
   const [error, setError] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
+  const [mapPickerOpen, setMapPickerOpen] = useState(false);
 
   // Hydrate form fields once the existing trip finishes loading (edit mode).
   if (tripId && existingTrip && !hydrated) {
@@ -51,7 +55,7 @@ export default function TripFormScreen() {
   const handleSubmit = async () => {
     setError(null);
     if (!title || !destination || !startDate || !endDate) {
-      setError('Title, destination, and both dates are required (YYYY-MM-DD).');
+      setError('Title, destination, and both dates are required.');
       return;
     }
     const payload = {
@@ -88,9 +92,28 @@ export default function TripFormScreen() {
       <Text style={styles.title}>{tripId ? 'Edit trip' : 'New trip'}</Text>
 
       <TextField label="Trip title" value={title} onChangeText={setTitle} placeholder="Southern Coast Getaway" />
-      <TextField label="Destination" value={destination} onChangeText={setDestination} placeholder="Galle" />
-      <TextField label="Start date" value={startDate} onChangeText={setStartDate} placeholder="2026-08-01" />
-      <TextField label="End date" value={endDate} onChangeText={setEndDate} placeholder="2026-08-05" />
+
+      <Text style={styles.label}>Destination</Text>
+      <View style={styles.destinationRow}>
+        <TextInput
+          value={destination}
+          onChangeText={setDestination}
+          placeholder="Galle"
+          placeholderTextColor={colors.textMuted}
+          style={styles.destinationInput}
+        />
+        <Pressable style={styles.pinButton} onPress={() => setMapPickerOpen(true)}>
+          <Ionicons name="location" size={20} color={colors.textInverse} />
+        </Pressable>
+      </View>
+      <MapDestinationPicker
+        visible={mapPickerOpen}
+        onClose={() => setMapPickerOpen(false)}
+        onSelect={setDestination}
+      />
+
+      <DateField label="Start date" value={startDate} onChange={setStartDate} placeholder="2026-08-01" />
+      <DateField label="End date" value={endDate} onChange={setEndDate} minDate={startDate} placeholder="2026-08-05" />
       <TextField
         label="Budget (USD)"
         value={budgetUsd}
@@ -118,4 +141,24 @@ const styles = {
   title: { ...typography.h2, color: colors.text, marginBottom: spacing.md },
   label: { ...typography.label, color: colors.text, marginBottom: spacing.sm, marginTop: spacing.xs },
   error: { color: colors.danger, marginTop: spacing.sm },
+  destinationRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, marginBottom: spacing.md },
+  destinationInput: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.sm,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 11,
+    fontSize: 15,
+    color: colors.text,
+    backgroundColor: colors.surface,
+  },
+  pinButton: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.sm,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 } as const;

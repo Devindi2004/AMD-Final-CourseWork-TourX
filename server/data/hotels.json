@@ -1,12 +1,604 @@
 [
-  { "id": "htl-001", "name": "Kandy Hill Retreat", "city": "Kandy", "location": { "lat": 7.2906, "lng": 80.6337 }, "priceRange": "mid", "pricePerNightUsd": 55, "amenities": ["wifi", "breakfast", "lake-view"], "averageRating": 4.5, "tags": ["culture", "romantic"] },
-  { "id": "htl-002", "name": "Sigiriya Jungle Lodge", "city": "Sigiriya", "location": { "lat": 7.9520, "lng": 80.7550 }, "priceRange": "premium", "pricePerNightUsd": 120, "amenities": ["wifi", "pool", "breakfast", "rock-view"], "averageRating": 4.8, "tags": ["nature", "romantic"] },
-  { "id": "htl-003", "name": "Ella Backpackers Nest", "city": "Ella", "location": { "lat": 6.8667, "lng": 81.0466 }, "priceRange": "budget", "pricePerNightUsd": 18, "amenities": ["wifi", "shared-kitchen", "mountain-view"], "averageRating": 4.3, "tags": ["backpacker", "social"] },
-  { "id": "htl-004", "name": "Galle Fort Boutique Villa", "city": "Galle", "location": { "lat": 6.0257, "lng": 80.2168 }, "priceRange": "premium", "pricePerNightUsd": 140, "amenities": ["wifi", "pool", "breakfast", "ac"], "averageRating": 4.9, "tags": ["heritage", "romantic"] },
-  { "id": "htl-005", "name": "Colombo City Comfort Inn", "city": "Colombo", "location": { "lat": 6.9271, "lng": 79.8612 }, "priceRange": "mid", "pricePerNightUsd": 48, "amenities": ["wifi", "gym", "breakfast", "ac"], "averageRating": 4.2, "tags": ["business", "family"] },
-  { "id": "htl-006", "name": "Mirissa Beachfront Cabanas", "city": "Mirissa", "location": { "lat": 5.9475, "lng": 80.4590 }, "priceRange": "mid", "pricePerNightUsd": 45, "amenities": ["wifi", "beach-access", "breakfast"], "averageRating": 4.6, "tags": ["beach", "surf"] },
-  { "id": "htl-007", "name": "Nuwara Eliya Tea Manor", "city": "Nuwara Eliya", "location": { "lat": 6.9707, "lng": 80.7829 }, "priceRange": "premium", "pricePerNightUsd": 95, "amenities": ["wifi", "fireplace", "breakfast", "tea-tour"], "averageRating": 4.7, "tags": ["colonial", "family"] },
-  { "id": "htl-008", "name": "Anuradhapura Heritage Rest", "city": "Anuradhapura", "location": { "lat": 8.3150, "lng": 80.4009 }, "priceRange": "budget", "pricePerNightUsd": 22, "amenities": ["wifi", "bicycle-rental"], "averageRating": 4.0, "tags": ["heritage", "budget"] },
-  { "id": "htl-009", "name": "Yala Safari Camp", "city": "Yala", "location": { "lat": 6.3697, "lng": 81.5041 }, "priceRange": "premium", "pricePerNightUsd": 160, "amenities": ["wifi", "safari-tours", "all-meals"], "averageRating": 4.85, "tags": ["wildlife", "luxury"] },
-  { "id": "htl-010", "name": "Jaffna Lagoon View Lodge", "city": "Jaffna", "location": { "lat": 9.6650, "lng": 80.0100 }, "priceRange": "budget", "pricePerNightUsd": 25, "amenities": ["wifi", "breakfast"], "averageRating": 4.1, "tags": ["local", "quiet"] }
+  {
+    "id": "htl-001",
+    "name": "Kandy Hill Retreat",
+    "city": "Kandy",
+    "location": {
+      "lat": 7.2906,
+      "lng": 80.6337
+    },
+    "priceRange": "mid",
+    "pricePerNightUsd": 55,
+    "amenities": [
+      "wifi",
+      "breakfast",
+      "lake-view"
+    ],
+    "averageRating": 4.5,
+    "tags": [
+      "culture",
+      "romantic"
+    ],
+    "roomTypes": [
+      {
+        "id": "htl-001-standard",
+        "name": "Standard Room",
+        "pricePerNightUsd": 55,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Daily Housekeeping"
+        ]
+      },
+      {
+        "id": "htl-001-deluxe",
+        "name": "Deluxe Room",
+        "pricePerNightUsd": 74,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Premium Bedding",
+          "Breakfast Included",
+          "Lake View"
+        ]
+      },
+      {
+        "id": "htl-001-suite",
+        "name": "Family Suite",
+        "pricePerNightUsd": 99,
+        "capacity": 4,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Separate Living Area",
+          "Extra Beds",
+          "Breakfast Included",
+          "Lake View"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "htl-002",
+    "name": "Sigiriya Jungle Lodge",
+    "city": "Sigiriya",
+    "location": {
+      "lat": 7.952,
+      "lng": 80.755
+    },
+    "priceRange": "premium",
+    "pricePerNightUsd": 120,
+    "amenities": [
+      "wifi",
+      "pool",
+      "breakfast",
+      "rock-view"
+    ],
+    "averageRating": 4.8,
+    "tags": [
+      "nature",
+      "romantic"
+    ],
+    "roomTypes": [
+      {
+        "id": "htl-002-standard",
+        "name": "Standard Room",
+        "pricePerNightUsd": 120,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Daily Housekeeping"
+        ]
+      },
+      {
+        "id": "htl-002-deluxe",
+        "name": "Deluxe Room",
+        "pricePerNightUsd": 162,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Premium Bedding",
+          "Pool Access",
+          "Breakfast Included",
+          "Rock View"
+        ]
+      },
+      {
+        "id": "htl-002-suite",
+        "name": "Family Suite",
+        "pricePerNightUsd": 216,
+        "capacity": 4,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Separate Living Area",
+          "Extra Beds",
+          "Pool Access",
+          "Breakfast Included",
+          "Rock View"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "htl-003",
+    "name": "Ella Backpackers Nest",
+    "city": "Ella",
+    "location": {
+      "lat": 6.8667,
+      "lng": 81.0466
+    },
+    "priceRange": "budget",
+    "pricePerNightUsd": 18,
+    "amenities": [
+      "wifi",
+      "shared-kitchen",
+      "mountain-view"
+    ],
+    "averageRating": 4.3,
+    "tags": [
+      "backpacker",
+      "social"
+    ],
+    "roomTypes": [
+      {
+        "id": "htl-003-standard",
+        "name": "Standard Room",
+        "pricePerNightUsd": 18,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Daily Housekeeping"
+        ]
+      },
+      {
+        "id": "htl-003-deluxe",
+        "name": "Deluxe Room",
+        "pricePerNightUsd": 24,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Premium Bedding",
+          "Shared Kitchen",
+          "Mountain View"
+        ]
+      },
+      {
+        "id": "htl-003-suite",
+        "name": "Family Suite",
+        "pricePerNightUsd": 32,
+        "capacity": 4,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Separate Living Area",
+          "Extra Beds",
+          "Shared Kitchen",
+          "Mountain View"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "htl-004",
+    "name": "Galle Fort Boutique Villa",
+    "city": "Galle",
+    "location": {
+      "lat": 6.0257,
+      "lng": 80.2168
+    },
+    "priceRange": "premium",
+    "pricePerNightUsd": 140,
+    "amenities": [
+      "wifi",
+      "pool",
+      "breakfast",
+      "ac"
+    ],
+    "averageRating": 4.9,
+    "tags": [
+      "heritage",
+      "romantic"
+    ],
+    "roomTypes": [
+      {
+        "id": "htl-004-standard",
+        "name": "Standard Room",
+        "pricePerNightUsd": 140,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Daily Housekeeping"
+        ]
+      },
+      {
+        "id": "htl-004-deluxe",
+        "name": "Deluxe Room",
+        "pricePerNightUsd": 189,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Premium Bedding",
+          "Pool Access",
+          "Breakfast Included"
+        ]
+      },
+      {
+        "id": "htl-004-suite",
+        "name": "Family Suite",
+        "pricePerNightUsd": 252,
+        "capacity": 4,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Separate Living Area",
+          "Extra Beds",
+          "Pool Access",
+          "Breakfast Included"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "htl-005",
+    "name": "Colombo City Comfort Inn",
+    "city": "Colombo",
+    "location": {
+      "lat": 6.9271,
+      "lng": 79.8612
+    },
+    "priceRange": "mid",
+    "pricePerNightUsd": 48,
+    "amenities": [
+      "wifi",
+      "gym",
+      "breakfast",
+      "ac"
+    ],
+    "averageRating": 4.2,
+    "tags": [
+      "business",
+      "family"
+    ],
+    "roomTypes": [
+      {
+        "id": "htl-005-standard",
+        "name": "Standard Room",
+        "pricePerNightUsd": 48,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Daily Housekeeping"
+        ]
+      },
+      {
+        "id": "htl-005-deluxe",
+        "name": "Deluxe Room",
+        "pricePerNightUsd": 65,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Premium Bedding",
+          "Gym Access",
+          "Breakfast Included"
+        ]
+      },
+      {
+        "id": "htl-005-suite",
+        "name": "Family Suite",
+        "pricePerNightUsd": 86,
+        "capacity": 4,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Separate Living Area",
+          "Extra Beds",
+          "Gym Access",
+          "Breakfast Included"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "htl-006",
+    "name": "Mirissa Beachfront Cabanas",
+    "city": "Mirissa",
+    "location": {
+      "lat": 5.9475,
+      "lng": 80.459
+    },
+    "priceRange": "mid",
+    "pricePerNightUsd": 45,
+    "amenities": [
+      "wifi",
+      "beach-access",
+      "breakfast"
+    ],
+    "averageRating": 4.6,
+    "tags": [
+      "beach",
+      "surf"
+    ],
+    "roomTypes": [
+      {
+        "id": "htl-006-standard",
+        "name": "Standard Room",
+        "pricePerNightUsd": 45,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Daily Housekeeping"
+        ]
+      },
+      {
+        "id": "htl-006-deluxe",
+        "name": "Deluxe Room",
+        "pricePerNightUsd": 61,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Premium Bedding",
+          "Beach Access",
+          "Breakfast Included"
+        ]
+      },
+      {
+        "id": "htl-006-suite",
+        "name": "Family Suite",
+        "pricePerNightUsd": 81,
+        "capacity": 4,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Separate Living Area",
+          "Extra Beds",
+          "Beach Access",
+          "Breakfast Included"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "htl-007",
+    "name": "Nuwara Eliya Tea Manor",
+    "city": "Nuwara Eliya",
+    "location": {
+      "lat": 6.9707,
+      "lng": 80.7829
+    },
+    "priceRange": "premium",
+    "pricePerNightUsd": 95,
+    "amenities": [
+      "wifi",
+      "fireplace",
+      "breakfast",
+      "tea-tour"
+    ],
+    "averageRating": 4.7,
+    "tags": [
+      "colonial",
+      "family"
+    ],
+    "roomTypes": [
+      {
+        "id": "htl-007-standard",
+        "name": "Standard Room",
+        "pricePerNightUsd": 95,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Daily Housekeeping"
+        ]
+      },
+      {
+        "id": "htl-007-deluxe",
+        "name": "Deluxe Room",
+        "pricePerNightUsd": 128,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Premium Bedding",
+          "Fireplace",
+          "Breakfast Included",
+          "Tea Estate Tour"
+        ]
+      },
+      {
+        "id": "htl-007-suite",
+        "name": "Family Suite",
+        "pricePerNightUsd": 171,
+        "capacity": 4,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Separate Living Area",
+          "Extra Beds",
+          "Fireplace",
+          "Breakfast Included",
+          "Tea Estate Tour"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "htl-008",
+    "name": "Anuradhapura Heritage Rest",
+    "city": "Anuradhapura",
+    "location": {
+      "lat": 8.315,
+      "lng": 80.4009
+    },
+    "priceRange": "budget",
+    "pricePerNightUsd": 22,
+    "amenities": [
+      "wifi",
+      "bicycle-rental"
+    ],
+    "averageRating": 4,
+    "tags": [
+      "heritage",
+      "budget"
+    ],
+    "roomTypes": [
+      {
+        "id": "htl-008-standard",
+        "name": "Standard Room",
+        "pricePerNightUsd": 22,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Daily Housekeeping"
+        ]
+      },
+      {
+        "id": "htl-008-deluxe",
+        "name": "Deluxe Room",
+        "pricePerNightUsd": 30,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Premium Bedding",
+          "Bicycle Rental"
+        ]
+      },
+      {
+        "id": "htl-008-suite",
+        "name": "Family Suite",
+        "pricePerNightUsd": 40,
+        "capacity": 4,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Separate Living Area",
+          "Extra Beds",
+          "Bicycle Rental"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "htl-009",
+    "name": "Yala Safari Camp",
+    "city": "Yala",
+    "location": {
+      "lat": 6.3697,
+      "lng": 81.5041
+    },
+    "priceRange": "premium",
+    "pricePerNightUsd": 160,
+    "amenities": [
+      "wifi",
+      "safari-tours",
+      "all-meals"
+    ],
+    "averageRating": 4.85,
+    "tags": [
+      "wildlife",
+      "luxury"
+    ],
+    "roomTypes": [
+      {
+        "id": "htl-009-standard",
+        "name": "Standard Room",
+        "pricePerNightUsd": 160,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Daily Housekeeping"
+        ]
+      },
+      {
+        "id": "htl-009-deluxe",
+        "name": "Deluxe Room",
+        "pricePerNightUsd": 216,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Premium Bedding",
+          "Guided Safari Tours",
+          "All Meals Included"
+        ]
+      },
+      {
+        "id": "htl-009-suite",
+        "name": "Family Suite",
+        "pricePerNightUsd": 288,
+        "capacity": 4,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Separate Living Area",
+          "Extra Beds",
+          "Guided Safari Tours",
+          "All Meals Included"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "htl-010",
+    "name": "Jaffna Lagoon View Lodge",
+    "city": "Jaffna",
+    "location": {
+      "lat": 9.665,
+      "lng": 80.01
+    },
+    "priceRange": "budget",
+    "pricePerNightUsd": 25,
+    "amenities": [
+      "wifi",
+      "breakfast"
+    ],
+    "averageRating": 4.1,
+    "tags": [
+      "local",
+      "quiet"
+    ],
+    "roomTypes": [
+      {
+        "id": "htl-010-standard",
+        "name": "Standard Room",
+        "pricePerNightUsd": 25,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Daily Housekeeping"
+        ]
+      },
+      {
+        "id": "htl-010-deluxe",
+        "name": "Deluxe Room",
+        "pricePerNightUsd": 34,
+        "capacity": 2,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Premium Bedding",
+          "Breakfast Included"
+        ]
+      },
+      {
+        "id": "htl-010-suite",
+        "name": "Family Suite",
+        "pricePerNightUsd": 45,
+        "capacity": 4,
+        "features": [
+          "Free Wifi",
+          "Air Conditioning",
+          "Separate Living Area",
+          "Extra Beds",
+          "Breakfast Included"
+        ]
+      }
+    ]
+  }
 ]

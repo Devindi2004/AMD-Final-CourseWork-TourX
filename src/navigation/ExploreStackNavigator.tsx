@@ -16,6 +16,11 @@ import QrScannerScreen from '../screens/explore/QrScannerScreen';
 import RestaurantDetailScreen from '../screens/explore/RestaurantDetailScreen';
 import RestaurantListScreen from '../screens/explore/RestaurantListScreen';
 import ReviewComposerScreen from '../screens/explore/ReviewComposerScreen';
+import GalleryHomeScreen from '../screens/gallery/GalleryHomeScreen';
+import GalleryDetailScreen from '../screens/gallery/GalleryDetailScreen';
+import GalleryViewerScreen from '../screens/gallery/GalleryViewerScreen';
+import GalleryUploadScreen from '../screens/gallery/GalleryUploadScreen';
+import GalleryCommentsScreen from '../screens/gallery/GalleryCommentsScreen';
 import type { ExploreStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<ExploreStackParamList>();
@@ -37,13 +42,18 @@ export default function ExploreStackNavigator() {
       <Stack.Screen name="Community" component={CommunityFeedScreen} options={{ title: 'Community' }} />
       <Stack.Screen name="ReviewComposer" component={ReviewComposerScreen} options={{ title: 'Write a Review' }} />
       <Stack.Screen name="CrowdPrediction" component={CrowdPredictionScreen} options={{ title: 'Crowd Levels' }} />
-      <Stack.Screen name="OfflineMaps" component={OfflineMapsScreen} options={{ title: 'Offline Maps' }} />
+      <Stack.Screen name="OfflineMaps" component={OfflineMapsScreen} options={{ title: 'Live Map' }} />
       <Stack.Screen name="ArNavigation" component={ArNavigationScreen} options={{ title: 'AR Navigation', headerShown: false }} />
       <Stack.Screen name="PublicTransport" component={PublicTransportScreen} options={{ title: 'Public Transport' }} />
       <Stack.Screen name="LandmarkRecognition" component={LandmarkRecognitionScreen} options={{ title: 'Scan Landmark' }} />
       <Stack.Screen name="QrScanner" component={QrScannerScreen} options={{ title: 'QR Scanner', headerShown: false }} />
       <Stack.Screen name="PoiDetail" component={PoiDetailScreen} options={{ title: 'Landmark' }} />
       <Stack.Screen name="BookingForm" component={BookingFormScreen} options={{ title: 'Book' }} />
+      <Stack.Screen name="Gallery" component={GalleryHomeScreen} options={{ title: 'Gallery' }} />
+      <Stack.Screen name="GalleryDetail" component={GalleryDetailScreen} options={{ title: 'Photo' }} />
+      <Stack.Screen name="GalleryViewer" component={GalleryViewerScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="GalleryUpload" component={GalleryUploadScreen} options={{ title: 'Share a Photo' }} />
+      <Stack.Screen name="GalleryComments" component={GalleryCommentsScreen} options={{ title: 'Comments' }} />
     </Stack.Navigator>
   );
 }

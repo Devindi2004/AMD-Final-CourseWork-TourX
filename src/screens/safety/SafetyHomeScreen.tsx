@@ -3,10 +3,11 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 import React, { useState } from 'react';
-import { Pressable, Share, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, Share, StyleSheet, Text, View } from 'react-native';
 import Card from '../../components/Card';
 import ScreenContainer from '../../components/ScreenContainer';
 import { colors, radius, spacing, typography } from '../../constants/theme';
+import { SRI_LANKA_EMERGENCY_NUMBERS } from '../../constants/emergencyNumbers';
 import type { SafetyStackParamList } from '../../navigation/types';
 import { useCreateNotificationMutation, useGetEmergencyContactsQuery } from '../../services/personalApi';
 import { useAppSelector } from '../../store/hooks';
@@ -63,6 +64,29 @@ export default function SafetyHomeScreen() {
       {lastSentAt ? <Text style={styles.sentText}>Last SOS prepared at {lastSentAt}</Text> : null}
 
       <Card style={styles.contactsCard}>
+        <Text style={styles.contactsTitle}>Sri Lanka emergency numbers</Text>
+        {SRI_LANKA_EMERGENCY_NUMBERS.map((entry) => (
+          <Pressable
+            key={entry.number}
+            style={styles.sosNumberRow}
+            onPress={() => Linking.openURL(`tel:${entry.number}`)}
+          >
+            <View style={styles.sosNumberIconWrap}>
+              <Ionicons name={entry.icon} size={18} color={colors.danger} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.sosNumberName}>{entry.name}</Text>
+              <Text style={styles.sosNumberDescription}>{entry.description}</Text>
+            </View>
+            <View style={styles.callChip}>
+              <Ionicons name="call" size={14} color={colors.textInverse} />
+              <Text style={styles.callChipText}>{entry.number}</Text>
+            </View>
+          </Pressable>
+        ))}
+      </Card>
+
+      <Card style={styles.contactsCard}>
         <View style={styles.contactsHeader}>
           <Text style={styles.contactsTitle}>Emergency contacts</Text>
           <Pressable onPress={() => navigation.navigate('EmergencyContacts')}>
@@ -73,9 +97,19 @@ export default function SafetyHomeScreen() {
           <Text style={styles.warning}>No emergency contacts yet — add at least one before you travel.</Text>
         ) : (
           contacts!.map((c) => (
-            <Text key={c.id} style={styles.contactLine}>
-              {c.contactName} ({c.relationship}) · {c.contactPhone}
-            </Text>
+            <Pressable key={c.id} style={styles.sosNumberRow} onPress={() => Linking.openURL(`tel:${c.contactPhone}`)}>
+              <View style={styles.sosNumberIconWrap}>
+                <Ionicons name="person" size={18} color={colors.danger} />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.sosNumberName}>{c.contactName}</Text>
+                <Text style={styles.sosNumberDescription}>{c.relationship}</Text>
+              </View>
+              <View style={styles.callChip}>
+                <Ionicons name="call" size={14} color={colors.textInverse} />
+                <Text style={styles.callChipText}>Call</Text>
+              </View>
+            </Pressable>
           ))
         )}
       </Card>
@@ -104,5 +138,10 @@ const styles = StyleSheet.create({
   contactsTitle: { ...typography.h3, color: colors.text },
   manageLink: { ...typography.label, color: colors.primary },
   warning: { ...typography.body, color: colors.warning },
-  contactLine: { ...typography.body, color: colors.text, marginBottom: spacing.xs },
+  sosNumberRow: { flexDirection: 'row', alignItems: 'center', paddingVertical: spacing.xs, gap: spacing.sm },
+  sosNumberIconWrap: { width: 34, height: 34, borderRadius: 17, backgroundColor: '#FDECEC', alignItems: 'center', justifyContent: 'center' },
+  sosNumberName: { ...typography.label, color: colors.text },
+  sosNumberDescription: { ...typography.caption, color: colors.textMuted },
+  callChip: { flexDirection: 'row', alignItems: 'center', gap: 4, backgroundColor: colors.danger, borderRadius: radius.pill, paddingHorizontal: spacing.sm, paddingVertical: 6 },
+  callChipText: { ...typography.caption, color: colors.textInverse, fontWeight: '700' },
 });

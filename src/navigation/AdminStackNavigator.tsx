@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { colors } from '../constants/theme';
 import AdminUsersScreen from '../screens/admin/AdminUsersScreen';
+import GalleryAdminScreen from '../screens/admin/GalleryAdminScreen';
 import type { AdminStackParamList } from './types';
 
 const Stack = createNativeStackNavigator<AdminStackParamList>();
@@ -16,6 +17,7 @@ export default function AdminStackNavigator() {
       }}
     >
       <Stack.Screen name="AdminUsers" component={AdminUsersScreen} options={{ title: 'Manage Users' }} />
+      <Stack.Screen name="AdminGallery" component={GalleryAdminScreen} options={{ title: 'Gallery Moderation' }} />
     </Stack.Navigator>
   );
 }

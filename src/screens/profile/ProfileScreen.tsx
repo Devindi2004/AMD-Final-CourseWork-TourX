@@ -61,7 +61,12 @@ export default function ProfileScreen() {
       </Card>
 
       <Pressable
-        onPress={() => rootNavigation?.navigate('TripsTab', { screen: 'TripList', params: { filter: 'completed' } })}
+        onPress={() =>
+          rootNavigation?.navigate('TripsTab', {
+            screen: 'TripList',
+            params: { filter: 'completed', fromProfile: true },
+          })
+        }
       >
         <Card style={styles.menuRow}>
           <Ionicons name="time-outline" size={20} color={colors.primary} />

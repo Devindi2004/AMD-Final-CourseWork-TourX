@@ -36,17 +36,20 @@ export default function ChatbotScreen() {
     const text = input.trim();
     if (!text) return;
     const userMsg: Message = { id: `u-${Date.now()}`, from: 'user', text };
+    const history = messages
+      .filter((m) => m.id !== 'welcome')
+      .map((m) => ({ role: (m.from === 'user' ? 'user' : 'assistant') as 'user' | 'assistant', text: m.text }));
     setMessages((prev) => [...prev, userMsg]);
     setInput('');
 
     try {
-      const res = await askChatbot({ message: text }).unwrap();
+      const res = await askChatbot({ message: text, history }).unwrap();
       setMessages((prev) => [...prev, { id: `b-${Date.now()}`, from: 'bot', text: res.reply }]);
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        { id: `b-${Date.now()}`, from: 'bot', text: "Sorry, I couldn't reach the assistant. Try again." },
-      ]);
+    } catch (err: any) {
+      const message =
+        err?.data?.message ||
+        "Sorry, I couldn't reach the assistant. Try again.";
+      setMessages((prev) => [...prev, { id: `b-${Date.now()}`, from: 'bot', text: message }]);
     } finally {
       setTimeout(() => listRef.current?.scrollToEnd({ animated: true }), 100);
     }

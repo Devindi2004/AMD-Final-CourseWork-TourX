@@ -1,0 +1,15 @@
+module.exports = {
+  User: require('./User'),
+  RefreshToken: require('./RefreshToken'),
+  Trip: require('./Trip'),
+  Hotel: require('./Hotel'),
+  Restaurant: require('./Restaurant'),
+  PointOfInterest: require('./PointOfInterest'),
+  Review: require('./Review'),
+  Expense: require('./Expense'),
+  TravelJournal: require('./TravelJournal'),
+  EmergencyContact: require('./EmergencyContact'),
+  Notification: require('./Notification'),
+  SavedItem: require('./SavedItem'),
+  Booking: require('./Booking'),
+};

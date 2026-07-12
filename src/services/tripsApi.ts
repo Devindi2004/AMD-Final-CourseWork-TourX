@@ -2,6 +2,7 @@ import { apiSlice } from './apiSlice';
 import type { Trip } from '../types';
 
 export const tripsApi = apiSlice.injectEndpoints({
+  overrideExisting: __DEV__,
   endpoints: (builder) => ({
     getTrips: builder.query<Trip[], string>({
       query: (userId) => `/api/trips?userId=${userId}`,

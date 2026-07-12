@@ -1,5 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
+import { Pressable } from 'react-native';
 import { colors } from '../constants/theme';
 import ExpenseTrackerScreen from '../screens/trips/ExpenseTrackerScreen';
 import ItineraryPlannerScreen from '../screens/trips/ItineraryPlannerScreen';
@@ -21,7 +23,26 @@ export default function TripsStackNavigator() {
         headerTitleStyle: { fontWeight: '700' },
       }}
     >
-      <Stack.Screen name="TripList" component={TripListScreen} options={{ title: 'My Trips' }} />
+      <Stack.Screen
+        name="TripList"
+        component={TripListScreen}
+        options={({ route, navigation }) =>
+          route.params?.fromProfile
+            ? {
+                title: 'Trip History',
+                headerLeft: () => (
+                  <Pressable
+                    onPress={() => navigation.getParent<any>()?.navigate('ProfileTab')}
+                    hitSlop={8}
+                    style={{ flexDirection: 'row', alignItems: 'center' }}
+                  >
+                    <Ionicons name="chevron-back" size={26} color={colors.text} />
+                  </Pressable>
+                ),
+              }
+            : { title: 'My Trips' }
+        }
+      />
       <Stack.Screen name="TripForm" component={TripFormScreen} options={{ title: 'Trip Details' }} />
       <Stack.Screen name="TripDetail" component={TripDetailScreen} options={{ title: 'Trip' }} />
       <Stack.Screen name="ItineraryPlanner" component={ItineraryPlannerScreen} options={{ title: 'AI Travel Planner' }} />

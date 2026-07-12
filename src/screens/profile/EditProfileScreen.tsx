@@ -6,8 +6,10 @@ import Button from '../../components/Button';
 import ChipSelector from '../../components/ChipSelector';
 import ProfilePictureUpload from '../../components/ProfilePictureUpload';
 import ScreenContainer from '../../components/ScreenContainer';
+import SelectField from '../../components/SelectField';
 import TextField from '../../components/TextField';
 import { colors, spacing, typography } from '../../constants/theme';
+import { COUNTRIES } from '../../constants/countries';
 import type { ProfileStackParamList } from '../../navigation/types';
 import { useUpdateMeMutation } from '../../services/apiSlice';
 import { userUpdated } from '../../store/authSlice';
@@ -25,6 +27,7 @@ export default function EditProfileScreen() {
   const [name, setName] = useState(user?.name ?? '');
   const [phone, setPhone] = useState(user?.phone ?? '');
   const [homeCountry, setHomeCountry] = useState(user?.homeCountry ?? '');
+  const [homeTown, setHomeTown] = useState(user?.homeTown ?? '');
   const [language, setLanguage] = useState(user?.language ?? 'en');
   const [interests, setInterests] = useState<string[]>(user?.preferences.interests ?? []);
   const [error, setError] = useState<string | null>(null);
@@ -44,6 +47,7 @@ export default function EditProfileScreen() {
         name,
         phone,
         homeCountry,
+        homeTown,
         language,
         preferences: { ...user?.preferences, interests, budgetTier: user?.preferences.budgetTier ?? 'mid' },
       }).unwrap();
@@ -60,7 +64,8 @@ export default function EditProfileScreen() {
 
       <TextField label="Full name" value={name} onChangeText={setName} style={{ marginTop: spacing.lg }} />
       <TextField label="Phone number" value={phone} onChangeText={setPhone} keyboardType="phone-pad" placeholder="+94 71 234 5678" />
-      <TextField label="Home country" value={homeCountry} onChangeText={setHomeCountry} placeholder="Sri Lanka" />
+      <SelectField label="Home country" value={homeCountry} onChange={setHomeCountry} options={COUNTRIES} placeholder="Sri Lanka" />
+      <TextField label="Home town" value={homeTown} onChangeText={setHomeTown} placeholder="Colombo" />
 
       <Text style={styles.label}>Preferred language</Text>
       <ChipSelector

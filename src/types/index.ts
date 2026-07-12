@@ -38,6 +38,7 @@ export interface User {
   role: Role;
   authProvider: 'local' | 'google';
   homeCountry: string;
+  homeTown: string;
   phone: string;
   language: string;
   avatarUrl: string | null;
@@ -119,6 +120,14 @@ export interface GeoPoint {
   lng: number;
 }
 
+export interface RoomType {
+  id: string;
+  name: string;
+  pricePerNightUsd: number;
+  capacity: number;
+  features: string[];
+}
+
 export interface Hotel {
   id: string;
   name: string;
@@ -129,6 +138,7 @@ export interface Hotel {
   amenities: string[];
   averageRating: number;
   tags: string[];
+  roomTypes: RoomType[];
 }
 
 export interface Restaurant {
@@ -228,7 +238,11 @@ export interface GeneratedItinerary {
 
 export interface ChatbotReply {
   reply: string;
-  simulated: true;
+}
+
+export interface ChatbotHistoryTurn {
+  role: 'user' | 'assistant';
+  text: string;
 }
 
 export interface TranslationResult {
@@ -286,7 +300,7 @@ export interface OfflineRegion {
 
 // ---- Saved items (Wishlist / Favorites / Saved Places — one model, three filtered views) ----
 
-export type SaveableTargetType = 'poi' | 'hotel' | 'restaurant';
+export type SaveableTargetType = 'poi' | 'hotel' | 'restaurant' | 'gallery';
 export type ListType = 'wishlist' | 'favorite' | 'saved_place';
 
 export const LIST_TYPE_LABELS: Record<ListType, string> = {
@@ -323,6 +337,8 @@ export interface Booking {
   totalEstimateUsd: number;
   notes: string;
   createdAt: string;
+  roomTypeName?: string | null;
+  roomFeatures?: string[];
 }
 
 // ---- Cloudinary signed upload ----
@@ -334,4 +350,108 @@ export interface UploadSignature {
   apiKey: string;
   cloudName: string;
   uploadUrl: string;
+}
+
+// ---- Destination gallery ----
+
+export const GALLERY_CATEGORIES = [
+  'Beaches', 'Waterfalls', 'Mountains', 'Wildlife', 'Heritage',
+  'Religious Places', 'Cities', 'Adventure', 'Food', 'Hotels',
+  'Camping', 'National Parks',
+] as const;
+export type GalleryCategory = (typeof GALLERY_CATEGORIES)[number];
+
+export type GallerySort = 'newest' | 'oldest' | 'popular' | 'trending';
+export type GalleryStatus = 'pending' | 'approved' | 'rejected';
+export type GalleryEntryFee = 'free' | 'paid';
+
+export interface GalleryInsights {
+  travelSummary: string;
+  history: string;
+  bestTimeToVisit: string;
+  weather: string;
+  thingsToDo: string[];
+  nearbyAttractions: string[];
+  nearbyHotels: string[];
+  nearbyRestaurants: string[];
+  travelTips: string[];
+  estimatedBudgetUsd: string;
+}
+
+export interface GalleryItem {
+  id: string;
+  imageUrl: string;
+  thumbnailUrl: string;
+  displayUrl: string;
+  title: string;
+  category: GalleryCategory;
+  district: string;
+  province: string;
+  description: string;
+  lat: number | null;
+  lng: number | null;
+  photographer: string;
+  tags: string[];
+  entryFee: GalleryEntryFee;
+  familyFriendly: boolean;
+  rating: number;
+  views: number;
+  downloads: number;
+  likedBy: string[];
+  likesCount: number;
+  status: GalleryStatus;
+  aiDescription: GalleryInsights | null;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface GalleryNearbyItem extends GalleryItem {
+  distanceKm: number;
+  estimatedMinutes: number;
+}
+
+export interface GalleryListResponse {
+  items: GalleryItem[];
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface GalleryListFilters {
+  category?: string;
+  district?: string;
+  province?: string;
+  q?: string;
+  tags?: string;
+  minRating?: number;
+  entryFee?: GalleryEntryFee;
+  familyFriendly?: boolean;
+  sort?: GallerySort;
+  page?: number;
+  limit?: number;
+}
+
+export interface GalleryComment {
+  id: string;
+  galleryId: string;
+  userId: string;
+  userName: string;
+  text: string;
+  parentCommentId: string | null;
+  likedBy: string[];
+  likesCount: number;
+  status: 'visible' | 'reported' | 'removed';
+  createdAt: string;
+}
+
+export interface GalleryAnalytics {
+  totalImages: number;
+  pendingUploads: number;
+  totalViews: number;
+  totalLikes: number;
+  totalDownloads: number;
+  topCategories: { name: string; count: number }[];
+  trendingDestinations: { id: string; title: string; views: number }[];
 }
